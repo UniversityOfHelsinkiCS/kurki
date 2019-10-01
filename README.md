@@ -55,3 +55,14 @@ order by line
 Suorita proseduurin koodi sql-developerin konsolissa. Sen jälkeen komento ```commit``` saa muutoksen voimaan.
 
 
+## Local stuff
+
+```
+ssh -L 1521:localhost:9997 melkki.cs.helsinki.fi
+
+ssh -L 9997:svm-1.cs.helsinki.fi:1521 -i key tkt_ilmo@ilmo.cs.helsinki.fi
+```
+
+Niin lokaalisti toimii `sqlplus /nolog` ja `connect ...@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=localhost)(Port=1521))(CONNECT_DATA=(SID=ope)))`
+
+Ez asennusohjeet tolle sqlplussalle oli https://zwbetz.com/install-sqlplus-on-a-mac/ (bumppaa itse versionumerot)
