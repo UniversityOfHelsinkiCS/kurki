@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<toolbox>
+    <tool scope="application">
+        <key>bundle</key>
+        <class>kurki.util.LocalisationBundle</class>
+    </tool>
+<!--    
+    <tool>
+        <key>piippu</key>
+        <class>debug.Pipe</class>
+    </tool>    
+    
+    <tool>
+        <key>opiskelija</key>
+        <class>debug.model.Opiskelija</class>
+    </tool>        
+    
+    <tool>
+        <key>kurssi</key>
+        <class>debug.model.Kurssi</class>
+    </tool>    
+-->    
+    <tool>
+        <key>queryparser</key>
+        <class>kurki.util.QuerystringParser</class>
+    </tool>
+</toolbox>

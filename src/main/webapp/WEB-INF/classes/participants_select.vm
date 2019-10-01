@@ -1,0 +1,134 @@
+	<tr>
+	  <td colspan="4">
+#if ( $error && $error != "" )
+  <div class="alert alert-danger">
+    $error
+  </div>
+#end 
+#if ( $result && $result != "" )
+  <div class="alert alert-success">
+    $result
+  </div>
+#end
+#if ( $students )
+
+<form action="index" method="post">
+<input type="hidden" name="TS" value="${TS}">
+<table class="table table-condensed table-bordered" style="max-width:1000px">
+ <caption>
+    $bundle.getString("opvalittu") ${students.size()}
+  </caption>
+  <tr>
+    <th>
+      $bundle.getString("nimiSyntpva")
+    </th>
+    <th>
+      $bundle.getString("camelopnro")
+
+    </th>
+    <th>
+      $bundle.getString("ryhma")
+    </th>
+    <th>
+      $bundle.getString("suor")
+    </th>
+    <th>
+      $bundle.getString("poistaKurssilta")
+    </th>
+    <th>
+      $bundle.getString("naytaTiedot")
+    </th>
+  </tr>
+  #set ($sid = 0)
+  #set ($rowcount = 0)
+  #foreach ( $student in $students )
+    #if ($rowcount % 2 == 1)
+      #set ($bgcolor = $bgcolorDef)
+    #else
+      #set ($bgcolor = "#FFFFFF")
+    #end
+    #set ($rowcount = $rowcount + 1)
+  <tr>
+    <td bgcolor="${bgcolor}" nowrap>
+      <b><a href="mailto:$!{student.EMail}">$!{student.label}</a></b>  ($!{student.Birthday})
+
+    <!-- JÄÄSSÄ TAI SULA? -->
+    #if ( $student.isFrozen() )
+      <img src="../images/kurkijaassa.gif" width="15" height="15" alt="jäässä">
+    #elseif ( $student.isDefrost() )
+      <img src="../images/defrost.gif" width="15" height="15" alt="sulatettu">
+    #end
+    </td>
+    <td bgcolor="${bgcolor}" nowrap>
+    #if ($useSNO)
+      <center><tt>$!student.SNO</tt></center>
+    #else
+      <center><tt>$!student.SSN</tt></center>
+    #end
+    </td>
+
+    <!-- RYHMÄ -->
+    <td bgcolor="${bgcolor}" nowrap>
+      <center>
+  #if (!$student.isFrozen() && !$student.isDefrost())
+	<select name="grp_${sid}" class="form-control form-inline" style="width:70px">
+    #set ($studentsGroup = $student.Group)
+    #foreach ($group in $selectedCourse.Groups)
+      #if ($group == $studentsGroup)
+	  <option selected>$group</option>
+      #else 
+	  <option>$group</option>
+      #end 
+    #end
+        </select>
+##      <input type="text" name="grp_${sid}" value="$!{student.Group}" size="2" maxlength="2" onBlur="rangecheck(this,0,99)">
+  #else
+      <b>$!{student.Group}</b>
+  #end
+      </center>
+    </td>
+
+    <!-- SUORITUKSIA? -->
+    <td bgcolor="${bgcolor}">
+  #if ($student.hasScores())
+      <center>X</center>
+  #else
+      &nbsp;
+  #end
+    </td>
+
+    <td bgcolor="${bgcolor}">
+  #if (!$student.isFrozen() && !$student.isDefrost())
+      <center><input type="checkbox" name="rmv_${sid}"></center>
+  #else 
+      &nbsp;
+  #end
+    </td>
+    <td bgcolor="${bgcolor}">
+      <center><input type="button" class="btn btn-primary"" name="submitEditRequest" value="$bundle.getString("tiedotpelkka")"
+             onClick="doEditRequest('${sid}')"></center>
+    </td>
+  </tr>    
+    #set ($sid = $sid + 1)
+  #end
+  #if ($sid > 0)
+  <tr>
+    <th colspan="6">
+      <input type="hidden" name="doSaveAll" value="ok">
+      <center><input type="submit" class="btn btn-success" value="------> $bundle.getString("tallenMuutoksetIso") <------"></center>
+    </th>
+  </tr>
+  #end
+</table>
+</form>
+<form action="index" name="doEditReq" method="post" onSubmit="return false;">
+  <input type="hidden" name="TS" value="${TS}">
+  <input type="hidden" name="sid" value="">
+  <input type="hidden" name="doEdit" value="tiedot" class="submitb">
+</form>
+#else 
+$bundle.getString("opeivastannut")
+
+#end
+	  </td>
+        </tr>

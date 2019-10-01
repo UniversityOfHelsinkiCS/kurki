@@ -1,0 +1,80 @@
+#parse ("top.vm")
+	<div>
+          <h3>$bundle.getString("4checklist")</h3>
+            <form name="suoritevalinta" class="form-inline" action="checklist"  accept-charset="utf-8" method="post" target="_blank">
+		    <b>$bundle.getString("tyyppi"):</b>
+##
+## Tuotettavan listan tyyppi
+##
+
+		    <select name="ltype" tabindex="32600" class="form-control form-inline" style="width:200px">
+		      <!-- <listan numero>_<sisällön mime-tyyppi "text/..."> -->
+		      <option value="1">$bundle.getString("kirjanpitolista")</option>
+		      <option value="2">$bundle.getString("opnronimi")</option>
+		      <option value="3">$bundle.getString("nimi")</option>
+		      <option value="4">$bundle.getString("nimiemail")</option>
+		      <option value="5">$bundle.getString("email")</option>
+		      <option value="6">$bundle.getString("ilmjarjestys")</option>
+		      <option value="7">$bundle.getString("tarkistuslista")</option>
+		      <option value="8">$bundle.getString("nimikirjoitus")</option>
+		      <option value="9">$bundle.getString("export")</option>
+		    </select>
+
+		  <b>$bundle.getString("kommentti"):</b>
+
+##
+##  Kommentti
+##
+                    <input type="text" class="form-control input" style="width:150px" value="" name="comment" size="15">
+
+##
+##  Haettavat opiskelijat - joko ryhmän mukaan tai sukunimen mukaan
+##
+		    <b>$bundle.getString("opiskelijat"):</b>
+
+		    <input type="text" class="form-control input" style="width:150px" name="filter" tabindex="32600" size="15" value = "$!studentFilter">
+
+		    <input type="submit" name="search" tabindex="32601" value=">>>" class="btn btn-primary btn">
+	    </form>
+	</div>
+
+
+<div class="instr">
+<b>$bundle.getString("valitsetyyppi")</b>
+	    <dl>
+	      <dt>$bundle.getString("tyhja")</dt>
+  	        <dd>$bundle.getString("kaikkiopiskelijat")</dd>
+	      <dt>$bundle.getString("numero")</dt>
+	        <dd>$bundle.getString("annetunro")</dd>
+              <dt>$bundle.getString("hashopnro")</dt>
+                <dd>$bundle.getString("opiskelijaopnro")</dd>
+	      <dt>$bundle.getString("sukunimi")</dt>
+	        <dd>$bundle.getString("opsukunimimerkki")</dd>
+	      <dt>$bundle.getString("al")</dt>
+	        <dd>$bundle.getString("sukunimiaakkos")</dd>
+	      <dt>$bundle.getString("kriteerit")</dt>
+	        <dd>$bundle.getString("useatkriteerit")</dd>
+	      <dt>$bundle.getString("meikalainen")</dt>
+		<dd>$bundle.getString("pienetjaisot")</dd>
+            </dl>
+	    <b>
+	    $bundle.getString("liitakommentti") 
+
+	    <!-- 
+		NN ymmärtää tuon tyylin, kun se on kirjoitettu elementin 
+		style-atribuuttiin, mutta ei osaa lukea sitä erillisestä
+		CSS-tiedostosta.
+	    -->
+	    <form class="form-inline" style="display:inline;"> 
+	      <input type="button" 
+		     tabindex="32605"
+		     value=">>>" 
+		     onClick="document.suoritevalinta.submit()" 
+	 	     class="btn btn-primary btn">.
+	    </form> 
+            </b>
+	    $bundle.getString("sukunimellahaku")
+</div>
+	</td>
+      </tr>
+#parse ("bottom.vm")

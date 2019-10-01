@@ -1,0 +1,203 @@
+##
+################### Jäädytetyn kurssin tiedot, jotka lähetetään sähköpostilla eteenpäin ###################
+##
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+ <META charset='utf-8'/>
+   <title>Results </title>
+</head>
+<body bgcolor="white">
+<pre>
+#if (!$inc_noheader)
+#if ($selectedCourse.isFrozen())
+#if ($inc_changes)
+$bundle.getString("HY")                                      $bundle.getString("korjauksia")
+#else
+$bundle.getString("HY")
+#end
+#else
+$bundle.getString("HY")                                      $bundle.getString("tktlkurki")
+#end
+$bundle.getString("matlu")
+
+$bundle.getString("cslaitos")
+
+$bundle.getString("opintojakso"):    $selectedCourse.CCode, $selectedCourse.Label
+$bundle.getString("laajuus"):        $selectedCourse.NewCredits #if($selectedCourse.NewCredits!=$selectedCourse.NewCreditsMax) - $selectedCourse.NewCreditsMax #end $bundle.getString("op")
+$bundle.getString("suoritusaika"):   $selectedCourse.ExamDate
+$bundle.getString("hyvaksyja"):      $selectedCourse.DonName
+
+#end
+#set ($selectDesc = $selectedCourse.SelectDescription)
+#set ($parts = $selectedCourse.PartsOrdered)
+#set ($partlh = $parts.get(0))
+#set ($partht = $parts.get(1))
+#set ($partkoe = $parts.get(2))
+#set ($grades = ["1", "2", "3", "4", "5"])
+#set ($counter = $selectedCourse.getCounter())
+#set ($c = $selectedCourse)
+#set ($nl = 25)
+#set ($ssnl = 12) 
+#set ($accepted = "")
+#set ($acceptcount = 0)
+#set ($failed = "")
+#set ($failcount = 0)
+#set ($participInExam = 0)
+#if ($inc_ssn)#set ($accepted = "${accepted}${c.getStr(' ', $ssnl)} ")#end
+#if ($inc_name)#set ($accepted = "${accepted}${c.getStr(' ', $nl)}  ")#end
+#if ($selectDesc)
+
+
+$bundle.getString("valitutop"): ${selectDesc}
+#end
+##
+################### OTSAKKEET ###################
+##
+#if ($inc_htsep && $partht)#set ($inc_htsepname = $c.getStr($inc_htsepname, $c.multiply($c.negation($partht.NbrOfOfferings), 3)))#set ($accepted = "${accepted}${inc_htsepname} ")#end
+#if ($inc_koesep && $partkoe)#set ($inc_koesepname = $c.getStr($inc_koesepname, $c.multiply($c.negation($partkoe.NbrOfOfferings), 3)))#set ($accepted = "${accepted}${inc_koesepname} ")#end
+#if ($inc_lhsum && $partlh)#set ($inc_lhsumname = ${c.getStr(${inc_lhsumname}, -3)})#set ($accepted = "${accepted}${inc_lhsumname} ")#end
+#if ($inc_htsum && $partht)#set ($inc_htsumname = ${c.getStr(${inc_htsumname}, -3)})#set ($accepted = "${accepted}${inc_htsumname} ")#end
+#if ($inc_koesum && $partkoe)#set ($inc_koesumname = ${c.getStr(${inc_koesumname}, -3)})#set ($accepted = "${accepted}${inc_koesumname} ")#end
+#if ($inc_lhlp && $partlh)#set ($inc_lhlpname = ${c.getStr(${inc_lhlpname}, -2)})#set ($accepted = "${accepted}${inc_lhlpname} ")#end
+#if ($inc_htlp && $partht)#set ($inc_htlpname = ${c.getStr(${inc_htlpname}, -2)})#set ($accepted = "${accepted}${inc_htlpname} ")#end
+#if ($inc_sum)#set($inc_sumname = ${c.getStr(${inc_sumname}, -4)})#set ($accepted = "${accepted}${inc_sumname} ")#end
+#if ($inc_crunits)#set ($inc_cruname = ${c.getStr(${inc_cruname},-2)})#set ($accepted = "${accepted}${inc_cruname} ")#end
+#if ($inc_lang)#set ($inc_langname= ${c.getStr(${inc_langname},-3)})#set ($accepted = "${accepted}${inc_langname} ")#end
+#set ($failed = $accepted)
+#if ($inc_grade)#set ($inc_gradename = ${c.getStr(${inc_gradename}, -2)})#set ($accepted = "${accepted}${inc_gradename} ")#end
+##
+################### OPISKELIJAT ###################
+##
+#foreach ($student in $students)
+#set ($row = "")##--------- Yhden opiskelijan tiedot -----------##
+#if ($student.Grade)##---------- Onko osallistunut kurssille --> jos on, niin on myös arvosteltu -----------##
+#set ($grade = $student.Grade)
+##if ($student.CreditsNew)#set ($creditunits=$student.CreditsNew)#else #set($creditunits=$c.NewCredits)#end
+##if ($student.Language)#set($lng=$student.Language)#else#set($lng=$c.Language)#end 
+#if ($inc_ssn)#set ($row = "$row${c.getStr($student.SSN, $ssnl)} ")#end
+#if ($inc_name)#set ($row = "$row${c.getStr($student.Name, $nl)}  ")#end
+#if ($inc_htsep && $partht)#set ($row = "$row${c.getStr($!c.getStrTable($student.getScores(1), ' 0', ' '), $inc_htsepname.length())} ")#end
+#if ($inc_koesep && $partkoe)#set ($row = "$row${c.getStr($!c.getStrTable($student.getScores(2), ' 0', ' '), $inc_koesepname.length())} ")#end
+#if ($inc_lhsum && $partlh)#set ($row = "$row${c.getStr(${c.getStrTableCell($!student.getScore( $partlh ), '  0')}, $inc_lhsumname.length())} ")#end
+#if ($inc_htsum && $partht)#set ($row = "$row${c.getStr(${c.getStrTableCell($!student.getScore( $partht ), '  0')}, $inc_htsumname.length())} ")#end 
+#if ($inc_koesum && $partkoe)#set ($row = "$row${c.getStr(${c.getStrTableCell($!student.getExamScore( $partkoe, $c ), '  0')}, $inc_koesumname.length())} ")#end
+#if ($inc_lhlp && $partlh)#set ($row = "$row${c.getStr(${c.getStrTableCell($student.getXtrScore( $partlh ), '  0')}, $inc_lhlpname.length())} ")#end
+#if ($inc_htlp && $partht)#set ($row = "$row${c.getStr(${c.getStrTableCell($student.getXtrScore( $partht ), '  0')}, $inc_htlpname.length())} ")#end
+#if ($inc_sum)#set ($row = "$row${c.getStr(${c.getStrTableCell($!{student.getXtrTotal()}, '  0')}, $inc_sumname.length())} ")#end
+##set ($cudefault = " $c.NewCredits")
+#if ($inc_crunits)#set ($row = "$row ${c.getStr(${c.getStrTableCell($student.CreditsNew, $c.NewCredits)},$inc_cruname.length())}")#end
+#if ($inc_lang)#set ($row= "$row ${c.getStr(${c.getStrTableCell($student.Language, $c.Language)},$inc_langname.length())}")#end
+#if ($inc_grade && $grade != "0")#set ($row = "$row ${c.getStr(${grade}, $inc_gradename.length())}")#end
+##
+##--------- Opiskelija lisätty jäädytyksen jälkeen -----------##
+##
+#if ($c.isFrozen() && $inc_changes && $student.isNew())
+#set ($row = "$row U")
+#end
+##
+##--------- opiskelija läpäissyt kurssin -------------##
+##
+#if ($grade && $grade != "0")
+#set ($acceptcount = $acceptcount + 1)
+#set ($foo = $!counter.entry(${grade}))
+#if (!$inc_changes || ($inc_changes && !$student.isFrozen()))##-------- Näytetäänkö vain muutokset? ----------##
+#set ($accepted = "${accepted}${c.nl()}${row}")
+#if ($acceptcount % 5 == 0)
+#set ($accepted = "$accepted${c.nl()}")
+#end
+#end
+##
+##--------- opiskelija hylätty -------------##
+##
+#else
+#set ($failcount = $failcount + 1)
+#if (!$inc_changes || ($inc_changes && !$student.isFrozen()))##-------- Näytetäänkö vain muutokset? ----------##
+#set ($failed = "$failed${c.nl()}${row}")
+#if ($failcount % 5 == 0)
+#set ($failed = "$failed${c.nl()}")
+#end
+#end
+#end ##-grade
+#if($student.getValidScoreCount(2) > 0)
+#set($participInExam = $participInExam + 1)
+#end
+##elseif ($student.isDefrost())##--------- POISTETTU? ------##
+##if ($inc_ssn)#set ($row = "${row}${c.getStr($student.SSN, $ssnl)} ")#end
+##set ($row = "${row}${student.Name}")
+##if (!$removed) #set ($removed = "")#end
+##set ($removed = "${removed}${c.nl()}${row}")
+#end##--if student.Grade
+#end##--foreach
+
+#if ($inc_accepted)
+$bundle.getString("hyvaksytyt")
+$accepted
+#end
+#if ($inc_statistics)
+#set ($participated = ${acceptcount} + ${failcount})
+
+
+  $bundle.getString("tilastoja")
+  $bundle.getString("ilmonneita"): ${students.size()}
+  $bundle.getString("osallistuneita"):   ${participated}
+  $bundle.getString("kokeessa"):         ${participInExam}
+  $bundle.getString("hyvaksyttyja"):     ${acceptcount} 
+	(#if (${participated} > 0) ${c.percent(${acceptcount}, ${participated})}% $bundle.getString("osallistuneista"),#end 
+	 #if (${participInExam} > 0) ${c.percent(${acceptcount}, ${participInExam})}% $bundle.getString("kokeessaolleista")#end
+  ${c.nl()}
+  $bundle.getString("hylattyja"):        ${failcount}
+#end
+#if ($inc_gradeDistr)
+
+
+$bundle.getString("arvosanajakauma")
+#set ($gradeDistr = "") 
+#foreach ($grade in $grades)
+#set ($gcount = $counter.getCount($grade))
+#set ($tmp = "") 
+#set ($tmp = "  $c.getStr(${grade}, 2): $c.getStr($gcount, 3) ")
+#if ($gcount > 0)
+#if ($gcount > 60)
+#set ($gcount = 60)
+#end
+#foreach ($i in [1..$gcount])
+#set ($tmp = "${tmp}*")
+#end
+#if ($gcount == 60)
+#set ($tmp = "${tmp}...")
+#end
+#end
+#set ($gradeDistr = "${tmp}${c.nl()}$gradeDistr")
+#end
+$gradeDistr
+#end
+#if ($inc_feedback)
+
+
+$bundle.getString("palautetilaisuus") __.__ $bundle.getString("klo") __:__ - __:__ $bundle.getString("huoneessa") ____.
+#end
+#if ($inc_signature) 
+
+
+
+
+$bundle.getString("helsingissa") ${sysdate}
+                       ___________________________
+                        ${c.DonFName} ${c.DonLName}
+#end
+#if ($inc_failed)
+
+
+$bundle.getString("isohylatyt")
+$failed
+#end
+##if ($inc_changes && $removed)
+
+
+##$bundle.getString("isopoistetut")
+##${removed}
+##end
+</pre>
+</body>
+</html>

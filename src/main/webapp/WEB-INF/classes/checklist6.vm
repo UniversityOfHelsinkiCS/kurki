@@ -1,0 +1,22 @@
+##
+################### Ilmoittautumisjärjestys ##################
+##
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+ <META charset='utf-8'/>
+   <title>Student email </title>
+</head>
+<body bgcolor="white">
+<h3>${selectedCourse.Label}: $!studentFilterDesc
+$bundle.getString("tilanne"): ${sysdate} $bundle.getString("klo"): ${time}</h3>
+
+<pre>
+#foreach ($student in $students)
+#set ($name = "$!{student.Label} ($!{student.Birthday})")
+#set ($to = 40 - $name.length())
+    ${name} #foreach ($i in [1..$to]) #end  ${student.Enrolment}
+#end
+</pre>
+</body>
+</html>

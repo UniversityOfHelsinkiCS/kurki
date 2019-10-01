@@ -1,0 +1,519 @@
+#parse ("top.vm")
+#set ($parts = $selectedCourse.PartsOrdered)
+#set ($lh = $parts.get(0))
+#set ($ht = $parts.get(1))
+#set ($koe = $parts.get(2))
+#set ($xtrTotal = 0)
+#set ($conventionsDesc = "")
+#set ($cols = 2)
+        <tr>
+          <td colspan="4">
+
+<h3>${selectedCourse.label} - $bundle.getString("5grades")</h3>
+
+#if ($error && $error != "")
+<div class="alert alert-danger">
+<ul>
+  $error
+</ul>
+</div>
+<br>
+#end 
+#if ($result && $result != "")
+<div class="alert alert-success">
+  $result
+</div>
+<br>
+#end
+
+#if (!$lh && !$ht && !$koe)
+<div>
+      $bundle.getString("isoeiosa") <br><br>
+      <form action="index" method="post">
+        <input type="submit" value="$bundle.getString("maaritteleosa")" class="btn btn-primary">
+        <input type="hidden" value="3coursebasics" name="service">
+      </form>
+</div>
+#else
+<form action="index" class="form-inline" name="grades" method="post">
+  <input type="hidden" name="TS" value="${TS}">
+<table class="normal" border="0"> ## taulu menee kahteen osaan vierekkäin
+  <tr>
+    <td valign="top">
+      <table class="normal" border="0">
+        <tr>
+          <th>$bundle.getString("suorituspvm")</th>
+          <td nowrap style="width:250px"> 
+  #if (!$frozen)
+           <input type="text" name="examDate" class="form-control input" style="width:100px"
+                value="$!{selectedCourse.ExamDate}" size="10" maxlength="10"> ($bundle.getString("pvm"))
+  #else
+           <input type="text" class="form-control" style="width:100px"
+                value="$!{selectedCourse.ExamDate}" readonly>
+  #end
+          </td>
+
+#if ($lh)
+  #set ($cols = $cols+1)
+          <th style="width:60px">$bundle.getString("part0abbreviation")</th> ##LH
+#end
+#if ($ht)
+  #set ($cols = $cols+1)
+          <th style="width:60px">$bundle.getString("part1abbreviation")</th> ##HT
+#end
+#if ($koe)
+  #set ($cols = $cols+1)
+          <th style="width:60px">$bundle.getString("part2abbreviation")</th> ##KOE
+#end
+        </tr>
+
+<tr><td colspan="5"><hr width="90%"></td></tr>
+
+##
+## OSASUORITUKSIA
+##
+
+        <tr>
+          <th rowspan="2" wrap>$bundle.getString("osasuorituksia")</th>
+          <th>$bundle.getString("yht")</th>
+
+#if ($lh)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control" style="width:50px"
+                name="nbr_${lh.Id}" value="${lh.NbrOfOfferings}" readonly>
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="$lh.NbrOfOfferings" readonly>
+  #end
+
+          </td>
+#end
+#if ($ht)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control" style="width:50px"
+                name="nbr_${ht.Id}" value="${ht.NbrOfOfferings}" readonly>
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="$ht.NbrOfOfferings" readonly>
+  #end
+          </td>
+#end
+#if ($koe)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control" style="width:50px"
+                name="nbr_${koe.Id}" value="${koe.NbrOfOfferings}" readonly>
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="$koe.NbrOfOfferings" readonly>
+  #end
+          </td>
+#end 
+        </tr>
+        <tr>
+          <th>$bundle.getString("pakollisia")</th>
+#if ($lh)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="reqo_${lh.Id}" value="${lh.RequiredOfferings}" size="2" maxlength="2">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${lh.RequiredOfferings}" readonly>
+  #end
+          </td>
+#end
+#if ($ht)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="reqo_${ht.Id}" value="${ht.RequiredOfferings}" size="2" maxlength="2">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${ht.RequiredOfferings}" readonly>
+  #end
+          </td>
+#end
+#if ($koe)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="reqo_${koe.Id}" value="${koe.RequiredOfferings}" size="2" maxlength="2">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${koe.RequiredOfferings}" readonly>
+  #end
+          </td>
+#end 
+        </tr>
+
+<tr><td colspan="5"><hr width="90%"></td></tr>
+
+##
+## SUORITUSPISTEITÄ OSASUORITUKSISTA
+##
+
+        <tr>
+          <th rowspan="3" wrap>$bundle.getString("suorpstos")</th>
+          <th>$bundle.getString("saatavissa")</th>
+
+#if ($lh)
+  #set ($maxScore = $lh.MaxScoreCount)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control" style="width:50px"
+                name="max_${lh.Id}" value="$maxScore" readonly>
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="$maxScore" readonly>
+  #end
+          </td>
+#end
+#if ($ht)
+  #set ($maxScore = $ht.MaxScoreCount)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control" style="width:50px"
+                name="max_${ht.Id}" value="$maxScore" readonly>
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="$maxScore" readonly>
+  #end
+          </td>
+#end
+#if ($koe)
+  #set ($maxScore = $koe.MaxScoreCount)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control" style="width:50px"
+                name="max_${koe.Id}" value="$maxScore" readonly>
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="$maxScore" readonly>
+  #end
+          </td>
+#end 
+        </tr>
+        <tr>
+          <th>$bundle.getString("hyvrajsum")</th>
+#if ($lh)
+          <td>
+            <input type="text" class="form-control" style="width:50px"
+                value="${lh.MinScoreCount}" readonly>
+          </td>
+#end
+#if ($ht)
+          <td>
+           <input type="text" class="form-control" style="width:50px"
+                value="${ht.MinScoreCount}" readonly>
+          </td>
+#end
+#if ($koe)
+          <td>
+            <input type="text" class="form-control" style="width:50px"
+                value="${koe.MinScoreCount}" readonly>
+          </td>
+#end 
+        </tr>
+        <tr>
+          <th>$bundle.getString("oshr")</th>
+#if ($lh)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="reqs_${lh.Id}" value="${lh.requiredScore}" size="4" maxlength="4">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${lh.requiredScore}" readonly>
+  #end
+          </td>
+#end
+#if ($ht)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="reqs_${ht.Id}" value="${ht.requiredScore}" size="4" maxlength="4">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${ht.requiredScore}" readonly>
+  #end
+          </td>
+#end
+#if ($koe)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="reqs_${koe.Id}" value="${koe.requiredScore}" size="4" maxlength="4">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${koe.requiredScore}" readonly>
+  #end
+          </td>
+#end 
+        </tr>
+
+<tr><td colspan="5"><hr width="90%"></td></tr>
+
+##
+## ARVOSTELUUN VAIKUTTAVAT LISÄPISTEET
+##
+
+        <tr>
+          <th rowspan="3" wrap>$bundle.getString("arvlp")</th>
+          <th>$bundle.getString("max")</th>
+
+#if ($lh)
+  #set ($xtrTotal = $xtrTotal + $lh.XtrScore)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="xtr_${lh.Id}" value="${lh.XtrScore}" size="2" maxlength="2">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${lh.XtrScore}" readonly>
+  #end
+          </td>
+#end
+#if ($ht)
+  #set ($xtrTotal = $xtrTotal + $ht.XtrScore)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="xtr_${ht.Id}" value="${ht.XtrScore}" size="2" maxlength="2">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${ht.XtrScore}" readonly>
+  #end
+          </td>
+#end
+
+#if ($koe)
+  #set ($xtrTotal = $xtrTotal + $koe.XtrScore)
+          <td>
+            <input type="hidden" name="xtr_${koe.Id}" value="${ht.XtrScore}">
+            <input type="text" class="form-control" style="width:50px"
+                value="${koe.XtrScore}" readonly>
+          </td>
+#end 
+        </tr>
+        <tr>
+          <th>$bundle.getString("1pstraja")</th>
+#if ($lh)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="xtr1st_${lh.Id}" value="${lh.getFirstXtrScore()}" size="4" maxlength="4">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${lh.getFirstXtrScore()}" readonly>
+  #end
+          </td>
+#end
+#if ($ht)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="xtr1st_${ht.Id}" value="${ht.getFirstXtrScore()}" size="4" maxlength="4">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${ht.getFirstXtrScore()}" readonly>
+  #end
+          </td>
+#end
+#if ($koe)
+          <td>
+            <input type="text" class="form-control" style="width:50px"
+                value="1" readonly>
+          </td>
+#end
+        </tr>
+        <tr>
+          <th>$bundle.getString("kv")</th>
+#if ($lh)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px" 
+                name="step_${lh.Id}" value="${lh.XtrStep}" size="5" maxlength="5">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${lh.XtrStep}" readonly>
+  #end
+          </td>
+#end
+#if ($ht)
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px" 
+                name="step_${ht.Id}" value="${ht.XtrStep}" size="5" maxlength="5">
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${ht.XtrStep}" readonly>
+  #end
+          </td>
+#end
+#if ($koe)
+          <td>
+            <input type="text" class="form-control" style="width:50px"
+                value="1" readonly>
+          </td>
+#end
+        </tr>
+      </table>
+    </td>
+    <td valign="top">
+      <table class="normal" width="100%" border="0"> ##oikeanpuoleinen taulu
+<!--
+        <tr>
+          <th colspan="2">
+            $bundle.getString("arv")
+          </th>
+        </tr>
+-->
+        <tr>
+          <th>$bundle.getString("pstmax")</th>
+          <td>
+  #if (!$frozen)
+            <input type="text" class="form-control input" style="width:50px"
+                name="xtrTotal" value="${xtrTotal}" size="3" maxlength="3" readonly>
+  #else
+            <input type="text" class="form-control" style="width:50px"
+                value="${xtrTotal}" readonly>
+  #end
+          </td>
+        </tr>
+      <tr>
+        <th>$bundle.getString("hyvar")</th>
+        <td>
+  #if (!$frozen)
+          <input type="text" class="form-control input" style="width:50px"
+                name="xtr1st_3" value="${selectedCourse.MinScore}" size="4" maxlength="4">
+  #else
+          <input type="text" class="form-control" style="width:50px"
+                value="${selectedCourse.MinScore}" readonly>
+  #end
+        </td>
+      </tr>
+      <tr>
+        <th>$bundle.getString("asv")</th>
+        <td>
+  #if (!$frozen) 
+          <input type="text" class="form-control input" style="width:50px"
+                name="step_3" value="${selectedCourse.GradeStep}" size="5" maxlength="5">
+  #else
+          <input type="text" class="form-control" style="width:50px"
+                value="${selectedCourse.GradeStep}" readonly>
+  #end
+        </td>
+      </tr>
+      <tr>
+        <th>$bundle.getString("arvasteikko")</th>
+        <td>
+#set ( $scale = $selectedCourse.Scale)  
+#if ( $scale && $scale == "E" )
+  #if (!$frozen)
+            <input type="radio" name="scale" value="K">$bundle.getString("arvosanat")
+            <input type="radio" name="scale" value="E" checked>$bundle.getString("hyvhyl")
+  #else
+            $bundle.getString("hyvhyl")
+  #end
+#else
+  #if (!$frozen)
+            <input type="radio" name="scale" value="K" checked>$bundle.getString("arvosanat")
+            <input type="radio" name="scale" value="E">$bundle.getString("hyvhyl")
+  #else
+            $bundle.getString("arvosanat")
+  #end
+#end
+       </td>
+      </tr>
+      <tr>
+        <th>$bundle.getString("arvtapa")</th>
+        <td> 
+#if (!$frozen)
+          <select name="convention" class="form-control form-inline" style="width:300px">
+#end
+#set ( $selectedConvention = $selectedCourse.GradingConvention )
+#foreach ( $convention in $selectedCourse.GradingConventions ) 
+  #set ($conventionsDesc = "${conventionsDesc}${selectedCourse.nl()}<dt>$convention.getLabel()</dt><dd>$convention.getHelp()</dd>")
+  #if ( $selectedConvention == $convention.Id )
+    #if (!$frozen)
+            <option value="${convention.Id}" selected>$convention.Label</option>
+    #else
+            $convention.Label
+    #end
+  #elseif (!$frozen) 
+            <option value="${convention.Id}">$convention.Label</option>
+  #end
+#end
+#if (!$frozen)
+          </select>
+#end
+
+        </td>
+      </tr>
+
+<tr><td colspan="2"><hr width="90%"></td></tr>
+
+        <td colspan="2">
+      <input type="submit" name="makeAssessment" class="btn btn-success" value="$bundle.getString("teearv")">
+  #if (!$frozen)
+      <input type="submit" name="saveBasic" class="btn btn-success" value="$bundle.getString("tallennam")">
+      <input type="submit" name="modBoundaries" class="btn btn-primary" value="$bundle.getString("muutaparajoja")">
+  #else
+      <input type="submit" name="modBoundaries" class="btn btn-primary" value="$bundle.getString("parajat")">
+  #end
+        </td>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+
+<!-- OHJEET -->
+#if (!$resultList)
+<div class="instr">
+<h3>$bundle.getString("arvtapa")</h3>
+<dl>
+$conventionsDesc
+</dl>
+</div>
+
+<!-- TULOKSET -->
+#else
+<div class="result">
+#set ($inc_noheader = "true")
+#set ($inc_ssn = "true")
+#set ($inc_lhsum = "true")
+#set ($inc_lhsumname = $bundle.getString("lhp"))
+#set ($inc_htsum = "true")
+#set ($inc_htsumname = $bundle.getString("htp"))
+#set ($inc_koesum = "true")
+#set ($inc_koesumname = $bundle.getString("Koepisteet"))
+#set ($inc_sum = "true")
+#set ($inc_sumname = $bundle.getString("yhtpst"))
+#set ($inc_grade = "true")
+#set ($inc_gradename = $bundle.getString("Arvosana"))
+#set ($inc_accepted = "true")
+#set ($inc_failed = "true")
+#if ($selectedCourse.isFrozen())
+#set ($inc_changes = "true")
+#end
+#set ($params = "ltype=99&ctype=text%2Fplain&useinc=true&inc_ssn=on&inc_lhsum=on&inc_lhsumname=LhS&inc_htsum=on&inc_htsumname=HtS&inc_lhlp=on&inc_lhlpname=LhP&inc_htlp=on&inc_htlpname=HtP&inc_koesum=on&inc_koesumname=Koe&inc_sum=on&inc_sumname=Yht&inc_grade=on&inc_gradename=Arvosana&inc_statistics=on&inc_gradeDistr=on&inc_feedback=on&inc_signature=on&inc_accepted=on&inc_failed=on&filter=&makeList=%3E%3E%3E")
+
+#if ($selectedCourse.isFrozen())
+#set ($params = "${params}&inc_changes=on")
+#end
+
+<center><h2>$bundle.getString("tulokset")</h2>(<a href="checklist?$params" target="_blank">$bundle.getString("tulostus")</a> 
+- $bundle.getString("tuloslistanTulostusOhje"))</center>
+<pre>
+#parse ("checklist99.vm")
+</pre>
+</div>
+#end
+#end 
+          </td>
+        </tr>
+#parse ("bottom.vm")

@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+#set ($bgcolorDef = "#EEEEEE") ## isojen taulukoiden joka toisen rivin taustaväri
+#if ($selectedCourse)
+  #set ($frozen = $selectedCourse.isFrozen())
+#end
+<html>
+  <head>
+    <META charset='utf-8'/>
+    <title>KURKI</title>
+
+    <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      
+    </style>
+    <link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <script language='JavaScript' type='text/javascript' src='../kurki.js'></script>
+
+#if ($autosave)
+  #if (!$asToggle)
+    #set ($asToggle = "on")
+  #end
+  #if (!$sessionLen)
+    #set ($sessionLen = 3600)
+  #end
+  #set ($sessionLen = $sessionLen-60)
+
+    <script language='JavaScript' type='text/javascript'>
+<!--
+#if ($asToggle == "on")
+var as = true;
+#else
+var as = false;
+#end
+var noas = false;
+var intervalId = null;
+var isIENN = true;
+
+var asAlert = 
+"<html>\n<head><title>$bundle.getString("KurkiautomValiTallennus")</title></head>\n"
++"<body bgcolor='white' onLoad=\"setTimeout('self.close()', 14000);\">\n"
++"<center>\n<h2>Kurki:</h2>\n<h3>$bundle.getString("automValiTallennusAktiv")</h3>\n"
++"<form action='.' onSubmit='return false;'>\n"
++"<input type='button' value='  OK  ' onClick='javascript:self.close()' class='button'>\n"
++"</form>\n$bundle.getString("suluisTamaIkkunaSulkeutuu")\n</center>\n</body>\n</html>";
+
+if (navigator.appName == "Konqueror") {
+  isIENN = false;
+}
+
+function autosave() {
+  if (${autosave} != null) {
+    intervalId = setInterval("delayedSave()", 560000);
+    setTimeout("disableAutosave()", ${sessionLen}*1000);
+  } else {
+    disableAutosave();
+  }
+}
+
+function delayedSave() {
+  if (as && document.modifyWatch.modCount.value > "0") {
+    setTimeout("save()", 15000);
+	
+    if (isIENN) {
+      var aswin = window.open("about:blank", "aswin","toolbar=no,menubar=no,location=no,scrollbars=no,resizable=no,width=300,height=200");
+      aswin.document.open("text/html");
+      aswin.document.writeln(asAlert);
+      aswin.document.close();
+    } else {
+      window.open("../asNotify.html", $bundle.getString("valitallenIlmo"), 
+	"toolbar=no,menubar=no,location=no,scrollbars=no,resizable=no,width=300,height=200");
+    }
+  }
+}
+
+function save() {
+  if (as && document.modifyWatch.modCount.value > "0") {
+    if (${autosave}.asNotify) ${autosave}.asNotify.value = "AS";
+    ${autosave}.submit();
+  }
+}
+
+function toggleAutosave() {
+  if (noas) {
+    alert($bundle.getString("istuntovanhentunut"));
+  }
+  else if (as) {
+    as = false;
+    ${autosave}.asToggle.value="off";
+  }
+  else {
+    as = true;
+    ${autosave}.asToggle.value="on";
+  }
+}
+
+function disableAutosave() {
+    noas = true;
+    alert($bundle.getString("istuntovanhentunut"));
+    clearInterval(intervalId);
+    if (${autosave} != null && ${autosave}.asNotify != null) { ${autosave}.asNotify.value = ""; }
+}
+//-->
+    </script>
+#end
+
+  </head>
+
+#if ($autosave)  
+  <body onLoad="autosave()">
+#else
+  <body>
+
+#end
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="navbar-header">
+    <a class="navbar-brand">KURKI 2.1</a>
+  </div>
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <a href="logout" class="btn btn-small btn-danger pull-right" style="margin-right:20px">Kirjaudu ulos</a>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="../Language?kieli=en">In English</a></li>
+      <li><a href="../Language?kieli=fi" style="margin-right:30px">Suomeksi</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!--
+<tr><td colspan="4"><div class="warning"><center>
+$bundle.getString("kurkiPaivitVaroitus")
+</center></div></td></tr>
+<tr><td colspan="4"><div class="warning"><center>
+$bundle.getString("kurkiPaivitKesken")
+</center></div></td></tr>    
+-->
+	
+<div>
+	    <form name="navi" class="form-inline" action="index" method="post">
+##
+## Tähän kaikki kurssit, joilla käyttäjä ohjaajana
+##
+
+#if ($courseInfos)
+                    <label for="course" accesskey="C"></label>
+		    <select name="course" id="course" 
+			    onChange="!isModified() && document.navi.submit();"
+			    tabindex="32700"
+                            class="form-control form-inline" style="width:500px">
+  #if (!$services)
+		      <option value="">-- $bundle.getString("valitseKurssi") --</a>
+  #end
+
+  #foreach ($course in $courseInfos)
+    #if ($course.isFrozen())
+      #set ($clabel = "* $course.label *")
+    #else 
+      #set ($clabel = $course.label)
+    #end
+    #if ($selectedCourse && $course.value == $selectedCourse.courseInfo.value)
+		      <option value="$course.value" selected>$clabel</option>
+    #else
+		      <option value="$course.value">$clabel</option>
+    #end
+  #end
+		    </select>
+#else
+                    <b>$bundle.getString("eiavoimia")</b>
+#end
+
+##
+## Tähän kaikki sallitut toiminnot
+##
+#if ($services)
+                    <label for="service" accesskey="A"></label>
+		    <select name="service" id="service"
+			    onChange="!isModified() && document.navi.submit();"
+			    tabindex="32701"
+                            class="form-control form-inline" style="width:300px">
+
+  #if (!$selectedService.getLabel())
+		      <option value="" selected>-- $bundle.getString("valitse_toiminto") --</option>
+  #end
+  #set ($serviceNo = 1) 
+  #foreach ($service in $services)
+
+    #if ($selectedService && $service.value == $selectedService.value)
+		      <option value="$service.value" selected>${serviceNo}. $service.getLabel()</option>
+    #else
+		      <option value="$service.value">${serviceNo}. $service.getLabel()</option>
+    #end
+    #set ($serviceNo = $serviceNo + 1) 
+  #end
+		    </select>	    
+#end
+	    </form>
+
+  <form name="modifyWatch" action="index" onSubmit="return false" method="post">
+    <input type="hidden" name="modCount" value="0">
+  </form>
+
+#if ($autosave)
+  <form action="index" style="background-color:white;color:black;margin:0;display:inline;" class="inline" name="as" onSubmit="return false" method="post">
+  #if ($asToggle == "on")
+    <input type="checkbox" id="toggle" name="toggle" onClick="toggleAutosave();" checked>
+  #else
+    <input type="checkbox" id="toggle" name="toggle" onClick="toggleAutosave();">
+  #end
+    <label for="toggle" accesskey="v">
+    <b>$bundle.getString("automvaliTallen")</b>
+    </label>
+  </form>
+#end
+    
+</div>
+

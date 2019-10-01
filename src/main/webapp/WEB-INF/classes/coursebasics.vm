@@ -1,0 +1,220 @@
+#parse ("top.vm")
+#set ($parts = $selectedCourse.PartsOrdered)
+#set ($partnames = [$bundle.getString("laskuharjoituksia"), $bundle.getString("harjoitustoita"), $bundle.getString("kokeita")])
+#set ($maxEntriesPerLine = 10)
+        <tr>
+          <td colspan="4">
+<h3>$selectedCourse.label - $bundle.getString("perustiedot")</h3>
+
+#if ($error && $error != "")
+<div class="alert alert-danger">
+  $error
+</div>
+#end 
+#if ($result && $result != "")
+<div class="alert alert-success">
+  $result
+</div>
+#end
+
+##
+## LUKUMÄÄRÄT
+##
+<form action="index" method="post" name="basic" role="form">
+<table border="0">
+  <caption>
+     <h4>$bundle.getString("osasuoritukset")</h4>
+  </caption>
+  <input type="hidden" name="TS" value="${TS}"
+#set ($i = 0)
+#foreach ($pname in $partnames)
+
+<tr>
+  <th> ${pname}:</th>
+
+  #if ($parts.get($i))
+    #set ($part = $parts.get($i)) 
+
+    #if ($frozen)
+      <th><input type="text" class="form-control" style="width:50px"
+                value="${part.NbrOfOfferings}" readonly></th>
+    #else 
+       <th><input type="text" class="form-control input-sm" style="width:50px" name="no${i}_nbr" maxlength="2" value="${part.NbrOfOfferings}"
+             onBlur="rangecheck(this,0,18)"></th>
+    #end
+    <th>&nbsp;$bundle.getString("jpakollisia")</th>
+
+    #if ($frozen)
+      <th><input type="text" class="form-control" style="width:50px"
+                value="${part.RequiredOfferings}" readonly></th>
+    #else 
+      <th><input type="text" class="form-control input-sm" style="width:50px" name="no${i}_req" maxlength="2" value="${part.RequiredOfferings}"
+             onBlur="rangecheck(this,0,this.form.no${i}_nbr.value)"></th>
+    #end
+
+    #if ($i != 2)
+    <th>&nbsp;$bundle.getString("lisapisteet")</th>
+
+    #if ($frozen)
+      <th><input type="text" class="form-control" style="width:50px"
+                value="${part.XtrScore}" readonly></th>
+    #else 
+      <th><input type="text" class="form-control input-sm" style="width:50px" name="no${i}_xtr" maxlength="2" value="${part.XtrScore}"
+             onBlur="rangecheck(this,0,60)"></th>
+    #end
+    #end
+    #else
+        &nbsp;
+    #if (!$frozen)
+      <th><input type="text" class="form-control input-sm" style="width:50px" name="no${i}_nbr" maxlength="2" value=""
+             onBlur="rangecheck(this,0,18)"></th>
+    #else
+        <th><input type="text" class="form-control" style="width:50px"
+                value="0" readonly></th> ## ettei tule tyhjää tilaa jos jotain osasuoritusta ei ole kurssilla
+    #end
+
+    <th>&nbsp;$bundle.getString("jpakollisia")</th>
+    
+    #if (!$frozen)
+      <th><input type="text" class="form-control input-sm" style="width:50px" name="no${i}_req" maxlength="2" value=""
+             onBlur="rangecheck(this,0,this.form.no${i}_nbr.value)"></th>
+    #else
+        <th><input type="text" class="form-control" style="width:50px"
+                value="0" readonly></th> ## ettei tule tyhjää tilaa jos jotain osasuoritusta ei ole kurssilla
+   #end
+
+    #if ($i != 2)
+    <th>&nbsp;$bundle.getString("lisapisteet")</th>
+    
+      #if (!$frozen)
+      <th><input type="text" class="form-control input-sm" style="width:50px" name="no${i}_xtr" maxlength="2" value=""
+             onBlur="rangecheck(this,0,60)"></th>
+      #else
+        <th><input type="text" class="form-control" style="width:50px"
+                value="0" readonly></th> ## ettei tule tyhjää tilaa jos jotain osasuoritusta ei ole kurssilla
+      #end
+    
+    #else
+        &nbsp;
+    #end
+  #end
+
+  #set ($i = $i+1)
+</tr>
+#end
+#if (!$frozen)
+  <th><input type="submit" name="doBasic" value="$bundle.getString("tmuutokset")" class="btn btn-success"></th>
+#end
+</table>
+</form>
+
+##
+## PISTERAJAT
+##
+#set ($partnames = [$bundle.getString("lh"), $bundle.getString("ht"), $bundle.getString("koe")])
+
+<form action="index" method="post">
+  <input type="hidden" name="TS" value="${TS}">
+<table border="0">
+  <caption>
+    <h4>$bundle.getString("pisterajat")</h4>
+  </caption>
+
+#set ($i = 0)
+#foreach ($part in $selectedCourse.Parts)
+  #set ($pid = $part.Id)
+  #if ($pid < 3)
+    #set ($pname = $partnames.get($pid))
+    #set ($offerings = $part.Offerings)
+
+  <tr>
+
+    <td style="width:50px"><b>${pname}</b></td>
+
+    <th style="width:100px">
+      <table>
+        <tr>
+          <th nowrap>
+<table class="form-control input-sm">
+            <th style="width:50px">$bundle.getString("max")&nbsp;</th>
+</table>
+          </th>
+        </tr>
+        <tr>
+          <th nowrap>
+<table class="form-control input-sm">
+            <th style="width:50px">$bundle.getString("hyv.raja")</th>
+</table>
+          </th>
+        </tr>
+      </table>
+    </th>
+
+    <td>
+      <table cellspacing="0" cellpadding="0" border="0">
+        <tr>
+    #foreach ($offering in $offerings)
+      #set ( $oid = ${offering.Id}+1 )
+      #if ( $oid == $maxEntriesPerLine+1 )
+        </tr><tr> ##laitetaan seuraavalle riville yli 10 menevät pisteet
+      #end
+          <td>
+            <table class="normal" border="0" style="border-width:0pt;">
+              <tr>
+                <th rowspan="2" nowrap>
+      #if ( $oid < 10 )
+                  &nbsp;
+      #end
+                  <b>$oid:</b>
+                </th>
+                <td width="25">
+      #if ($frozen)
+                  <input type="text" class="form-control" style="width:50px" 
+                        value="$!{offering.MaxScore}" readonly>
+      #else
+                  <input type="text" class="form-control input-sm" style="width:50px" name="no${pid}_${offering.Id}_max" maxlength="2" tabindex="1" 
+                         value="$!{offering.MaxScore}" onBlur="rangecheck(this, 0, 99)">
+      #end
+                </td>
+              </tr>
+              <tr>
+                <td width="25">
+      #if ($frozen)
+                  <input type="text" class="form-control" style="width:50px" 
+                        value="$!{offering.MinScore}" readonly>
+      #else
+                  <input type="text" class="form-control input-sm" style="width:50px" name="no${pid}_${offering.Id}_min" maxlength="2" tabindex="1" 
+                         value="$!{offering.MinScore}" onBlur="rangecheck(this, 0, this.form.no${pid}_${offering.Id}_max.value)">
+      #end
+                </td>
+              </tr>
+            </table>
+          </td>
+    #end
+    #set ($remainder = $oid % $maxEntriesPerLine)
+    #if ($oid > $maxEntriesPerLine && $remainder != 0)
+          #set ($remainder = $maxEntriesPerLine - $remainder)
+          <td colspan="${remainder}">&nbsp;</td>
+    #end
+        </tr>
+      </table>
+    </td>
+  </tr>
+    <tr><td colspan="10"><hr width="90%"></td></tr> ##väliviiva osasuoritusten väliin
+    #set ($i = $i+1)
+  #end
+#end
+#if ($i > 0)
+  #if (!$frozen)
+    <th colspan="3"><input type="submit" name="doScoreDef" value="$bundle.getString("tmuutokset")" class="btn btn-success"></th>
+  #end
+#else
+  <tr><th>$bundle.getString("eiOsasuorituksia")</th></tr>
+#end
+
+</table> 
+</form>
+
+          </td>
+        </tr>
+#parse ("bottom.vm")

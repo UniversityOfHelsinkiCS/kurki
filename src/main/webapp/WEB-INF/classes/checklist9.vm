@@ -1,0 +1,51 @@
+##
+################### Export ###################
+##
+HY/TKTL: ${selectedCourse.CCode}, ${selectedCourse.Label} (${selectedCourse.Credits}ov)<br>
+#set ($selectDesc = $selectedCourse.SelectDescription)
+#set ($parts = $selectedCourse.Parts)
+#set ($row = "")
+#if (!$comment)
+#set ($SEPARATOR = ";")
+#else
+#set ($SEPARATOR = $comment)
+#end
+
+#if ($selectDesc)
+$bundle.getString("valitutop"): ${selectDesc}
+
+#end
+##
+################### OTSAKKEET ###################
+##
+## hetun käyttö kommentoitu pois
+##set ($row = "Etunimi${SEPARATOR}Sukunimi${SEPARATOR}Entinen sukunimi${SEPARATOR}Hetu${SEPARATOR}Opiskelijanumero${SEPARATOR}Aloitusvuosi${SEPARATOR}Pääaine${SEPARATOR}Email${SEPARATOR}Puhelinnumero${SEPARATOR}Ryhmä")
+#set ($row = "Etunimi${SEPARATOR}Sukunimi${SEPARATOR}Entinen sukunimi${SEPARATOR}Opiskelijanumero${SEPARATOR}Aloitusvuosi${SEPARATOR}Pääaine${SEPARATOR}Email${SEPARATOR}Puhelinnumero${SEPARATOR}Ryhmä")
+#foreach ($part in $parts)
+#if ($part.Id != 3)
+#foreach ($offering in $part.Offerings)
+#set ($o = $offering.Id + 1)
+#set ($row = "${row}${SEPARATOR}${part.Abbreviation}#${o}")
+#end
+#else
+#set ($row = "${row}${SEPARATOR}${part.Abbreviation}")
+#end
+#end
+${row}<br>
+##
+################### OPISKELIJAT ###################
+##
+#foreach ($student in $students)
+#* student.SNO piätisi palauttaa opiskelijanumero, mutta tulee error.
+student.SSO (hetu) sen sijaan palauttaa opiskelijanumeron.
+SNO:n käyttö kommentoitu pois. -tka
+*#
+##set ($row = "$!{student.FName}${SEPARATOR}$!{student.LName}${SEPARATOR}$!{student.PrevLName}${SEPARATOR}$!{student.SSN}${SEPARATOR}$!{student.SNO}${SEPARATOR}$!{student.StartYear}${SEPARATOR}$!{student.Major}${SEPARATOR}$!{student.EMail}${SEPARATOR}$!{student.Phone}${SEPARATOR}$!{student.Group}")
+#set ($row = "$!{student.FName}${SEPARATOR}$!{student.LName}${SEPARATOR}$!{student.PrevLName}${SEPARATOR}$!{student.SSN}${SEPARATOR}$!{student.StartYear}${SEPARATOR}$!{student.Major}${SEPARATOR}$!{student.EMail}${SEPARATOR}$!{student.Phone}${SEPARATOR}$!{student.Group}")
+#foreach ($part in $parts)
+#foreach ($offering in $part.Offerings)
+#set ($row = "${row}$!{SEPARATOR}$!{student.getScore(${part}, ${offering})}")
+#end
+#end
+${row}<br>
+#end

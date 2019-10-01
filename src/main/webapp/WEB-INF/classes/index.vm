@@ -1,0 +1,35 @@
+#parse ("top.vm")
+	<tr>
+	  <td colspan="4">
+  #if ($error && $error != "")
+<div class="alert alert-danger"> 
+  $error
+</div>
+  #end 
+  #if ($result && $result != "")
+<div class="alert alert-success">
+  $result
+</div>
+  #end
+<div class="instr">
+$bundle.getString("huom")
+<ul>
+  <li>$bundle.getString("javascript")
+  </li>
+  <li>$bundle.getString("evaste")
+  </li>
+  <li>$bundle.getString("indexinfo")
+  </li>
+  <li>$bundle.getString("ongelmatilanteet")
+  </li>
+  <li><a href="../paivitykset.html">$bundle.getString("paivitykset").
+  </li>
+<!--
+  <li><a href="api">$bundle.getString("api")
+  </li>
+-->
+</ul>
+</div>
+	  </td>
+	</tr>
+#parse ("bottom.vm")

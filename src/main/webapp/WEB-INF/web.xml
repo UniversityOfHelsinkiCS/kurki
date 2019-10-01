@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <context-param>
+        <param-name>webmaster</param-name>
+        <param-value>Harri.Laine@cs.Helsinki.FI</param-value>
+    </context-param>
+    <context-param>
+        <param-name>configurationFile</param-name>
+        <param-value>/WEB-INF/kurki.cnf</param-value>
+    </context-param>
+    <!-- Define Velocity template compiler -->
+    <!-- Tällä servletillä voi katsella suoraan .vm tiedostoja -->
+    <servlet>
+        <servlet-name>velocity</servlet-name>
+        <servlet-class>
+            org.apache.velocity.tools.view.servlet.VelocityViewServlet
+        </servlet-class>
+        <!-- 
+          Unless you plan to put your toolbox.xml and velocity.properties
+          under different folders or give them different names, then these
+          two init-params are unnecessary as of VelocityTools 1.3.  The
+          VelocityViewServlet will automatically look for these files in
+          the following locations.
+        -->
+        <init-param>
+            <param-name>org.apache.velocity.toolbox</param-name>
+            <param-value>/WEB-INF/toolbox.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.apache.velocity.properties</param-name>
+            <param-value>/WEB-INF/velocity.properties</param-value>
+        </init-param>
+    </servlet>
+    <!-- Map *.vm files to Velocity -->
+    
+    
+    
+    <servlet>
+        <servlet-name>Language</servlet-name>
+        <servlet-class>kurki.servlet.Language</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Indeksi</servlet-name>
+        <servlet-class>debug.Indeksi</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>velocity</servlet-name>
+        <url-pattern>*.vm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>velocity</servlet-name>
+        <url-pattern>*.js</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>velocity</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>index</servlet-name>
+        <servlet-class>kurki.servlet.Index</servlet-class>
+        <init-param>
+            <param-name>properties</param-name>
+            <param-value>/WEB-INF/velocity.properties</param-value>
+        </init-param>
+    </servlet>
+    
+    
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>kurki.servlet.Logout</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/servlet/logout</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LoginManager</servlet-name>
+        <servlet-class>kurki.servlet.LoginManager</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>checklist</servlet-name>
+        <servlet-class>kurki.servlet.ListMaker</servlet-class>
+        <init-param>
+            <param-name>properties</param-name>
+            <param-value>/WEB-INF/velocity.properties</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>index</servlet-name>
+        <url-pattern>/servlet/index</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginManager</servlet-name>
+        <url-pattern>/servlet/LoginManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>checklist</servlet-name>
+        <url-pattern>/servlet/checklist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Language</servlet-name>
+        <url-pattern>/Language</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Indeksi</servlet-name>
+        <url-pattern>/Indeksi</url-pattern>
+    </servlet-mapping>
+    
+	<servlet>
+		<servlet-name>Api</servlet-name>
+		<servlet-class>kurki.servlet.Api</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Api</servlet-name>
+		<url-pattern>/servlet/api</url-pattern>
+	</servlet-mapping>    
+    
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+            <url-pattern>/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+<!--
+    <auth-constraint>
+        <role-name>admin</role-name>
+        </auth-constraint>
+        -->
+        <user-data-constraint>
+           <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+    </login-config>
+</web-app>

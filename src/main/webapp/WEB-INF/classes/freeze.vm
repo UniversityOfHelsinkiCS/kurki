@@ -1,0 +1,71 @@
+#parse ("top.vm")
+	<tr>
+	  <td colspan="4" align="center">
+          <h3>$bundle.getString("7freezing")</h3>
+#if ($error && $error != "")
+<div class="alert alert-danger">
+<ul>
+  $error 
+</ul>
+</div>
+<br>
+#end 
+#if ($result && $result != "")
+<div class="alert alert-success">
+  $result
+</div>
+<br>
+#end
+
+<div class="instr">
+<ul>
+#if (!$selectedCourse.isFrozen())
+  <li>
+  $bundle.getString("jaadytys")
+  </li>
+  <li>
+  $bundle.getString("tuloslistanToimitus") 
+  </li>
+  <li>
+  $bundle.getString("tuloslista")
+  </li>
+  <li>
+  $bundle.getString("korjaukset")
+  </li>
+#else
+  <li>
+  $bundle.getString("kanslisti") 
+  </li>
+  <li>
+  $bundle.getString("toimitus") 
+  </li>
+  <li>
+  $bundle.getString("kuittaus")
+  </li>
+#end
+</ul>
+</div>
+<center>
+<form action="index" method="post">
+<table border="0" class="normal">
+  <tr>
+#if (!$selectedCourse.ExamDate)
+    <th>
+      $bundle.getString("suorituspvm")
+    </th>
+    <td nowrap>
+      <input type="text" value="" name="examDate" size="10" maxlength="10">(pp.kk.vvvv)
+    </td>
+  </tr>
+  <tr>
+#end
+    <th colspan="2">
+      <input type="submit" value="$bundle.getString("jaadyta")" name="freeze" class="btn btn-danger">
+    </th>
+  </tr>
+</table>
+</form></center>
+</div>
+          </td>
+        </tr>
+#parse ("bottom.vm")

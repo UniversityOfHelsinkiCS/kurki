@@ -1,0 +1,78 @@
+	<tr>
+	  <td colspan="4">
+
+#if ( $error && $error != "" )
+  <div class="alert alert-danger">
+     $error
+  </div>
+#end 
+#if ( $result && $result != "" )
+  <div class="alert alert-success">
+    $result
+  </div>
+#end
+
+#if ($students)
+<form action="index" name="return" method="post">
+<table class="table table-condensed table-bordered" style="max-width:1000px">
+  <caption>
+   $bundle.getString("opvalittu") ${students.size()}
+  </caption>
+  <tr>
+    <th>
+     $bundle.getString("nimiSyntpva")
+    </th>
+    <th>
+     $bundle.getString("camelopnro")
+    </th>
+    <th>
+      <i>$bundle.getString("ryhma")</i>
+    </th>
+    <th>
+      $bundle.getString("palautaKurssille")
+    </th>
+  </tr>
+  #set ($sid = 0)
+  #set ($rowcount = 0)
+  #foreach ( $student in $students )
+    #if ($rowcount % 2 == 1)
+      #set ($bgcolor = $bgcolorDef)
+    #else
+      #set ($bgcolor = "#FFFFFF")
+    #end
+    #set ($rowcount = $rowcount + 1)
+  <tr>
+    <td bgcolor="${bgcolor}" nowrap>
+      <b><a href="mailto:$!{student.EMail}">$!{student.label}</a></b> ($!{student.Birthday})
+    </td>
+    <td bgcolor="${bgcolor}" nowrap>
+    #if ($useSNO)
+      <center><tt>$!{student.SNO}</tt>
+    #else
+      <center><tt>$!{student.SSN}</tt>
+    #end
+    </td>
+    <td bgcolor="${bgcolor}">
+      <center>${student.Group}</center>
+    </td>
+    <td bgcolor="${bgcolor}" nowrap>
+      <center><input type="checkbox" name="rtn_${sid}"></center>
+    </td>
+  </tr>    
+    #set ($sid = $sid + 1)
+  #end
+  #if ($sid > 0 )
+  <tr>
+    <th colspan="4">
+      <input type="hidden" name="TS" value="${TS}">
+      <center><input type="submit" class="btn btn-success" name="doReturn" value="------> $bundle.getString("palautaIso") <------"></center>
+    </th>
+  </tr>
+  #end
+</table>
+</form>
+#else 
+$bundle.getString("opeivastannut")
+#end
+	  </td>
+        </tr>

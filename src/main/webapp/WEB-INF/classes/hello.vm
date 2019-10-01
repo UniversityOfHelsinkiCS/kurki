@@ -1,0 +1,16 @@
+<html>
+<body>
+<pre>
+#set($qs = $request.getQueryString())
+#if($qs)
+    #set($params = $queryparser.split($qs))
+#end
+$session
+$session.getAttribute('keke') 
+$params.get('foo')
+
+$userAccessor.getGroups($action.remoteUser)
+
+</pre>
+</body>
+<html>

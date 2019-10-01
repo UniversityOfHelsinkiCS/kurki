@@ -1,0 +1,421 @@
+#set ( $parts             = $selectedCourse.parts ) 
+#set ( $selectedOffering  = $selectedCourse.Offering )
+
+#if ( $selectedCourse.selectedPart )
+  #set ( $selectedPart = $selectedCourse.selectedPart )
+#end
+
+#if ( !$radioLimit )
+  #set ( $radioLimit = 8 )
+#end
+
+#if ( $selectedPart.GenericScores )
+  #set ( $genericScores = $selectedPart.GenericScores )
+#end
+
+
+#parse ("top.vm")
+	<div>
+          <h3>$bundle.getString("1entry")</h3>
+            <form name="suoritevalinta" class="form-inline" action="index" method="post" onSubmit="return !isModified()">
+		<b>$bundle.getString("tyyppi"):</b>
+		<input type="hidden" name="chtype" value ="">
+
+
+		<select name="ptype" class="form-control form-inline" style="width:200px" id="type" tabindex="32600"
+                        onChange="document.suoritevalinta.chtype.value = 'true' && !isModified() && document.suoritevalinta.submit();">
+
+##
+## Osasuorituksen tyyppi
+##
+
+#if ($parts)
+  #foreach ($part in $parts)
+    #if ($selectedPart.value == $part.value)
+		      <option value="$part.value" selected>$part.getLabel()</option>
+    #else
+		      <option value="$part.value">$part.getLabel()</option>
+    #end
+  #end
+#end
+		    </select>
+                    <b>$bundle.getString("kerta"):</b>
+
+		    <!-- Tähän numeroita suoritteiden maksimimäärän verran -->		    
+		    <select name="offering" class="form-control form-inline" style="width:70px" tabindex="32600" id="offering">
+##
+##  Suorituskerta
+##
+
+#if ($offerings)
+  #foreach ($offering in $offerings)
+    #if ($selectedOffering && $selectedOffering.Value == $offering.Value)
+		      <option value="$offering.Value" selected>$offering.label</option>
+    #else
+		      <option value="$offering.Value">$offering.label</option>
+    #end
+  #end
+#end
+
+		    </select>
+
+##
+##  Haettavat opiskelijat - joko ryhmän mukaan tai sukunimen mukaan
+##
+		    <b>$bundle.getString("opiskelijat"):</b>
+		    <input type="text" class="form-control" style="width:150px"
+                        name="filter" id="find" tabindex="32600" size="15" value = "$!studentFilter">
+
+		    <input type="hidden" name="studentFilter" value="$!{studentFilter}">
+
+		    <input type="hidden" name="studentFilterDesc" value="$!{studentFilterDesc}">
+
+		    <input type="submit" name="search" tabindex="32601" value=">>>" class="btn btn-primary">
+
+	    </form>
+	</div>
+##
+## Onko käsiteltävä suorituskerta jo valittu?
+##
+#if ( $selectedOffering )
+
+  ##
+  ## Otsake
+  ##
+	  <h3>${selectedCourse.label} :
+	      ${selectedPart.label} #${selectedOffering} :
+  #set ($SelectDescription = ${selectedCourse.SelectDescription})
+  #if ($SelectDescription)
+              $SelectDescription
+  #else
+         $bundle.getString("kaikkiopiskelijat")
+  #end
+	      
+	  </h3>
+
+  ##
+  ##  Mahdollinen virheilmoitus
+  ##
+
+  #if ( $result && $result != "" )
+          <div class="alert alert-success">
+	  $result
+	  </div>
+  #end
+  #if ( $error && $error != "" )
+          <div class="alert alert-danger">
+	  <ul>
+	  $error
+	  </ul>
+	  </div>
+  #end
+  ##
+  ## Osasuorituksen perustietoja ei määritelty
+  ##
+
+  #if ( !$selectedPart.maxScoreDefined() && !$selectedCourse.isFrozen())
+          <div class="instr">
+	    <form action="index" name="sdef" method="post">
+              <input type="hidden" name="TS" value="${TS}">
+              
+	      
+
+	      <table>
+	        <tr>
+		  <td><b><b></td>
+		  <td>
+		    <input type="text" name="maxscore" class="form-control input-sm" style="width:50px"
+                        tabindex="32500" size="2" maxlength="2" onBlur="rangecheck(this, 0, 99)"> 
+		  </td>
+		  <td> $bundle.getString("tiedHyvaksymisraja")</td>
+		  <td>
+		    <input type="text" name="minscore" class="form-control input-sm" style="width:50px"
+                        tabindex="32501" size="2" maxlength="2" 
+                           onBlur="rangecheck(this, 0, document.sdef.maxscore.value)">
+		  </td>
+		  <td>
+		    <input type="hidden" name="studentFilter" value="$!{studentFilter}">
+
+		    <input type="hidden" name="studentFilterDesc" value="$!{studentFilterDesc}">
+		    <input type="submit" name="scoredef" tabindex="32502" class="btn btn-success" value="OK">
+		  </td>
+		</tr>	      
+	      </table>
+	    </form>
+	  </div>
+
+##
+##  PISTEIDEN KIRJAUS
+##
+  #elseif ( $students )
+
+	##
+	##  Osasuorituksen perustietojen muuttaminen
+	##
+
+            <form action="index" name="sdef" method="post" class="inline" style="margin:0;display:inline;">
+              <input type="hidden" name="maxscoreold" value="${selectedOffering.MaxScore}">
+            </form>
+
+##
+## OPISKELIJAN SULATUS
+##
+
+<form action="index" method="get" name="defreeze" onSubmit="return false;">
+  <input type="hidden" name="defreeze" value="">
+</form>
+
+    ##
+    ##  PISTEIDEN KIRJAUS
+    ##
+
+            <form action="index" class="form-inline" name="scores" method="post">
+              <table class="table table-condensed table-bordered" style="width:1000px">
+
+              <caption>$bundle.getString("opiskValittu") $students.size()</caption>
+    #set ($rowcount = 0)
+    #foreach ( $student in $students )
+      #if ($rowcount % 2 == 0)
+        #set ($bgcolor = $bgcolorDef)
+      #else
+        #set ($bgcolor = "#FFFFFF")
+      #end
+      #set ($rowcount = $rowcount + 1)
+      #set ( $stid = $student.Id )
+      #if  ( $student.getScore($selectedPart, $selectedOffering) )
+        #set ( $score = $student.getScore($selectedPart, $selectedOffering) )
+      #else 
+        #set ( $score = "" )
+      #end
+               <tr>
+
+      ##
+      ## OPPILAAN NIMI
+      ##      
+      #if ( $student.EMail )
+		  <td bgcolor="${bgcolor}" class="student" width="35%" nowrap>
+                     <a href="mailto:${student.EMail}">${student.label}</a> ($!{student.Birthday})
+      #else
+		  <td bgcolor="${bgcolor}" class="student" width="35%" nowrap>${student.label} ($!{student.Birthday})
+      #end
+                    <!-- JÄÄSSÄ TAI SULATETTU? -->
+      #if ( $student.isFrozen() )
+                     <img src="../images/kurkijaassa.gif" width="15" height="15" alt="jäässä"> 
+      #elseif ( $student.isDefrost() )
+                     <img src="../images/defrost.gif" width="15" height="15" alt="sulatettu">
+      #end
+                  </td>
+	          <td bgcolor="${bgcolor}" nowrap>
+
+      ##
+      ## VANHAT PISTEET
+      ##	
+		    <!-- vanhat pisteet -->
+		    <input type="hidden" name="o${stid}" value="$!{score}">
+
+
+      ##
+      ##  UUDET PISTEET: TEKSTIKENTTÄ
+      ##
+      #if (!$student.isFrozen())
+        #if (!$accesskeySet)
+		    <!-- uudet pisteet: tekstikenttä -->
+                    <label for="firstStudent" accesskey="P"></label>
+		    <input type="text" class="form-control input-sm" style="width:50px" 
+                        size="3" maxlength="3" tabindex="1" name="t${stid}" id="firstStudent"
+          #set ($accesskeySet = "true")
+        #else
+		    <!-- uudet pisteet: tekstikenttä -->
+		    <input type="text" class="form-control input-sm" style="width:50px" 
+                        size="3" maxlength="3" tabindex="1" name="t${stid}"
+        #end
+        #if ( $selectedOffering.MaxScore <= $radioLimit ) 
+			   onBlur="checkScore(this) && checkRadio(document.scores.r${stid}, this) 
+                             && modifyCheck(this.value, document.scores.o${stid}.value, document.scores.smod${stid}, 'img${stid}')"
+        #else 
+			   onBlur="checkScore(this) 
+                             && modifyCheck(this.value, document.scores.o${stid}.value, document.scores.smod${stid}, 'img${stid}')" 
+        #end
+			   value="$!score">
+      ## Onko pisteitä muutettu
+                    <img src="../images/transparent25x25.gif" name="img${stid}" height="25" width="25" alt="pisteitä muutettu">
+                    <input type="hidden" name="smod${stid}" value="n"> ## y/n
+      #else 
+        <b>&nbsp;$!{score}</b>
+      #end
+		  </td>
+      ##
+      ##  UUDET PISTEET: RADIO
+      ##
+	          <!-- uudet pisteet: radio -->
+		  <td bgcolor="${bgcolor}">
+      #if ( $selectedOffering.MaxScore <= $radioLimit ) 
+        #if (!$student.isFrozen())
+		    <div>	  
+	  #if ( !$score || $!score == "" )
+		      <input type="radio" class="undef" tabindex="3" name="r${student.id}" value=""
+                             onClick="setValue(document.scores.t${student.id}, '') 
+                               && modifyCheck(this.value, document.scores.o${stid}.value, document.scores.smod${stid}, 'img${stid}')" checked>
+	  #else
+		      <input type="radio" class="undef" tabindex="3"  name="r${student.id}" value=""
+                             onClick="setValue(document.scores.t${student.id}, '') 
+                               && modifyCheck(this.value, document.scores.o${stid}.value, document.scores.smod${stid}, 'img${stid}')">
+	  #end
+	            
+	##
+	## Geneeriset pisteet
+	##
+          #foreach ( $p in $genericScores )
+		    
+
+	    #if ( $!score == $p )
+		    ${p}<input type="radio" tabindex="3" name="r${stid}" value="${p}" 
+                               onClick="setValue(document.scores.t${stid}, this.value) 
+                                 && modifyCheck(this.value, document.scores.o${stid}.value, document.scores.smod${stid}, 'img${stid}')" checked> 
+	    #else
+		    ${p}<input type="radio" tabindex="3" name="r${stid}" value="${p}"
+                               onClick="setValue(document.scores.t${stid}, this.value) 
+                                 && modifyCheck(this.value, document.scores.o${stid}.value, document.scores.smod${stid}, 'img${stid}')">
+            #end
+		    
+          #end ##foreach $p
+
+
+	##
+	## Suorituskertakohtaiset pisteet
+	## 
+
+	  #if ( $selectedOffering.MaxScore > 0 ) 
+            #foreach ( $i in [0..$selectedOffering.MaxScore] )
+		    
+	      #if ( $!score == $i.toString() )
+		    ${i}<input type="radio" tabindex="3"  name="r${stid}" value="${i}"
+                               onClick="setValue(document.scores.t${stid}, this.value) 
+                                 && modifyCheck(this.value, document.scores.o${stid}.value, document.scores.smod${stid}, 'img${stid}')" checked>
+	      #else
+		    ${i}<input type="radio" tabindex="3" name="r${stid}" value="${i}"
+                               onClick="setValue(document.scores.t${stid}, this.value) 
+                                 && modifyCheck(this.value, document.scores.o${stid}.value, document.scores.smod${stid}, 'img${stid}')">
+   	      #end
+		    
+
+            #end ##foreach 0..$selectedOffering.MaxScore
+	  #end 
+		    </div>
+        #else
+                    <!-- SULATUS -->
+                    <center>
+                    <input type="button" class="btn btn-danger btn-sm" value="--> $bundle.getString("sulata") <--"
+                           onClick="!isModified() && defreezeStudent('${stid}')">
+                    </center>
+        #end
+
+
+      #elseif ($student.isFrozen())
+                    <!-- SULATUS -->
+                    <center>
+                    <input type="button" class="btn btn-danger btn-sm" value="--> $bundle.getString("sulata") <--"
+                           onClick="defreezeStudent('${stid}')">
+                    </center>
+      #else 
+                    &nbsp;
+      #end ##if ( $selectedOffering.MaxScore... ) 
+		  </td>
+      
+      ##
+      ## Annettujen pisteiden peruminen ("undo")
+      ##
+		  <td bgcolor="${bgcolor}" align="left">	
+
+      #if (!$student.isFrozen())
+		    <input type="button" class="btn btn-danger btn-sm" value="$bundle.getString("peru")"
+        #if ( $selectedOffering.MaxScore <= $radioLimit )
+			   onClick="oldScore(document.scores.o${stid}, document.scores.t${stid}, document.scores.r${stid}) && modifyCheck(document.scores.t${stid}.value, document.scores.o${stid}.value, document.scores.smod${stid}, 'img${stid}')">
+        #else
+			   onClick="oldScore(document.scores.o${stid}, document.scores.t${stid}) && modifyCheck(document.scores.t${stid}.value, document.scores.o${stid}.value, document.scores.smod${stid}, 'img${stid}')">
+        #end
+      #else
+                    &nbsp;
+      #end
+		  </td>
+	        </tr>
+    #end ##foreach student
+  	        <tr>
+	          <th colspan="4">
+		    <input type="hidden" name="studentFilter" value="$!{studentFilter}">
+
+		    <input type="hidden" name="studentFilterDesc" value="$!{studentFilterDesc}">
+    #if ($autosave)
+                    <input type="hidden" name="asToggle" value="${asToggle}">
+                    <input type="hidden" name="asNotify" value="">
+    #end
+                    <input type="hidden" name="TS" value="${TS}">
+		    <input type="hidden" name="commit" value="ok">
+	      	    <input type="submit" tabindex="2" class="btn btn-success" value="------> $bundle.getString("tallennaPisteet") <------"
+                           onClick="this.form.asNotify.value=''">
+	          </th>
+	        </tr>
+  	      </table>
+            </form>
+
+	##
+	## Geneeriset pisteet --> Hyppytaulu
+	##
+	    <form name="predefScores" action="index" method="post" onSubmit="return false;">
+
+	#set ( $nbr = 1 )
+	#foreach ( $p in $genericScores )
+	  #set ( $p = $selectedPart.htmlRefConversion($p) )
+	      <input type="hidden" name="ps${p}" value="${nbr}">
+	  #set ( $nbr = $nbr+1 )
+	#end 
+
+	      <input type="hidden" name="psSize" value="${nbr}">
+
+	    </form>
+
+  #else 
+        $bundle.getString("ryhmaTyhja")
+
+  #end
+#else 
+	  <div class="instr">
+	    <b>$bundle.getString("annaHakukriteerit")</b>
+	    <dl>
+	      <dt>$bundle.getString("tyhja")</dt>
+  	        <dd>$bundle.getString("kaikkiopiskelijat")</dd>
+	      <dt>$bundle.getString("numero")</dt>
+	        <dd>$bundle.getString("annetunro")</dd>
+              <dt>$bundle.getString("hashopnro")</dt>
+                <dd>$bundle.getString("opiskelijaopnro")</dd> ##henk.tunnus pois
+	      <dt>$bundle.getString("sukunimi")</dt>
+	        <dd>$bundle.getString("opsukunimimerkki")</dd>
+	      <dt>$bundle.getString("al")</dt>
+	        <dd>$bundle.getString("sukunimiaakkos")</dd>
+	      <dt>$bundle.getString("kriteerit")</dt>
+	        <dd>$bundle.getString("useatkriteerit")</dd>
+	      <dt>$bundle.getString("meikalainen")</dt>
+		<dd>$bundle.getString("pienetjaisot")</dd>
+            </dl>
+	    
+	    <b>$bundle.getString("lopuksiPaina")
+
+	    <!-- 
+		NN ymmärtää tuon tyylin, kun se on kirjoitettu elementin 
+		style-atribuuttiin, mutta ei osaa lukea sitä erillisestä
+		CSS-tiedostosta.
+	    -->
+	    <form class="inline" style="margin:0;display:inline;"> 
+	      <input type="button" 
+		     tabindex="32605"
+		     value=">>>" 
+		     onClick="document.suoritevalinta.submit()" 
+	 	     class="btn btn-primary">.
+	    </form> 
+            </b>
+            $bundle.getString("sukunimellahaku")
+	  </div>
+#end
+	</td>
+      </tr>
+#parse ("bottom.vm")

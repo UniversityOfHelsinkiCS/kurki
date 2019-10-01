@@ -1,0 +1,72 @@
+##
+################### Tarkistuslista ##################
+##
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+#set ($parts = $selectedCourse.Parts)
+<html>
+<head>
+ <META charset='utf-8'/>
+  <title>$bundle.getString("kurkiOpiskNimi")</title>
+</head>
+<body bgcolor="white">
+<pre>
+${selectedCourse.Label}: $!studentFilterDesc
+$bundle.getString("kirjaustilanne"): ${sysdate} $bundle.getString("klo"): ${time}
+</pre>
+
+<table border="1">
+  <tr>
+    <th>$bundle.getString("isonimi")</th>
+  #foreach ($part in $parts)
+    #if ($part.Id != 3 && $part.Id < 3)
+    <th><i>${part.Abbreviation}:</i></th>
+      #foreach ($offering in $part.Offerings) 
+        #set ($o = $offering.Id + 1)
+        #if ($o < 10 )
+    <th width="15" nowrap>&nbsp;${o}</th>
+        #else
+    <th width="15" nowrap>${o}</th>
+        #end
+      #end
+    #end
+  #end
+  </tr>
+#set ($prevname = "")
+#foreach ($student in $students)  
+  <tr>
+  #if (${student.Label} == $prevname)
+      <td>${student.Label} ($!{student.Birthday})</td>
+  #else 
+      <td>${student.Label}</td>
+  #end
+  #set ($prevname = ${student.Label})
+  #foreach ($part in $parts) 
+##error jos ei ole ehtona myös pienempi kuin kolme -tka
+##    #if ($part.Id != 3)
+    #if ($part.Id != 3 && $part.Id < 3)
+    <td align="center">
+        <i>
+            #if ($part.getId()==2)
+                ${student.getExamScore( $part, $selectedCourse )}
+            #else
+                ${student.getScore( $part )}
+            #end
+        </i>
+    </td>
+      #foreach ($offering in $part.Offerings) 
+    <td width="15">
+        #if (${student.getScore( $part, $offering )})
+        ${student.getScore( $part, $offering )}
+        #else
+        &nbsp;
+        #end
+    </td>
+      #end
+    #end
+  #end
+  </tr>
+#end
+</table>
+"+" = $bundle.getString("hyvakspisteitta")
+</body>
+</html>

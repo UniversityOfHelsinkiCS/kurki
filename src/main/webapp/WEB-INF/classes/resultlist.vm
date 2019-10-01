@@ -1,0 +1,345 @@
+#parse ("top.vm")
+#set ($bgcolor = "#00FFFF") ## joka toisen rivin väri
+#set ($parts = $selectedCourse.PartsOrdered)
+#set ($inclh = $parts.get(0))
+#set ($incht = $parts.get(1))
+#set ($inckoe = $parts.get(2))
+	<tr>
+	  <td colspan="4" align="center">
+          <h3>$bundle.getString("6resultlist")</h3>
+#if ( $result && $result != "" )
+        <div class="alert alert-success">
+          $result
+        </div>
+#end
+#if ( $error && $error != "" )
+        <div class="alert alert-danger"">
+          <ul>
+          $error
+	  </ul>
+        </div>
+#end
+            <form name="suoritevalinta" class="form-inline" action="checklist" accept-charset="utf-8" method="post" target="_blank">
+              <input type="hidden" name="ltype" value="99">
+              <input type="hidden" name="ctype" value="text/plain">
+              <input type="hidden" name="useinc" value="true">
+	      <table class="table table-striped table-condensed table-bordered" style="width:400px">
+                <tr>
+                  <th>&nbsp;
+                  </th>
+                  <th nowrap>$bundle.getString("tulostettavaTieto")
+                  </th>
+                  <th nowrap>$bundle.getString("sarakeOtsikko")
+                  </th>
+                </tr>
+
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_ssn" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("opnro")
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                </tr>
+ <tr>
+                  <td>
+                    <input type="checkbox" name="inc_name" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("isonimi")
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                </tr>
+
+#if ($incht && $incht.NbrOfOfferings > 1)
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_htsep" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("htpsterit")
+                  </td>
+                  <td>
+                    <input type="text" class="form-control input-sm" style="width:80px" 
+                        name="inc_htsepname" size="8" maxlength="8" value="$bundle.getString('Tyot')">
+                  </td>
+                </tr>
+#end
+#if ($inckoe && $inckoe.NbrOfOfferings > 1)
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_koesep" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("koepsterit")
+                  </td>
+                  <td>
+                    <input type="text" class="form-control input-sm" style="width:80px"
+                        name="inc_koesepname" size="8" maxlength="8" value="$bundle.getString('kokeet')">
+                  </td>
+                </tr>
+#end
+#if ($inclh)
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_lhsum" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("lhtpsum")
+                  </td>
+                  <td>
+                    <input type="text" class="form-control input-sm" style="width:80px" 
+                        name="inc_lhsumname" size="8" maxlength="8" value="$bundle.getString('LhS')">
+                  </td>
+                </tr>
+#end
+#if ($incht)
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_htsum" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("htpstsum")
+                  </td>
+                  <td>
+                    <input type="text" class="form-control input-sm" style="width:80px" 
+                        name="inc_htsumname" size="8" maxlength="8" value="$bundle.getString('HtS')">
+                  </td>
+                </tr>
+#end
+#if ($inckoe)
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_koesum" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("koepstsum")
+                  </td>
+                  <td>
+                    <input type="text" class="form-control input-sm" style="width:80px" 
+                        name="inc_koesumname" size="8" maxlength="8" value="$bundle.getString('KoeS')">
+                  </td>
+                </tr>
+#end
+#if ($inclh)
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_lhlp" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("lhlpst")
+                  </td>
+                  <td>
+                    <input type="text" class="form-control input-sm" style="width:80px"
+                        name="inc_lhlpname" size="8" maxlength="8" value="$bundle.getString('lhp')">
+                  </td>
+                </tr>
+#end
+#if ($incht)
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_htlp" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("htlpst")
+                  </td>
+                  <td>
+                    <input type="text" class="form-control input-sm" style="width:80px" 
+                        name="inc_htlpname" size="8" maxlength="8" value="$bundle.getString('htlpstLyhenne')">
+                  </td>
+                </tr>
+#end
+
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_sum" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("yhtpst")
+                  </td>
+                  <td>
+                    <input type="text" class="form-control input-sm" style="width:80px" 
+                        name="inc_sumname" size="8" maxlength="8" value="$bundle.getString('yhtLyhenne')">
+                  </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="checkbox" name="inc_lang" checked>
+                    </td>
+                    <td nowrap>
+                        $bundle.getString("suorituskieli")
+                    </td>
+                    <td>
+                        <input type="text" class="form-control input-sm" style="width:80px" name="inc_langname" size="8" maxlength="8" value="$bundle.getString('kieli')">
+                    </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_grade" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("Arvosana")
+                  </td>
+                  <td>
+                    <input type="text" class="form-control input-sm" style="width:80px" 
+                        name="inc_gradename" size="8" maxlength="8" value="$bundle.getString('Arvosana')">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_crunits" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("Opintopisteet")
+                  </td>
+                  <td>
+                    <input type="text" class="form-control input-sm" style="width:80px" 
+                        name="inc_cruname" size="8" maxlength="8" value="$bundle.getString('opIsolla')">
+                  </td>
+                </tr>
+
+
+
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_statistics">
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("tilastoja")
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_gradeDistr">
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("arvosanajakauma")
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_feedback">
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("palautetilaisuus")
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_signature">
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("allekirj")
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_accepted" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("hyvaksytyt")
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_failed" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("isohylatyt")
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                </tr>
+#if ($frozen)
+                <tr>
+                  <td>
+                    <input type="checkbox" name="inc_changes" checked>
+                  </td>
+                  <td nowrap>
+                    $bundle.getString("jaadytyksenJalkeiset")
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                </tr>
+
+#end
+
+##
+##  Haettavat opiskelijat - joko ryhmän mukaan tai sukunimen mukaan
+##
+	        <tr>
+		  <th colspan="3" nowrap>&nbsp;
+		    $bundle.getString("opiskelijatl")
+		    <input type="text" class="form-control input-sm" style="width:200px" 
+                        name="filter" tabindex="32600" size="15" value = "$!studentFilter">
+		    <input type="submit" name="makeList" tabindex="32601" value=">>>" class="btn btn-primary">
+		  </th>
+	        </tr>
+	      </table>
+	    </form>
+	  </td>
+	</tr>
+      <tr>
+	<td colspan="4">
+<div class="instr">
+<ol>
+  <li>$bundle.getString("tuloslistavalintainfo")</li>
+
+
+  <li>$bundle.getString("hakuperusteinfo")
+	    <dl>
+	      <dt>$bundle.getString("tyhja")</dt>
+  	        <dd>$bundle.getString("kaikkiopiskelijat")</dd>
+	      <dt>$bundle.getString("num")</dt>
+	        <dd>$bundle.getString("annetunro")</dd>
+	      <dt>$bundle.getString("sukunimi")</dt>
+	        <dd>$bundle.getString("sukunimiInfo")</dd>
+	      <dt>$bundle.getString("al")</dt>
+	        <dd>$bundle.getString("sukunimiInfo2")</dd>
+	      <dt>$bundle.getString("kriteerit")</dt>
+	        <dd>$bundle.getString("useatkriteerit")</dd>
+	      <dt>$bundle.getString("meikalainen")</dt>
+		<dd>$bundle.getString("pienetjaisot")</dd>
+            </dl>
+  </li>
+  <li>
+            $bundle.getString("lopuksiPaina")
+
+	    <form class="inline" style="margin:0;display:inline;"> 
+	      <input type="button" 
+		     tabindex="32605"
+		     value=">>>" 
+		     onClick="document.suoritevalinta.submit()" 
+	 	     class="btn btn-primary">.
+	    </form> 
+  </li>
+</ol>
+</div>
+	</td>
+      </tr>
+#parse ("bottom.vm")

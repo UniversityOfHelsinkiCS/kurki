@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>KURKI</title>
+    <link rel="stylesheet" href="../kurki.css" title="kurki">
+    <script language='JavaScript' type='text/javascript' src='../kurki.js'></script>
+  </head>
+  <body>
+    <center> 
+      <div class="alert alert-danger" style="text-align:center;width=500px" align="center">
+      <h2>$bundle.getString("virhe")</h2>
+      <hr>
+      $bundle.getString("listanTulostusError")
+      <form action="index" method="post">
+        <input type="button" class="btn btn-danger" value="$bundle.getString("suljeIkkuna")" onClick="window.close()">
+      </form>
+      </div>
+    </center>
+  </body>
+</html>

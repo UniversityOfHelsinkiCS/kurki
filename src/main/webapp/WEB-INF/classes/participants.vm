@@ -1,0 +1,58 @@
+#parse ("top.vm")
+	<div>
+          <h3>$bundle.getString("2participants")</h3>
+            <form name="ophaku" class="form-inline" action="index" method="post" accept-charset="utf-8">
+		<b>$bundle.getString("isosnimi"):</b>
+		<input type="text" class="form-control input" style="width:150px" id="lname" name="lname" size="10" maxlength="30">
+#*
+		<b>Enimi:</b>
+		<input type="text" name="fname" size="10" maxlength="30">
+
+*#
+		    <b>$bundle.getString("ryhma"):</b>
+                    <select name="group" class="form-control form-inline" style="width:70px">
+<option></option>
+#foreach ($group in $selectedCourse.Groups)
+		      <option>$group</option>
+#end
+		    </select>
+                  <b>$bundle.getString("camelopnro"):</b>
+
+## hetun ja opnron valinta pois, ja tilalle valinnaksi tulee aina 0 eli opiskelijanumero (vaikka siinä lukee hetu) -tka
+<input type="hidden" value="0" name="idtype">
+		    <input type="text" class="form-control input" style="width:150px" id="idvalue" name="idvalue" size="11" maxlength="11">
+
+		    <select name="doSearch" class="form-control form-inline" style="width:350px"
+                        onChange="checkAndSubmitStudentFind(document.ophaku);">
+		      <option>-- $bundle.getString("valitsetoiminto") --</option>
+		      <option value="0">$bundle.getString("tiedot")</option>
+		      <option value="1">$bundle.getString("haelisatop")</option>
+		      <option value="2">$bundle.getString("haepalop")</option>
+ 		    </select>
+
+
+	    </form>
+        </div>
+#if ($view)
+  #set ($vmfile = "participants_${view}.vm")
+  #parse ( $vmfile )
+#else
+        <tr>
+          <td colspan="4">
+  #if ($error && $error != "")
+<div class="alert alert-danger">
+  $error
+</div>
+  #end 
+  #if ($result && $result != "")
+<div class="alert alert-success">
+  $result
+</div>
+  #end
+<div class="instr">
+$bundle.getString("ophakuperuste")
+</div>
+          </td>
+        </tr>
+#end
+#parse ("bottom.vm")

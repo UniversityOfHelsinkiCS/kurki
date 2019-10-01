@@ -1,0 +1,20 @@
+##
+################### Nimi ###################
+##
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+ <META charset='utf-8'/>
+   <title>Student list</title>
+</head>
+<body bgcolor="white">
+<h3>${selectedCourse.Label}: $!studentFilterDesc 
+$bundle.getString("tilanne"): ${sysdate} $bundle.getString("klo"): ${time}</h3>
+
+<pre>
+#foreach ($student in $students)
+    $!{student.LName}, $!{student.FName}
+#end
+</pre>
+</body>
+</html>

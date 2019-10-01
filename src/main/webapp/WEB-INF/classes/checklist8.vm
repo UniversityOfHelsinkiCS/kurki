@@ -1,0 +1,46 @@
+##
+################### Nimikirjoitus ###################
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+##
+################### Nimikirjoitus ###################
+##
+<html>
+<head>
+ <META charset='utf-8'/>
+  <title>$bundle.getString("kurkiopnimi")</title>
+</head>
+<body bgcolor="white">
+<pre>
+${selectedCourse.Label}: $!studentFilterDesc
+$bundle.getString("tilanne"): ${sysdate} $bundle.getString("klo"): ${time}
+</pre>
+<table border="1" width="90%">
+  <tr>
+    <th width="170">$bundle.getString("isonimi")</th>
+    <th nowrap>
+<tt>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;
+</tt>
+$bundle.getString("isonimikirjoitus")
+<tt>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;
+</tt>
+</th>
+  </tr>
+#set ($prevname = "")
+#foreach ($student in $students)  
+  <tr>
+  #if (${student.Label} == $prevname)
+      <td>${student.Label} ($!{student.Birthday})</td>
+  #else 
+      <td>${student.Label}</td>
+  #end
+  #set ($prevname = ${student.Label})
+    <td>&nbsp;</td>
+  </tr>
+#end
+</table>
+</body>
+</html>

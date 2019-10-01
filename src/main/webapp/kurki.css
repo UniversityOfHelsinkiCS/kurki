@@ -1,0 +1,189 @@
+body 
+{	background-color: #DDDDDD;
+	text-align: center;
+	background-image: url(//www.cs.Helsinki.FI/include/tktl-lines.gif);
+	color: black;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+        
+}
+
+.center
+{	text-align: center;
+}
+
+.frame 
+{	background-color: white;
+	border-color: black;
+	border-width: 1pt;
+	border-style: solid;
+}
+
+.instr 
+{	border-width: 2pt;
+	border-color: orange;
+	border-style: solid;
+	margin: 3pt;
+        padding: 2pt 10pt;
+	text-align: left;
+}
+
+.result
+{	border-width: 2pt;
+	border-color: yellow;
+	border-style: solid;
+	margin: 0pt;
+	text-align: left;
+}
+.error
+{	border-width: 2pt;
+	border-color: red;
+	border-style: solid;
+	margin: 0pt;
+	text-align: left;
+}
+
+.warning
+{       font-weight: bold;
+        border-width: 2pt;
+        border-color: red;
+        border-style: solid;
+        margin: 0pt;
+	text-align: left;
+}
+
+dt
+{	font-weight: bold;
+}
+
+.undef
+{	background-color: #999999;
+}
+
+tr.navi1 
+{	background-color: #3333CC;
+	color: white;
+}
+tr.navi2
+{	background-color: #33CCFF;
+	color: black;
+}
+
+tr.navi3
+{	background-color: #CCFFFF;
+	color: black;
+}
+
+tr.navi1 td 
+{	background-color: #3333CC;
+	color: white;
+}
+
+tr.navi2 td 
+{	background-color: #33CCFF;
+	color: black;
+}
+
+tr.navi3 td 
+{	background-color: #CCFFFF;
+	color: black;
+}
+
+h3
+{	text-align: left;
+}
+
+table.normal 
+{	border-width: 1pt;
+	border-color: black;
+	border-style: solid;
+	border-collapse: collapse;
+}
+
+table.normal td
+{	border-width: 1pt;
+	border-color: black;
+	border-style: solid;
+}
+
+table.normal th
+{	border-width: 1pt;
+	border-color: #777777;
+	border-style: solid;
+	color: black;
+	background-color: #33CCFF;
+}
+
+td.student
+{	font-weight: bold;
+	color: 003399;
+	text-align: left;
+}
+
+table.invisible 
+{	border-width: 0pt;
+}
+
+table.invisible td, table.invisible th
+{	border-width: 0pt;
+	margin: 0pt;
+}
+
+table.radioscore td, table.radioscore th
+{	border-style: solid;
+	border-color: #999999;
+	border-width: 1pt;
+	background-color: #FFFFFF;
+	margin: 0pt 0pt;
+	font-size: 80%;
+}
+
+caption
+{	font-weight: bold;
+}
+
+form 
+{	margin: 0pt;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+}
+
+input 
+{	color: black;
+	background-color: white;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+}
+
+input.button
+{	color: black;
+	background-color: #CCCCCC;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+}
+
+input.submitb
+{	color: black;
+	background-color: #CCCCCC;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+}
+
+form.inline 
+{	margin: 0pt;
+	display: inline;
+}
+
+dl dt
+{	font-style: italic;
+}
