@@ -17,7 +17,7 @@ Testiversio [https://ilmo.cs.helsinki.fi/t_kurki/servlet/index](https://ilmo.cs.
 
 # development
 
-Muuta tarvittaessa db-url tiedostoon _kurki.cnf_ (hakemistossa Web-pages/WEB_INF) tiedosto ei ole repositoriossa!
+Muuta tarvittaessa db-url tiedostoon src/main/webapp/WEB_INF/kurki.cnf (tiedosto ei ole repositoriossa!)
 
 Sovellus urlissa [http://localhost:8080/kurki13/servlet/index](http://localhost:8080/kurki13/servlet/index)
 
