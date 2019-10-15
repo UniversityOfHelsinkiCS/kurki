@@ -204,7 +204,7 @@ public class Grades extends AbstractVelocityServiceProvider
         } /*
          *  Arvostelu
          */ else if (makeAssessment != null && ok) {
-            if (course.makeAssessment(req.getRemoteUser())) {
+            if (course.makeAssessment(req.getHeader("uid"))) {
                 DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
                 Calendar calendar = Calendar.getInstance();
 

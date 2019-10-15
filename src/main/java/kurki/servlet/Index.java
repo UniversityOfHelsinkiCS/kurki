@@ -115,7 +115,7 @@ public class Index extends VelocityServlet implements Log, Serializable {
             if (tmpSession != null) {
                 session = (Session) tmpSession;
             } else {
-                String ruser = servletRequest.getRemoteUser();
+                String ruser = servletRequest.getHeader("uid");
                 
                 if (ruser==null && Configuration.getProperty("development") != null ) {
                     ruser = Configuration.getProperty("development").toString(); 

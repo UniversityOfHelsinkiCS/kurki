@@ -219,7 +219,7 @@ public class Entry extends AbstractVelocityServiceProvider {
 	    }
             if (pointErrors)
 		error += "<li><font color=\"red\">" + LocalisationBundle.getString("jsEiToimi") + "</font></li>";
-	    if ( !course.commitScores( req.getRemoteUser() ) ) {
+	    if ( !course.commitScores( req.getHeader("uid") ) ) {
 		error += course.getMessage();
 	    }
 	    if ( course.getSelectedPart().maxScoreDefined() )

@@ -26,7 +26,7 @@ public class Api extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response)
     throws IOException{
 
-        String ruser = request.getRemoteUser(); 
+        String ruser = request.getHeader("uid"); 
         
         Apikey apikey = Apikey.getByUsername(ruser);
 

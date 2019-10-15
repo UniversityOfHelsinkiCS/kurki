@@ -52,7 +52,7 @@ public class Freeze extends AbstractVelocityServiceProvider {
 		String resultList = "";
                 List <String> informed = new ArrayList <String>();
 		String oodiAddress = (String)Configuration.getProperty("oodi");
-                String userID= req.getRemoteUser();
+                String userID= req.getHeader("uid");
 		String userToAddress = userID+deptAddress;
                 String donID= course.getDonKtunnus();
                 String donAddress= null;

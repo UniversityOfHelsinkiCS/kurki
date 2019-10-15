@@ -280,7 +280,7 @@ public class Participants extends AbstractVelocityServiceProvider
 			    }
 			}
 		    }
-		    if ( !course.commitScores( req.getRemoteUser() ) ) {
+		    if ( !course.commitScores( req.getHeader("uid") ) ) {
 			error = course.getMessage();
 		    }
 

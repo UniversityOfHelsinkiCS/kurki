@@ -66,7 +66,7 @@ public class LoginManager extends VelocityServlet {
 	Template template = null;
 	String error = "";
 
-	String ruser = req.getRemoteUser();
+	String ruser = req.getHeader("uid");
 
 	if ( ruser != null && this.loginManagers.indexOf( LOGIN_SEPARATOR+ruser+LOGIN_SEPARATOR ) >= 0 ) {
 
