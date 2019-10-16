@@ -20,11 +20,14 @@ public class Logout extends VelocityServlet {
     @Override
     public void service( HttpServletRequest req, HttpServletResponse res )
 	throws ServletException, IOException {
-	HttpSession s = req.getSession();
-        
-	s.invalidate();
+    
+        HttpSession s = req.getSession();        
+        s.invalidate();
+        String redirectUrl = req.getHeader("shib_logout_url");
+        res.sendRedirect(redirectUrl);
+
         Context context = createContext(req, res);
-	context.put("bundle", ResourceBundle.getBundle("localisationBundle", Session.locale));
+        context.put("bundle", ResourceBundle.getBundle("localisationBundle", Session.locale));
         Template template = null;
         try {
             template = getTemplate("logout.vm");
