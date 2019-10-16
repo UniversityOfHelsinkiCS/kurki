@@ -2,28 +2,30 @@
 
 testaa ensin että kaikki toimii [staging-ympäristössä](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-staging.md)
 
-kirjaudu käyttäjätunnuksella _tkt_ilmo_
+## mene tuotantopalvelimelle ja suorita deploy-skripti
 
-staging-ympäristö sijaitsee hakemistossa *kurki*
-
-konfiguraatiot hakemistossa sijaitsevassa tiedostossa _kurki-production.cnf_
-
-## kloonaa repositorio
+Mene svm-82 ja vaihda käyttäjälle `kurki_user`. 
 
 ```
-git clone https://github.com/UniversityOfHelsinkiCS/opetushallinto
+sudo su - kurki_user
 ```
 
-## asenna tarvittaessa lib-hakemistossa oleva oracle jdbc -ajuri
+Suorita deployment skripti
 
 ```
-mvn install:install-file -Dfile=ojdbc7-12.1.0.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0 -Dpackaging=jar
+. /home/kurki_user/kurki/deploy.sh
 ```
 
-## mene repositorioon ja suorita deployment-skripti
+Skriptin sisältö jotakuinkin seuraavanlainen:
 
 ```
-./scripts/deploy-production.sh
+git pull
+docker build
+docker-compose up
 ```
 
-skriptio kopioi edellisen version hakemistoon */home/tktl_ilmo/kurki/kurki_previous*
+Joskus kannattanee ajaa seuraava komento, jotta säästetään tilaa:
+
+```
+docker image prune
+```
