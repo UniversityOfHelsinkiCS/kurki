@@ -203,14 +203,18 @@ public class Freeze extends AbstractVelocityServiceProvider {
         Address[] addressArray = addresses.toArray(new Address[0]);
         
         Properties properties = new Properties();
-        properties.put("mail.smtp.host", "localhost");
+        properties.put("mail.smtp.host", "smtp.helsinki.fi");
         javax.mail.Session mailSession = javax.mail.Session.getInstance(properties,null);
-        InternetAddress from = new InternetAddress((String)Configuration.getProperty("webmaster"));
+        InternetAddress from = new InternetAddress("Kurki Robot <noreply@helsinki.fi>");
         MimeMessage message;
 
         // Jäädytysilmoitus Oodisiirroista vastaavalle ja jäädytyksen suorittajalle
         message = new MimeMessage(mailSession);
         message.setFrom(from);
+        message.setReplyTo(new Address[]
+        {  // Vaihdettiin käyttämään noreply@helsinki.fi lähettäjää niin asetettiin replyto osoite
+            new InternetAddress("tktl-kurki@cs.helsinki.fi")
+        });
         message.addRecipients(Message.RecipientType.TO, addressArray);
 
 //        message.addRecipient(Message.RecipientType.TO, new InternetAddress( userToAddress ) );
