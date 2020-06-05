@@ -58,9 +58,7 @@ Suorita proseduurin koodi sql-developerin konsolissa. Sen jälkeen komento ```co
 ## Local stuff
 
 ```
-ssh -L 1521:localhost:9997 melkki.cs.helsinki.fi
-
-ssh -L 9997:svm-1.cs.helsinki.fi:1521 kurki.cs.helsinki.fi
+ssh -J melkki.cs.helsinki.fi -L 1521:svm-1.cs.helsinki.fi:1521 kurki.cs.helsinki.fi
 ```
 
 Niin lokaalisti toimii `sqlplus /nolog` ja `connect tk_opha@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=localhost)(Port=1521))(CONNECT_DATA=(SID=ope)))` Salasana löytyy kurki.cs.helsinki.fi palvelimen _kurki.cnf_ 
