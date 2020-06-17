@@ -1,0 +1,33 @@
+version: '3.2'
+
+services:
+  kurki:
+    build:
+      context: ./
+    ports:
+      - 8084:8080
+    volumes:
+      - ./kurki.cnf:/usr/local/tomcat/webapps/ROOT/WEB-INF/kurki.cnf
+    container_name: kurki
+  kurki-db:
+    image: banglamon/oracle193db:19.3.0-ee
+    environment:
+      ORACLE_SID: opetest2
+      ORACLE_PBD: tk_opha
+      ORACLE_PWD: oracle
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+    container_name: kurki-db
+  loginas:
+    build:
+      context: ./loginas
+    ports:
+      - "3003:3000"
+    volumes:
+      - ./loginas:/usr/src/app
+      - nodemod:/usr/src/app/node_modules
+    container_name: loginas
+
+volumes:
+  oracle_data:
+  nodemod:

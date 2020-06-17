@@ -17,6 +17,26 @@ Testiversio [https://ilmo.cs.helsinki.fi/t_kurki/servlet/index](https://ilmo.cs.
 
 # development
 
+Tee projektin juureen tiedosto _kurki.cnf_ jonka sisällön kopioit kurki.cs.helsinki.fi palvelimelta. Tee tiedostoon seuraava muutos:
+
+```
+dbUser=tk_opha
+dbPassword=salasana
+dbServer=jdbc:oracle:thin:@kurki-db:1521:opetest2
+```
+
+Komento `docker-compose up` käynnistää kaiken tarpeellisen. Tietokannan käynnistyksessä kestää, hyvä aika hakea kahvit.
+
+Tämän jälkeen tietokannan alustus. Devaustietokannan pystytyksessä on parannettavan varaa:
+
+1. Suorita `scripts/local-db-tunnel.sh`. Tunnelin on oltava päällä seuraavaa suorittaessa.
+
+2. Suorita `scripts/local-db-setup.sh`.
+
+Nyt löytyy "loginas" palvelu osoitteesta [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index). Voit vaihtaa henkilön jona olet kirjautunut tiedostossa `loginas/index.js`, muutokset tulevat voimaan automaattisesti, mutta kurki säästää session joten joudut kirjautumaan ulos vaihtaessasi käyttäjää.
+
+# vanhat development ohjeet
+
 Muuta tarvittaessa db-url tiedostoon src/main/webapp/WEB_INF/kurki.cnf (tiedosto ei ole repositoriossa!)
 
 Sovellus urlissa [http://localhost:8080/kurki13/servlet/index](http://localhost:8080/kurki13/servlet/index)
