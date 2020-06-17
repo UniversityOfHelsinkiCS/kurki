@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.5'
 
 services:
   kurki:
@@ -8,6 +8,8 @@ services:
       - 8084:8080
     volumes:
       - ./kurki.cnf:/usr/local/tomcat/webapps/ROOT/WEB-INF/kurki.cnf
+    networks:
+      - kurki_default
     container_name: kurki
   kurki-db:
     image: banglamon/oracle193db:19.3.0-ee
@@ -17,6 +19,8 @@ services:
       ORACLE_PWD: oracle
     volumes:
       - oracle_data:/opt/oracle/oradata
+    networks:
+      - kurki_default
     container_name: kurki-db
   loginas:
     build:
@@ -26,8 +30,14 @@ services:
     volumes:
       - ./loginas:/usr/src/app
       - nodemod:/usr/src/app/node_modules
+    networks:
+      - kurki_default
     container_name: loginas
 
 volumes:
   oracle_data:
   nodemod:
+
+networks:
+  kurki_default:
+    name: kurki_default
