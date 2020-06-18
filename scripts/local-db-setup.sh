@@ -21,6 +21,7 @@ GRANT create any directory to ${dev_user};"
 
 db_init2="connect ${dev_user}/${dev_password}@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=localhost)(Port=1521))(CONNECT_DATA=(SID=${dev_sid})))
 CREATE directory my_data as '/u01/app/oracle';
+DROP DATABASE LINK remote;
 CREATE DATABASE LINK remote CONNECT TO tk_opha IDENTIFIED BY ${acual_password} USING '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=localhost)(Port=1525))(CONNECT_DATA=(SID=${acual_sid})))';"
 
 move_stuff="impdp ${dev_user}/${dev_password}@${dev_sid} network_link=remote directory=my_data logfile=imported.log"
