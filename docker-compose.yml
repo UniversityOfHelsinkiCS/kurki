@@ -18,7 +18,7 @@ services:
       ORACLE_PBD: tk_opha
       ORACLE_PWD: oracle
     volumes:
-      - oracle_data:/opt/oracle/oradata
+      - ./oracle_data:/u01/app/oracle/oradata
     networks:
       - kurki_default
     container_name: kurki-db
