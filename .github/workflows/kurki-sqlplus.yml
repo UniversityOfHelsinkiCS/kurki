@@ -5,6 +5,7 @@ on:
     branches: 
       - master
     paths:
+      - '.github/workflows/kurki-sqlplus'
       - 'sqlplus/**'
 
 jobs:
@@ -19,4 +20,5 @@ jobs:
         repository: toska/kurki-sqlplus
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+        tags: latest
         path: sqlplus/
