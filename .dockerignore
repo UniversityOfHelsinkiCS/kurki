@@ -1,2 +1,9 @@
 loginas
 oracle_data
+.classpath
+.project
+kurki.cnf
+.github
+sqlplus
+*.cnf
+target
