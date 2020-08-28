@@ -2,15 +2,20 @@ const proxy = require('express-http-proxy');
 const app = require('express')();
 
 const PROXY_ADDR = 'kurki:8080'
-const NEW_HEADERS = {
-  uid: 'mluukkai'
-}
+let uid = 'mluukkai'
+
+app.get('/uid/:uid', (req, res) => {
+  const params = req.params
+  uid = params.uid
+
+  res.send({ uid })
+})
 
 app.use('/', proxy(PROXY_ADDR, {
   proxyReqOptDecorator: function(proxyReqOpts) {
     proxyReqOpts.headers = {
       ...proxyReqOpts.headers,
-      ...NEW_HEADERS
+      uid,
     }
     return proxyReqOpts
   }

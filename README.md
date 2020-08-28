@@ -31,7 +31,7 @@ Tämän jälkeen tietokannan alustus. Devaustietokannan pystytyksessä on parann
 
 1. Suorita `scripts/local-db-setup.sh`.
 
-Nyt löytyy "loginas" palvelu osoitteesta [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index). Voit vaihtaa henkilön jona olet kirjautunut tiedostossa `loginas/index.js`, muutokset tulevat voimaan automaattisesti, mutta kurki säästää session joten joudut kirjautumaan ulos vaihtaessasi käyttäjää.
+Nyt löytyy "loginas" palvelu osoitteesta [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index). Voit vaihtaa henkilön jona olet kirjautunut tiedostossa `loginas/index.js`, tai käy kääntymässä sivulla [http://localhost:3003/uid/mluukkai](http://localhost:3003/uid/mluukkai) viimeinen parametri on haluamasi käyttäjän uid. Muutokset tulevat voimaan automaattisesti, mutta kurki säästää session joten joudut kirjautumaan ulos vaihtaessasi käyttäjää. 
 
 # vanhat development ohjeet
 
