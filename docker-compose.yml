@@ -19,6 +19,7 @@ services:
       ORACLE_PWD: oracle
     volumes:
       - ./oracle_data:/u01/app/oracle/oradata
+      - ./scripts/fetch_db.sh:/fetch_db.sh:ro
     networks:
       - kurki_default
     container_name: kurki-db

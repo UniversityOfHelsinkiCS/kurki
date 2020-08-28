@@ -29,9 +29,7 @@ Komento `docker-compose up` käynnistää kaiken tarpeellisen. Tietokannan käyn
 
 Tämän jälkeen tietokannan alustus. Devaustietokannan pystytyksessä on parannettavan varaa:
 
-1. Suorita `scripts/local-db-tunnel.sh`. Tunnelin on oltava päällä seuraavaa suorittaessa.
-
-2. Suorita `scripts/local-db-setup.sh`.
+1. Suorita `scripts/local-db-setup.sh`.
 
 Nyt löytyy "loginas" palvelu osoitteesta [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index). Voit vaihtaa henkilön jona olet kirjautunut tiedostossa `loginas/index.js`, muutokset tulevat voimaan automaattisesti, mutta kurki säästää session joten joudut kirjautumaan ulos vaihtaessasi käyttäjää.
 
