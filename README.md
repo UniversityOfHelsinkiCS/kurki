@@ -33,6 +33,10 @@ Tämän jälkeen tietokannan alustus. Devaustietokannan pystytyksessä on parann
 
 Nyt löytyy "loginas" palvelu osoitteesta [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index). Voit vaihtaa henkilön jona olet kirjautunut tiedostossa `loginas/index.js`, tai käy kääntymässä sivulla [http://localhost:3003/uid/mluukkai](http://localhost:3003/uid/mluukkai) viimeinen parametri on haluamasi käyttäjän uid. Muutokset tulevat voimaan automaattisesti, mutta kurki säästää session joten joudut kirjautumaan ulos vaihtaessasi käyttäjää. 
 
+# yhteys tietokantaan
+
+Aja `docker run -e USER="USERNAME" -it toska/kurki-sqlplus` missä "USERNAME" korvaat ad käyttäjänimelläsi. Koodi löytyy kansiosta sqlplus
+
 # vanhat development ohjeet
 
 Muuta tarvittaessa db-url tiedostoon src/main/webapp/WEB_INF/kurki.cnf (tiedosto ei ole repositoriossa!)
