@@ -1,0 +1,24 @@
+name: Release new kurki-updater
+
+on:
+  push:
+    branches: 
+      - master
+    paths:
+      - '.github/workflows/kurki-updater'
+      - 'updater/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Publish to Registry
+      uses: docker/build-push-action@v1
+      with:
+        repository: toska/kurki-updater
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        tags: latest
+        path: updater/

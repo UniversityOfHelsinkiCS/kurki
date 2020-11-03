@@ -7,3 +7,4 @@ kurki.cnf
 sqlplus
 *.cnf
 target
+updater

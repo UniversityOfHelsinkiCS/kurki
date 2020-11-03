@@ -1,0 +1,55 @@
+{
+  "name": "kurki-updater",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r esm ./src/index.js",
+    "dev": "nodemon -r esm ./src/index.js",
+    "install": "docker exec kurki-updater npm install",
+    "test": "jest src",
+    "tunnel": "docker exec -it kurki-updater bash /usr/src/app/scripts/tunnel.sh",
+    "migrate:make": "knex migrate:make",
+    "migrate:latest": "knex migrate:latest",
+    "migrate:rollback": "knex migrate:rollback",
+    "seed:run": "knex seed:run"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UniversityOfHelsinkiCS/kurki.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UniversityOfHelsinkiCS/kurki/issues"
+  },
+  "homepage": "https://github.com/UniversityOfHelsinkiCS/kurki#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "date-fns": "^2.14.0",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "knex": "^0.21.1",
+    "lodash": "^4.17.19",
+    "node-cron": "^2.0.3",
+    "objection": "^2.1.6",
+    "oracledb": "^4.2.0",
+    "p-map": "^4.0.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.0.1",
+    "eslint": "^7.1.0",
+    "eslint-plugin-jest": "^23.13.2",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.4"
+  }
+}

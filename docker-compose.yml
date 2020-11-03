@@ -8,8 +8,6 @@ services:
       - 8084:8080
     volumes:
       - ./kurki.cnf:/usr/local/tomcat/webapps/ROOT/WEB-INF/kurki.cnf
-    networks:
-      - kurki_default
     container_name: kurki
   kurki-db:
     image: banglamon/oracle193db:19.3.0-ee
@@ -20,8 +18,6 @@ services:
     volumes:
       - ./oracle_data:/u01/app/oracle/oradata
       - ./scripts/fetch_db.sh:/fetch_db.sh:ro
-    networks:
-      - kurki_default
     container_name: kurki-db
   loginas:
     build:
@@ -30,15 +26,23 @@ services:
       - "3003:3000"
     volumes:
       - ./loginas:/usr/src/app
-      - nodemod:/usr/src/app/node_modules
-    networks:
-      - kurki_default
+      - loginas-nodemod:/usr/src/app/node_modules
     container_name: loginas
+  kurki-updater:
+    build:
+      context: updater
+      dockerfile: config/dev.Dockerfile
+    environment:
+      KURKI_DB_USER: tk_opha
+      KURKI_DB_PASSWORD: salasana
+      KURKI_DB_CONNECTION_STRING: kurki-db:1521/opetest2
+      KURKI_FALLBACK_KURSSI_OMISTAJA: SIVEN_R
+    volumes:
+      - ./:/usr/src/app
+      - updater-nodemod:/usr/src/app/node_modules/
+    container_name: kurki-updater
 
 volumes:
   oracle_data:
-  nodemod:
-
-networks:
-  kurki_default:
-    name: kurki_default
+  updater-nodemod:
+  loginas-nodemod:

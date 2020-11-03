@@ -1,0 +1,12 @@
+{
+  "extends": ["eslint:recommended", "plugin:jest/recommended"],
+  "parser": "babel-eslint",
+  "plugins": ["jest"],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}

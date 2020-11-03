@@ -15,9 +15,9 @@ Testiversio [https://ilmo.cs.helsinki.fi/t_kurki/servlet/index](https://ilmo.cs.
 
 [siirto tuotantoympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-production.md)
 
-# development
+# Development
 
-Tee projektin juureen tiedosto _kurki.cnf_ jonka sisällön kopioit kurki.cs.helsinki.fi palvelimelta. Tee tiedostoon seuraava muutos:
+Create a file _kurki.cnf_ into which you will copy the contents from kurki.cs.helsinki.fi. Make the following change to the file:
 
 ```
 dbUser=tk_opha
@@ -25,17 +25,23 @@ dbPassword=salasana
 dbServer=jdbc:oracle:thin:@kurki-db:1521:opetest2
 ```
 
-Komento `docker-compose up` käynnistää kaiken tarpeellisen. Tietokannan käynnistyksessä kestää, hyvä aika hakea kahvit.
+The command `./run.sh kurki` will start up database, kurki and loginas service. The startup time for database is a long one, now is a good time to fetch a drink.
 
-Tämän jälkeen tietokannan alustus. Devaustietokannan pystytyksessä on parannettavan varaa:
+After this is the seeding of database.
 
-1. Suorita `scripts/local-db-setup.sh`.
+1. Execute `scripts/local-db-setup.sh`
 
-Nyt löytyy "loginas" palvelu osoitteesta [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index). Voit vaihtaa henkilön jona olet kirjautunut tiedostossa `loginas/index.js`, tai käy kääntymässä sivulla [http://localhost:3003/uid/mluukkai](http://localhost:3003/uid/mluukkai) viimeinen parametri on haluamasi käyttäjän uid. Muutokset tulevat voimaan automaattisesti, mutta kurki säästää session joten joudut kirjautumaan ulos vaihtaessasi käyttäjää. 
+Now you can find "loginas" service from [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index) and you can switch the user you're logged in as from `login/index.js`, or by visiting [http://localhost:3003/uid/mluukkai](http://localhost:3003/uid/mluukkai) where the last parameter is the uid. After changing you will need to press logout in kurki as it has its own session.
 
-# yhteys tietokantaan
+# Updater #
 
-Aja `docker run -e USER="USERNAME" -it toska/kurki-sqlplus` missä "USERNAME" korvaat ad käyttäjänimelläsi. Koodi löytyy kansiosta sqlplus
+Use `./run.sh updater` or `./run.sh both` to run the updater either with our without kurki. The database is started regardless.
+
+# Connecting to production database
+
+Run `docker run -e USER="USERNAME" -it toska/kurki-sqlplus` where "USERNAME" is your ad username. Code can be found in the sqlplus folder.
+
+Password can be found in kurki.cs.helsinki.fi in the _kurki.cnf_ file.
 
 # vanhat development ohjeet
 
@@ -75,14 +81,3 @@ order by line
 ## proseduurin päivitys
 
 Suorita proseduurin koodi sql-developerin konsolissa. Sen jälkeen komento ```commit``` saa muutoksen voimaan.
-
-
-## Local stuff
-
-```
-ssh -J melkki.cs.helsinki.fi -L 1521:svm-1.cs.helsinki.fi:1521 kurki.cs.helsinki.fi
-```
-
-Niin lokaalisti toimii `sqlplus /nolog` ja `connect tk_opha@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=localhost)(Port=1521))(CONNECT_DATA=(SID=ope)))` Salasana löytyy kurki.cs.helsinki.fi palvelimen _kurki.cnf_ 
-
-Ez asennusohjeet tolle sqlplussalle oli https://zwbetz.com/install-sqlplus-on-a-mac/ (bumppaa itse versionumerot)
