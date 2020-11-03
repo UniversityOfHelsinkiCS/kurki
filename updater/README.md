@@ -45,8 +45,8 @@ And run the following command:
 ALTER SYSTEM DISABLE RESTRICTED SESSION;
 ```
 
-When you want to install new npm packages, since project has to have packages installed inside the container use
-`npm run install axios` or if you need to reinstall package.json use `docker-compose up --build kurki-updater` again.
+When you want to install new npm packages, since project has to have packages installed inside the container you can use
+`npm run docker:install axios` or if you need to reinstall package.json use `docker-compose up --build kurki-updater` again. Or just go inside the container and run npm install there.
 
 ## Running tests
 
