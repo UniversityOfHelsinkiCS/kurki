@@ -6,13 +6,13 @@ option=$1
 
 if [[ $option == kurki ]];
 then
-  docker-compose up -d kurki kurki-db loginas
+  docker-compose "${@:2}" kurki kurki-db loginas
 elif [[ $option == updater ]];
 then
-  docker-compose up -d kurki-db kurki-updater
+  docker-compose "${@:2}" kurki-db kurki-updater
 elif [[ $option == both ]];
 then
-  docker-compose up -d
+  docker-compose "${@:2}"
 else
-  echo "Valid args are kurki, updater, both. Try './run.sh both'"
+  echo "1st arg must be kurki, updater or both. Try './run.sh both up'"
 fi

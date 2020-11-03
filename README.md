@@ -25,7 +25,7 @@ dbPassword=salasana
 dbServer=jdbc:oracle:thin:@kurki-db:1521:opetest2
 ```
 
-The command `./run.sh kurki` will start up database, kurki and loginas service. The startup time for database is a long one, now is a good time to fetch a drink.
+The command `./run.sh kurki up` will start up database, kurki and loginas service. The startup time for database is a long one, now is a good time to fetch a drink.
 
 After this is the seeding of database.
 
@@ -35,7 +35,7 @@ Now you can find "loginas" service from [http://localhost:3003/servlet/index](ht
 
 # Updater #
 
-Use `./run.sh updater` or `./run.sh both` to run the updater either with our without kurki. The database is started regardless.
+Use `./run.sh updater up` or `./run.sh both up` to run the updater either with our without kurki. The database is started regardless.
 
 # Connecting to production database
 
