@@ -38,7 +38,7 @@ services:
       KURKI_DB_CONNECTION_STRING: kurki-db:1521/opetest2
       KURKI_FALLBACK_KURSSI_OMISTAJA: SIVEN_R
     volumes:
-      - ./:/usr/src/app
+      - ./updater:/usr/src/app
       - updater-nodemod:/usr/src/app/node_modules/
     container_name: kurki-updater
 
