@@ -4,7 +4,11 @@
 
 option=$1
 
-if [[ $option == kurki ]];
+command=$2
+if [[ $command == down ]];
+then
+  docker-compose down "${@:3}"
+elif [[ $option == kurki ]];
 then
   docker-compose "${@:2}" kurki kurki-db loginas
 elif [[ $option == updater ]];
