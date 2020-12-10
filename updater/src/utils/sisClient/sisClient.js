@@ -79,6 +79,14 @@ class SisClient {
 
     return data;
   }
+
+  getCourseUnitRealisationEnrolments(id) {
+    const { data } = await this.importerClient.get(
+      `/course_unit_realisations/${id}/enrolments`,
+    );
+
+    return data;
+  }
 }
 
 export default SisClient;

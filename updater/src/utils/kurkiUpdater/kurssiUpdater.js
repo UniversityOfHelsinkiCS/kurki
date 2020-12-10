@@ -5,6 +5,7 @@ import getKurssiByCourseUnitRealisation from './getKurssiByCourseUnitRealisation
 import getKurssiOmistajaByResponsibilityInfos from './getKurssiOmistajaByResponsibilityInfos';
 import getLecturersByResponsibilityInfos from './getLecturersByResponsibilityInfos';
 import getOpetuksetByKurssi from './getOpetuksetByKurssi';
+import OsallistumisetUpdater from './osallistumisetUpdater';
 
 class KurssiUpdater {
   constructor({ courseUnitRealisation, opintojakso, fallbackKurssiOmistaja }) {
@@ -13,10 +14,14 @@ class KurssiUpdater {
     this.fallbackKurssiOmistaja = fallbackKurssiOmistaja;
   }
 
-  async update() {
-    const responsibilityInfos = await sisClient.getCourseUnitRealisationResponsibilityInfos(
+  getResponsibilityInfos() {
+    return sisClient.getCourseUnitRealisationResponsibilityInfos(
       this.courseUnitRealisation.id,
     );
+  }
+
+  async update() {
+    const responsibilityInfos = await this.getResponsibilityInfos();
 
     const owner = getKurssiOmistajaByResponsibilityInfos(responsibilityInfos);
 
@@ -47,6 +52,8 @@ class KurssiUpdater {
     if (!this.kurssi.isExam()) {
       await this.updateLecturers(responsibilityInfos);
     }
+
+    await this.updateOsallistumiset();
   }
 
   async updateLecturers(responsibilityInfos) {
@@ -146,6 +153,14 @@ class KurssiUpdater {
     await models.Opetus.query().patchOrInsertById(opetusId, opetus);
 
     await this.updateOpetustehtavanHoitoForPerson(teacher, ryhmaNro, 'HT');
+  }
+
+  async updateOsallistumiset() {
+    const updater = new OsallistumisetUpdater({
+      kurssi: this.kurssi,
+    });
+
+    await updater.update();
   }
 }
 
