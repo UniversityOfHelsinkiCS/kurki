@@ -1,4 +1,4 @@
-import { get, sortBy } from 'lodash';
+import { get, maxBy, minBy } from 'lodash';
 
 const paaAineByOrganizationCode = {
   H90: 'EL',
@@ -15,12 +15,12 @@ const paaAineByOrganizationCode = {
 };
 
 const getStartingYear = (studyRights) => {
-  const sorted = sortBy(
-    studyRights.filter(({ valid }) => get(valid, 'startDate')),
+  const earliest = minBy(
+    studyRights,
     ({ valid: { startDate } }) => new Date(startDate),
   );
 
-  return sorted[0] ? new Date(sorted[0].valid.startDate).getFullYear() : null;
+  return earliest ? new Date(earliest.valid.startDate).getFullYear() : null;
 };
 
 const getPaaAineByStudyRight = (studyRight) => {
@@ -47,7 +47,16 @@ const getPaaAineByStudyRight = (studyRight) => {
 };
 
 const getPrimaryStudyRight = (studyRights) => {
-  return studyRights.find(({ state }) => state === 'ACTIVE');
+  const activeStudyRights = studyRights.filter(
+    ({ state }) => state === 'ACTIVE',
+  );
+
+  const mostRecent = maxBy(
+    activeStudyRights,
+    ({ valid: { startDate } }) => new Date(startDate),
+  );
+
+  return mostRecent;
 };
 
 const getOpiskelijaByStudyRights = (studyRights) => {
