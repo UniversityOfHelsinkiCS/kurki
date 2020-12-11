@@ -87,6 +87,14 @@ class SisClient {
 
     return data;
   }
+
+  getStudentById(id) {
+    const { data } = await this.importerClient.get(
+      `/kurki/students/${id}`,
+    );
+
+    return data;
+  }
 }
 
 export default SisClient;

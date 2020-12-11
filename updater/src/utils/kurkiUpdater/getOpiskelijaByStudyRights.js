@@ -1,5 +1,61 @@
+import { get, sortBy } from 'lodash';
+
+const paaAineByOrganizationCode = {
+  H90: 'EL',
+  H70: 'VAL',
+  H40: 'HUM',
+  H50: 'MAT',
+  H60: 'KAS',
+  H30: 'LÄÄ',
+  H10: 'TEO',
+  H57: 'BIO',
+  H20: 'OIK',
+  H80: 'MM',
+  H930: 'AVO',
+};
+
+const getStartingYear = (studyRights) => {
+  const sorted = sortBy(
+    studyRights.filter(({ valid }) => get(valid, 'startDate')),
+    ({ valid: { startDate } }) => new Date(startDate),
+  );
+
+  return sorted[0] ? new Date(sorted[0].valid.startDate).getFullYear() : null;
+};
+
+const getPaaAineByStudyRight = (studyRight) => {
+  const { organization } = studyRight;
+
+  if (!get(organizaton, 'code')) {
+    return '?';
+  }
+
+  const { code } = organization;
+
+  const paaAineByCode = paaAineByOrganizationCode[code];
+
+  if (!paaAineByCode) {
+    return 'MUU';
+  }
+
+  if (paaAineByCode !== 'MAT') {
+    return paaAineByCode;
+  }
+
+  // TODO: department? https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/c1929a270bf34ad34b837e9be38ccb0f339a053e/oodi_integration/lib/kurki.rb#L168
+  return 'ML';
+};
+
+const getPrimaryStudyRight = (studyRights) => {
+  return studyRights.find(({ state }) => state === 'ACTIVE');
+};
+
 const getOpiskelijaByStudyRights = (studyRights) => {
-  return {};
+  const primaryStudyRight = getPrimaryStudyRight(studyRights);
+  const aloitusvuosi = getStartingYear(studyRights);
+  const paaAine = getPaaAineByStudyRight(primaryStudyRight);
+
+  return { aloitusvuosi, paaAine };
 };
 
 export default getOpiskelijaByStudyRights;

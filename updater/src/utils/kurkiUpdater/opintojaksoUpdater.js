@@ -24,6 +24,8 @@ class OpintojaksoUpdater {
     this.opintojakso = await models.Opintojakso.query().findById(kurssikoodi);
 
     await this.updateKurssit();
+
+    return this.opintojakso;
   }
 
   async updateKurssit() {

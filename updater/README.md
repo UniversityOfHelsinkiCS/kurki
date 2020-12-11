@@ -84,3 +84,9 @@ ALTER TABLE Opetus ADD SIS_ID VARCHAR2(50) UNIQUE;
 ```sql
 ALTER TABLE Henkilo ADD SIS_ID VARCHAR2(50) UNIQUE;
 ```
+
+- Add `SIS_ID` column for `Opiskelija` table in Kurki:
+
+```sql
+ALTER TABLE Opiskelija ADD SIS_ID VARCHAR2(50) UNIQUE;
+```

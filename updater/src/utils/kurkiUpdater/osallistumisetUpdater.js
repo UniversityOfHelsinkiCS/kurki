@@ -1,4 +1,5 @@
 import sisClient from '../sisClient';
+import OpiskelijaUpdater from './opiskelijaUpdater';
 
 class OsallistumisetUpdater {
   constructor({ kurssi }) {
@@ -12,7 +13,26 @@ class OsallistumisetUpdater {
   async update() {
     const enrolments = await this.getEnrolments();
 
-    console.log(enrolments);
+    for (let enrolment of enrolments) {
+      await this.updateOsallistuminen(enrolment).catch((error) => {
+        logger.error('Failed to update enrolment', {
+          kurssi: this.kurssi,
+          enrolment,
+        });
+
+        logger.error(error);
+      });
+    }
+  }
+
+  async updateOsallistuminen(enrolment) {
+    const { personId } = enrolment;
+
+    const person = await sisClient.getStudentById(personId);
+    const opiskelijaUpdater = new OpiskelijaUpdater({ person });
+    const opiskelija = await opiskelijaUpdater.update();
+
+    // TODO: create osallistuminen
   }
 }
 

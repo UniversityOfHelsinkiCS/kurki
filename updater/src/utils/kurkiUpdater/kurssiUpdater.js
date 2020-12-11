@@ -53,7 +53,7 @@ class KurssiUpdater {
       await this.updateLecturers(responsibilityInfos);
     }
 
-    await this.updateOsallistumiset();
+    return this.kurssi;
   }
 
   async updateLecturers(responsibilityInfos) {
@@ -153,14 +153,6 @@ class KurssiUpdater {
     await models.Opetus.query().patchOrInsertById(opetusId, opetus);
 
     await this.updateOpetustehtavanHoitoForPerson(teacher, ryhmaNro, 'HT');
-  }
-
-  async updateOsallistumiset() {
-    const updater = new OsallistumisetUpdater({
-      kurssi: this.kurssi,
-    });
-
-    await updater.update();
   }
 }
 
