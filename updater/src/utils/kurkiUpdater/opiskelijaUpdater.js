@@ -9,14 +9,14 @@ class OpiskelijaUpdater {
 
   update() {
     const opiskelijaPayload = {
-      ...getOpiskelijaByPerson(person),
-      ...getOpiskelijaByStudyRights(person.studyrights)
+      ...getOpiskelijaByPerson(this.person),
+      ...getOpiskelijaByStudyRights(this.person.studyrights)
     };
 
     const { hetu } = opiskelijaPayload;
 
     if (!hetu) {
-      throw new Error(`Student ${person.sisId} does not have student number`);
+      throw new Error(`Student ${this.person.id} does not have student number`);
     }
 
     await models.Opiskelija.query().patchOrInsertById(hetu, opiskelijaPayload);
