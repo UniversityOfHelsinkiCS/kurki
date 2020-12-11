@@ -37,7 +37,7 @@ class SisClient {
       `/course_units/programme/${programme}`,
     );
 
-    return data && data.course_units ? data.course_units : [];
+    return data;
   }
 
   async getCourseUnitRealisationsByCode(code, options = {}) {
