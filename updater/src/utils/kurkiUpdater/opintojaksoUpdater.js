@@ -7,9 +7,8 @@ import KurssiUpdater from './kurssiUpdater';
 import getOpintojaksoByCourseUnit from './getOpintojaksoByCourseUnit';
 
 class OpintojaksoUpdater {
-  constructor({ courseUnit, fallbackKurssiOmistaja }) {
+  constructor({ courseUnit }) {
     this.courseUnit = courseUnit;
-    this.fallbackKurssiOmistaja = fallbackKurssiOmistaja;
   }
 
   async update() {
@@ -52,7 +51,6 @@ class OpintojaksoUpdater {
     const updater = new KurssiUpdater({
       opintojakso: this.opintojakso,
       courseUnitRealisation,
-      fallbackKurssiOmistaja: this.fallbackKurssiOmistaja,
     });
 
     await updater.update();
