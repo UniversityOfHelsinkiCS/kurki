@@ -5,18 +5,22 @@ import getKurssiByCourseUnitRealisation from './getKurssiByCourseUnitRealisation
 import getKurssiOmistajaByResponsibilityInfos from './getKurssiOmistajaByResponsibilityInfos';
 import getLecturersByResponsibilityInfos from './getLecturersByResponsibilityInfos';
 import getOpetuksetByKurssi from './getOpetuksetByKurssi';
+import { KURKI_FALLBACK_KURSSI_OMISTAJA } from '../../config';
 
 class KurssiUpdater {
-  constructor({ courseUnitRealisation, opintojakso, fallbackKurssiOmistaja }) {
+  constructor({ courseUnitRealisation, opintojakso }) {
     this.courseUnitRealisation = courseUnitRealisation;
     this.opintojakso = opintojakso;
-    this.fallbackKurssiOmistaja = fallbackKurssiOmistaja;
+  }
+
+  getResponsibilityInfos() {
+    return sisClient.getCourseUnitRealisationResponsibilityInfos(
+      this.courseUnitRealisation.id,
+    );
   }
 
   async update() {
-    const responsibilityInfos = await sisClient.getCourseUnitRealisationResponsibilityInfos(
-      this.courseUnitRealisation.id,
-    );
+    const responsibilityInfos = await this.getResponsibilityInfos();
 
     const owner = getKurssiOmistajaByResponsibilityInfos(responsibilityInfos);
 
@@ -24,19 +28,15 @@ class KurssiUpdater {
       ? await models.Henkilo.query().patchOrInsertAndFetchByPerson(owner)
       : undefined;
 
-    const baseKurssi = getKurssiByCourseUnitRealisation(
-      this.courseUnitRealisation,
-    );
-
-    const kurssi = {
-      ...baseKurssi,
+    const kurssiPayload = {
+      ...getKurssiByCourseUnitRealisation(this.courseUnitRealisation),
       kurssikoodi: this.opintojakso.kurssikoodi,
       omistaja: ownerHenkilo
         ? ownerHenkilo.htunnus
-        : this.fallbackKurssiOmistaja,
+        : KURKI_FALLBACK_KURSSI_OMISTAJA,
     };
 
-    await models.Kurssi.query().patchOrInsertWithKurssiNro(kurssi);
+    await models.Kurssi.query().patchOrInsertWithKurssiNro(kurssiPayload);
 
     this.kurssi = await models.Kurssi.query().findBySisId(
       this.courseUnitRealisation.id,
@@ -47,6 +47,8 @@ class KurssiUpdater {
     if (!this.kurssi.isExam()) {
       await this.updateLecturers(responsibilityInfos);
     }
+
+    return this.kurssi;
   }
 
   async updateLecturers(responsibilityInfos) {

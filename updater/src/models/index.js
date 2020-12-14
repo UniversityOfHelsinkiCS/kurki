@@ -8,6 +8,8 @@ import KurssinTyyppi from './kurssinTyyppi';
 import Opetus from './opetus';
 import OpetustehtavanHoito from './opetustehtavanHoito';
 import Periodi from './periodi';
+import Opiskelija from './opiskelija';
+import Osallistuminen from './osallistuminen';
 
 export const bindModels = (knex) => {
   return {
@@ -20,6 +22,8 @@ export const bindModels = (knex) => {
     Opetus: Opetus.bindKnex(knex),
     OpetustehtavanHoito: OpetustehtavanHoito.bindKnex(knex),
     Periodi: Periodi.bindKnex(knex),
+    Opiskelija: Opiskelija.bindKnex(knex),
+    Osallistuminen: Osallistuminen.bindKnex(knex),
   };
 };
 

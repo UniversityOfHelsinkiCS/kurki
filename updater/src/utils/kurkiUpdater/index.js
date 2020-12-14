@@ -1,14 +1,9 @@
 import sisClient from '../sisClient';
 import logger from '../logger';
-import { KURKI_FALLBACK_KURSSI_OMISTAJA } from '../../config';
 import getDistinctCourseUnits from './getDistinctCourseUnits';
 import OpintojaksoUpdater from './opintojaksoUpdater';
 
 export class KurkiUpdater {
-  constructor({ fallbackKurssiOmistaja }) {
-    this.fallbackKurssiOmistaja = fallbackKurssiOmistaja;
-  }
-
   async updateCourseUnitsByCodes(codes) {
     const allCourseUnits = await sisClient.getCourseUnitsByCodes(codes);
     const courseUnits = getDistinctCourseUnits(allCourseUnits);
@@ -45,13 +40,10 @@ export class KurkiUpdater {
   async updateOpintojakso(courseUnit) {
     const updater = new OpintojaksoUpdater({
       courseUnit,
-      fallbackKurssiOmistaja: this.fallbackKurssiOmistaja,
     });
 
     await updater.update();
   }
 }
 
-export default new KurkiUpdater({
-  fallbackKurssiOmistaja: KURKI_FALLBACK_KURSSI_OMISTAJA,
-});
+export default new KurkiUpdater();

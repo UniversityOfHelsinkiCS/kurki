@@ -37,7 +37,7 @@ class SisClient {
       `/course_units/programme/${programme}`,
     );
 
-    return data && data.course_units ? data.course_units : [];
+    return data;
   }
 
   async getCourseUnitRealisationsByCode(code, options = {}) {
@@ -75,6 +75,22 @@ class SisClient {
   async getCourseUnitRealisationStudyGroupSets(id) {
     const { data } = await this.importerClient.get(
       `/course_unit_realisations/${id}/study_group_sets`,
+    );
+
+    return data;
+  }
+
+  getCourseUnitRealisationEnrolments(id) {
+    const { data } = await this.importerClient.get(
+      `/course_unit_realisations/${id}/enrolments`,
+    );
+
+    return data;
+  }
+
+  getStudentById(id) {
+    const { data } = await this.importerClient.get(
+      `/kurki/students/${id}`,
     );
 
     return data;
