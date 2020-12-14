@@ -80,7 +80,7 @@ class SisClient {
     return data;
   }
 
-  getCourseUnitRealisationEnrolments(id) {
+  async getCourseUnitRealisationEnrolments(id) {
     const { data } = await this.importerClient.get(
       `/course_unit_realisations/${id}/enrolments`,
     );
@@ -88,7 +88,7 @@ class SisClient {
     return data;
   }
 
-  getStudentById(id) {
+  async getStudentById(id) {
     const { data } = await this.importerClient.get(
       `/kurki/students/${id}`,
     );
