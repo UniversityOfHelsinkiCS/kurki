@@ -1,4 +1,3 @@
-
 # Development #
 
 **Step 1:** `touch kurki.cnf` (into the root) and **copy the contents from kurki.cs.helsinki.fi** there or ask another developer to supply. Make the following change to the file:
@@ -49,7 +48,7 @@ Run `docker run -e USER="USERNAME" -it toska/kurki-sqlplus` where "USERNAME" is 
 
 Password can be found in kurki.cs.helsinki.fi in the _kurki.cnf_ file.
 
-## Production deployment ###
+# Production deployment #
 
 See guide here [https://github.com/UniversityOfHelsinkiCS/kurki/blob/master/docs/deploy-production.md](https://github.com/UniversityOfHelsinkiCS/kurki/blob/master/docs/deploy-production.md)
 
@@ -67,19 +66,19 @@ mvn install:install-file -Dfile=ojdbc7-12.1.0.jar -DgroupId=com.oracle -Dartifac
 
 Testiversio [https://ilmo.cs.helsinki.fi/t_kurki/servlet/index](https://ilmo.cs.helsinki.fi/t_kurki/servlet/index)
 
-# old deployment #
+## old deployment ##
 
 [siirto staging-ympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-staging.md)
 
 [siirto tuotantoympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-production.md)
 
-# old development # 
+## old development ##
 
 Muuta tarvittaessa db-url tiedostoon src/main/webapp/WEB_INF/kurki.cnf (tiedosto ei ole repositoriossa!)
 
 Sovellus urlissa [http://localhost:8080/kurki13/servlet/index](http://localhost:8080/kurki13/servlet/index)
 
-# old tietokanta
+## old tietokanta ##
 
 tuotanto _svm-1.cs.helsinki.fi:1521:ope_
 
@@ -87,13 +86,13 @@ testikanta _svm-1.cs.helsinki.fi:1521:opetest2_
 
 Molemmissa käyttäjätunnus *tk_opha* salasana ks. palvelinten _kurki.cnf_ 
 
-## old tietokantaskeema
+## old tietokantaskeema ##
 
 Ks [https://github.com/UniversityOfHelsinkiCS/opetushallinto/tree/master/db](https://github.com/UniversityOfHelsinkiCS/opetushallinto/tree/master/db)
 
 Dokumentoi skeeman muutokset tiedostoon [https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/db/opha_taulut_x.sql](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/db/opha_taulut_x.sql)
 
-## old SQL-proseduurit
+## old SQL-proseduurit ##
 
 Päivitetyt proseduurit hakemistossa [https://github.com/UniversityOfHelsinkiCS/opetushallinto/tree/master/db](https://github.com/UniversityOfHelsinkiCS/opetushallinto/tree/master/db)
 
