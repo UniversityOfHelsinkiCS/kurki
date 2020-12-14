@@ -6,15 +6,11 @@ const wait = (time) =>
     setTimeout(() => resolve(), time);
   });
 
-const waitForDatabaseConnection = async (retryCounter = 0) => {
+const waitForDatabaseConnection = async () => {
   try {
     await db.table('opintojakso').select('*').limit(1);
   } catch (error) {
-    if (retryCounter > 20) {
-      throw new Error('Database connection timeout');
-    }
-
-    await wait(3000);
+    await wait(5000);
 
     logger.info('No database connection, retrying...');
     await waitForDatabaseConnection();

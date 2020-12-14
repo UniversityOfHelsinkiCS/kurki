@@ -10,7 +10,7 @@ Initial setup
 
 3. Create a `.env` file in the updater directory (in which this README exists) with contents of the `.env.template` file. You will need to request the value of the `SIS_IMPORTER_API_TOKEN` see Toska passwords.md in documentation repository. Title is **sis-importer-api-token**.
 
-4. Once `kurki-db` container is ready, run `docker-compose run kurki-updater npm run migrate:latest` to run the migrations.
+4. Run `docker-compose run kurki-updater npm run migrate:latest` to run the database migrations.
 
 After completing initial setup at least once:
 
