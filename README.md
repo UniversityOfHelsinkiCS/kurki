@@ -31,7 +31,7 @@ dbServer=jdbc:oracle:thin:@kurki-db:1521:opetest2
 
 **Step 4:** See that the application works in [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index).
 
-**If something is broken see the next section and restart from Step 1**
+**If something is broken see the next section with title "Something broken locally" and restart from Step 1**
 
 After initial setup:
 
@@ -41,9 +41,9 @@ Now you can find "loginas" service from [http://localhost:3003/servlet/index](ht
 
 # Something broken locally # 
 
-Data is saved in `./oracle_data` so removing that will reset the oracle database. Recreating it will take a long time, but if it's not destroyed the startup time will be quicker.
+**Execute** `./run.sh morning` and go to **Development** section Step 1. This will remove the `./oracle_data` directory as well as all images, volumes and containers in this project. 
 
-Use `./run.sh morning` to reset everything. This will remove the `oracle_data` as well as all images, volumes and containers in this project. Then start from **Step 1**
+Data is saved in `./oracle_data` so removing that will reset the oracle database. Recreating it will take a long time, but if it's not destroyed the startup time will be quicker.
 
 # Updater #
 
