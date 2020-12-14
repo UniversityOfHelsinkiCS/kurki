@@ -17,7 +17,7 @@ Testiversio [https://ilmo.cs.helsinki.fi/t_kurki/servlet/index](https://ilmo.cs.
 
 # Development #
 
-Create a file _kurki.cnf_ into which you will copy the contents from kurki.cs.helsinki.fi. Make the following change to the file:
+**Step 1:** `touch kurki.cnf` (into the root) and **copy the contents from kurki.cs.helsinki.fi** there or ask another developer to supply. Make the following change to the file:
 
 ```
 dbUser=tk_opha
@@ -25,13 +25,13 @@ dbPassword=salasana
 dbServer=jdbc:oracle:thin:@kurki-db:1521:opetest2
 ```
 
-The command `./run.sh kurki up` will start up database, kurki and loginas service. The startup time for database is a long one, now is a good time to fetch a drink.
+**Step 2:** `./run.sh kurki up`.  The startup time for database is **LONG**. It isn't stuck unless it stays there for hours.
 
-After this is the seeding of database.
-
-1. Execute `scripts/local-db-setup.sh`
+**Step 3:** `scripts/local-db-setup.sh`. This seeds the database.
 
 Now you can find "loginas" service from [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index) and you can switch the user you're logged in as from `login/index.js`, or by visiting [http://localhost:3003/uid/mluukkai](http://localhost:3003/uid/mluukkai) where the last parameter is the uid. After changing you will need to press logout in kurki as it has its own session.
+
+**If something is broken see the next section and restart from step 1**
 
 # Something broken locally # 
 
