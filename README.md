@@ -9,13 +9,13 @@ mvn install:install-file -Dfile=ojdbc7-12.1.0.jar -DgroupId=com.oracle -Dartifac
 
 Testiversio [https://ilmo.cs.helsinki.fi/t_kurki/servlet/index](https://ilmo.cs.helsinki.fi/t_kurki/servlet/index)
 
-# deployment
+# deployment #
 
 [siirto staging-ympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-staging.md)
 
 [siirto tuotantoympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-production.md)
 
-# Development
+# Development #
 
 Create a file _kurki.cnf_ into which you will copy the contents from kurki.cs.helsinki.fi. Make the following change to the file:
 
@@ -33,11 +33,17 @@ After this is the seeding of database.
 
 Now you can find "loginas" service from [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index) and you can switch the user you're logged in as from `login/index.js`, or by visiting [http://localhost:3003/uid/mluukkai](http://localhost:3003/uid/mluukkai) where the last parameter is the uid. After changing you will need to press logout in kurki as it has its own session.
 
+# Something broken locally # 
+
+Data is saved in `./oracle_data` so removing that will reset the oracle database. Recreating it will take a long time, but if it's not destroyed the startup time will be quicker.
+
+Use `./run morning` to reset everything. This will remove the `oracle_data` as well as all images, volumes and containers in this project.
+
 # Updater #
 
 Use `./run.sh updater up` or `./run.sh both up` to run the updater either with our without kurki. The database is started regardless.
 
-# Connecting to production database
+# Connecting to production database #
 
 Run `docker run -e USER="USERNAME" -it toska/kurki-sqlplus` where "USERNAME" is your ad username. Code can be found in the sqlplus folder.
 

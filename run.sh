@@ -5,7 +5,11 @@
 option=$1
 
 command=$2
-if [[ $command == down ]];
+
+if [[ $option == morning ]];
+then
+  docker-compose down --rmi all --remove-orphans --volumes && rm -rf oracle_data
+elif [[ $command == down ]];
 then
   docker-compose down "${@:3}"
 elif [[ $option == kurki ]];
