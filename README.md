@@ -29,15 +29,21 @@ dbServer=jdbc:oracle:thin:@kurki-db:1521:opetest2
 
 **Step 3:** `scripts/local-db-setup.sh`. This seeds the database.
 
-Now you can find "loginas" service from [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index) and you can switch the user you're logged in as from `login/index.js`, or by visiting [http://localhost:3003/uid/mluukkai](http://localhost:3003/uid/mluukkai) where the last parameter is the uid. After changing you will need to press logout in kurki as it has its own session.
+**Step 4:** See that the application works in [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index).
 
-**If something is broken see the next section and restart from step 1**
+**If something is broken see the next section and restart from Step 1**
+
+After initial setup:
+
+You can use `./run.sh kurki up` to run kurki. `./run.sh updater up` to run updater. Or `./run.sh both up` to run both. Use `./run.sh both down` to run them down.
+
+Now you can find "loginas" service from [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index) and you can switch the user you're logged in as from `login/index.js`, or by visiting [http://localhost:3003/uid/mluukkai](http://localhost:3003/uid/mluukkai) where the last parameter is the uid. After changing you will need to press logout in kurki as it has its own session.
 
 # Something broken locally # 
 
 Data is saved in `./oracle_data` so removing that will reset the oracle database. Recreating it will take a long time, but if it's not destroyed the startup time will be quicker.
 
-Use `./run morning` to reset everything. This will remove the `oracle_data` as well as all images, volumes and containers in this project.
+Use `./run.sh morning` to reset everything. This will remove the `oracle_data` as well as all images, volumes and containers in this project. Then start from **Step 1**
 
 # Updater #
 
