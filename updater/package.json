@@ -11,8 +11,7 @@
     "tunnel": "docker exec -it kurki-updater bash /usr/src/app/scripts/tunnel.sh",
     "migrate:make": "knex migrate:make",
     "migrate:latest": "knex migrate:latest",
-    "migrate:rollback": "knex migrate:rollback",
-    "seed:run": "knex seed:run"
+    "migrate:rollback": "knex migrate:rollback"
   },
   "jest": {
     "transform": {
