@@ -1,19 +1,3 @@
-kurki13
-=======
-
-Riippuvuuksien asennus lokaaliin maven-repositorioon (suorita hakemistossa lib)
-
-<pre>
-mvn install:install-file -Dfile=ojdbc7-12.1.0.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0 -Dpackaging=jar
-</pre>
-
-Testiversio [https://ilmo.cs.helsinki.fi/t_kurki/servlet/index](https://ilmo.cs.helsinki.fi/t_kurki/servlet/index)
-
-# deployment #
-
-[siirto staging-ympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-staging.md)
-
-[siirto tuotantoympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-production.md)
 
 # Development #
 
@@ -39,6 +23,10 @@ You can use `./run.sh kurki up` to run kurki. `./run.sh updater up` to run updat
 
 Now you can find "loginas" service from [http://localhost:3003/servlet/index](http://localhost:3003/servlet/index) and you can switch the user you're logged in as from `login/index.js`, or by visiting [http://localhost:3003/uid/mluukkai](http://localhost:3003/uid/mluukkai) where the last parameter is the uid. After changing you will need to press logout in kurki as it has its own session.
 
+**Finally acual kurki development**
+
+Updated code? Run `./run.sh kurki up --build` to build and recreate Kurki.
+
 # Something broken locally # 
 
 **Execute** `./run.sh morning` and go to **Development** section Step 1. This will remove the `./oracle_data` directory as well as all images, volumes and containers in this project. 
@@ -51,11 +39,38 @@ Use `./run.sh updater up` or `./run.sh both up` to run the updater either with o
 
 # Connecting to production database #
 
+The local database can not be connected to production database. But you can use sqlplus to manipulate production.
+
 Run `docker run -e USER="USERNAME" -it toska/kurki-sqlplus` where "USERNAME" is your ad username. Code can be found in the sqlplus folder.
 
 Password can be found in kurki.cs.helsinki.fi in the _kurki.cnf_ file.
 
-# vanhat development ohjeet
+## Production deployment ###
+
+See guide here [https://github.com/UniversityOfHelsinkiCS/kurki/blob/master/docs/deploy-production.md](https://github.com/UniversityOfHelsinkiCS/kurki/blob/master/docs/deploy-production.md)
+
+
+## Old development guide below, might still contain useful info ##
+## Vanhat development ohjeet alla, saattaa sisältää vieläkin jotain hyödyllistä ##
+
+kurki13
+=======
+
+Riippuvuuksien asennus lokaaliin maven-repositorioon (suorita hakemistossa lib)
+
+<pre>
+mvn install:install-file -Dfile=ojdbc7-12.1.0.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0 -Dpackaging=jar
+</pre>
+
+Testiversio [https://ilmo.cs.helsinki.fi/t_kurki/servlet/index](https://ilmo.cs.helsinki.fi/t_kurki/servlet/index)
+
+# deployment #
+
+[siirto staging-ympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-staging.md)
+
+[siirto tuotantoympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-production.md)
+
+# development # 
 
 Muuta tarvittaessa db-url tiedostoon src/main/webapp/WEB_INF/kurki.cnf (tiedosto ei ole repositoriossa!)
 
