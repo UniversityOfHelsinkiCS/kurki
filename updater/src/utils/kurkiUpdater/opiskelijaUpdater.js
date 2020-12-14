@@ -16,7 +16,7 @@ class OpiskelijaUpdater {
     const { hetu } = opiskelijaPayload;
 
     if (!hetu) {
-      throw new Error(`Student ${this.person.id} does not have student number`);
+      throw new Error(`Student ${this.person.id} does not have a student number`);
     }
 
     await models.Opiskelija.query().patchOrInsertById(hetu, opiskelijaPayload);

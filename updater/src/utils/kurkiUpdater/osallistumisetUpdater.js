@@ -16,7 +16,6 @@ class OsallistumisetUpdater {
     for (let enrolment of enrolments) {
       await this.updateOsallistuminen(enrolment).catch((error) => {
         logger.error('Failed to update enrolment', {
-          kurssi: this.kurssi,
           enrolment,
         });
 
