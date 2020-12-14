@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This file would be a stack of npm scripts if we lived in node world.
+# Passes all additional arguments to docker-compose as is. See ./run kurki up --help
 
 option=$1
 
