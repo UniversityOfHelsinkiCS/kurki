@@ -10,7 +10,7 @@
     "test": "jest src",
     "tunnel": "docker exec -it kurki-updater bash /usr/src/app/scripts/tunnel.sh",
     "migrate:make": "knex migrate:make",
-    "migrate:latest": "knex migrate:latest",
+    "migrate:latest": "node -r esm ./src/migrateDatabase.js",
     "migrate:rollback": "knex migrate:rollback"
   },
   "jest": {

@@ -1,11 +1,11 @@
-import kurkiUpdater from './utils/kurkiUpdater';
-import logger from './utils/logger';
+import knex from 'knex';
+
 import waitForDatabaseConnection from './utils/waitForDatabaseConnection';
+import logger from './utils/logger';
 
 const main = async () => {
   await waitForDatabaseConnection();
-
-  await kurkiUpdater.updateCourseUnitsByCodes(['TKT20010']);
+  await knex.migrate.latest();
 };
 
 main().catch((error) => logger.error(error));
