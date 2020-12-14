@@ -35,7 +35,11 @@ Data is saved in `./oracle_data` so removing that will reset the oracle database
 
 # Updater #
 
-Use `./run.sh updater up` or `./run.sh both up` to run the updater either with our without kurki. The database is started regardless.
+Go to [https://github.com/UniversityOfHelsinkiCS/kurki/tree/master/updater](https://github.com/UniversityOfHelsinkiCS/kurki/tree/master/updater) after you have **confirmed that Development steps 1-4 work**.
+
+Follow the **README.md** in updater!
+
+Use `./run.sh updater up` or `./run.sh both up` to run the updater either with our without kurki. If you need to rebuild use `--build`, e.g. `./run.sh updater up --build` The database is started regardless.
 
 # Connecting to production database #
 
@@ -50,8 +54,7 @@ Password can be found in kurki.cs.helsinki.fi in the _kurki.cnf_ file.
 See guide here [https://github.com/UniversityOfHelsinkiCS/kurki/blob/master/docs/deploy-production.md](https://github.com/UniversityOfHelsinkiCS/kurki/blob/master/docs/deploy-production.md)
 
 
-## Old development guide below, might still contain useful info ##
-## Vanhat development ohjeet alla, saattaa sisältää vieläkin jotain hyödyllistä ##
+# Old development guide below, might still contain useful info / Vanhat development ohjeet alla, saattaa sisältää vieläkin jotain hyödyllistä #
 
 kurki13
 =======
@@ -64,19 +67,19 @@ mvn install:install-file -Dfile=ojdbc7-12.1.0.jar -DgroupId=com.oracle -Dartifac
 
 Testiversio [https://ilmo.cs.helsinki.fi/t_kurki/servlet/index](https://ilmo.cs.helsinki.fi/t_kurki/servlet/index)
 
-# deployment #
+# old deployment #
 
 [siirto staging-ympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-staging.md)
 
 [siirto tuotantoympäristöön](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/kurki13/docs/deploy-production.md)
 
-# development # 
+# old development # 
 
 Muuta tarvittaessa db-url tiedostoon src/main/webapp/WEB_INF/kurki.cnf (tiedosto ei ole repositoriossa!)
 
 Sovellus urlissa [http://localhost:8080/kurki13/servlet/index](http://localhost:8080/kurki13/servlet/index)
 
-# tietokanta
+# old tietokanta
 
 tuotanto _svm-1.cs.helsinki.fi:1521:ope_
 
@@ -84,13 +87,13 @@ testikanta _svm-1.cs.helsinki.fi:1521:opetest2_
 
 Molemmissa käyttäjätunnus *tk_opha* salasana ks. palvelinten _kurki.cnf_ 
 
-## tietokantaskeema
+## old tietokantaskeema
 
 Ks [https://github.com/UniversityOfHelsinkiCS/opetushallinto/tree/master/db](https://github.com/UniversityOfHelsinkiCS/opetushallinto/tree/master/db)
 
 Dokumentoi skeeman muutokset tiedostoon [https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/db/opha_taulut_x.sql](https://github.com/UniversityOfHelsinkiCS/opetushallinto/blob/master/db/opha_taulut_x.sql)
 
-## SQL-proseduurit
+## old SQL-proseduurit
 
 Päivitetyt proseduurit hakemistossa [https://github.com/UniversityOfHelsinkiCS/opetushallinto/tree/master/db](https://github.com/UniversityOfHelsinkiCS/opetushallinto/tree/master/db)
 
@@ -105,6 +108,6 @@ where name = 'RYHMAVAIHTO'
 order by line
 ```
 
-## proseduurin päivitys
+## old proseduurin päivitys
 
 Suorita proseduurin koodi sql-developerin konsolissa. Sen jälkeen komento ```commit``` saa muutoksen voimaan.
