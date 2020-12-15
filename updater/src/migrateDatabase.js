@@ -1,29 +1,17 @@
-import path from 'path';
-
+import runDatabaseMigrations from './utils/runDatabaseMigrations';
 import waitForDatabaseConnection from './utils/waitForDatabaseConnection';
 import logger from './utils/logger';
-import db from './db';
 
 const main = async () => {
   await waitForDatabaseConnection();
-
-  try {
-    await db.raw("DELETE FROM \"knex_migrations_lock\" WHERE \"is_locked\" = 1")
-  } catch (err) {
-    logger.info('Could not delete migrations lock')
-  }
-
-  await db.migrate.latest({
-    directory: path.join(__dirname, '..', 'migrations'),
-  });
+  await runDatabaseMigrations();
 };
 
 main()
   .then(() => {
-    logger.info('Database migrations have been executed successfully')
-    process.exit()
+    process.exit();
   })
   .catch((error) => {
-    logger.error(error)
-    process.exit(1)
+    logger.error(error);
+    process.exit(1);
   });
