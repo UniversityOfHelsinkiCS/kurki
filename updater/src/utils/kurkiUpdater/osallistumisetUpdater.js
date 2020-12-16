@@ -1,5 +1,6 @@
 import sisClient from '../sisClient';
 import OpiskelijaUpdater from './opiskelijaUpdater';
+import logger from '../logger';
 
 class OsallistumisetUpdater {
   constructor({ kurssi }) {
@@ -25,9 +26,14 @@ class OsallistumisetUpdater {
   }
 
   async updateOsallistuminen(enrolment) {
-    const { personId } = enrolment;
+    const { person } = enrolment;
 
-    const person = await sisClient.getStudentById(personId);
+    if (!person) {
+      throw new Error(
+        `Enrolment ${enrolment.id} does not contain student information`,
+      );
+    }
+
     const opiskelijaUpdater = new OpiskelijaUpdater({ person });
     const opiskelija = await opiskelijaUpdater.update();
 
