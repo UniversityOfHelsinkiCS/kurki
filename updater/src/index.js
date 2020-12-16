@@ -25,7 +25,7 @@ const main = async () => {
 
   await migrate()
 
-  await kurkiUpdater.updateCourseUnitsByCodes(['TKT20010']);
+  await kurkiUpdater.updateCourseUnitsByCodes(['TKT10004']);
 };
 
 main().catch((error) => logger.error(error));
