@@ -7,7 +7,8 @@ const main = async () => {
   await waitForDatabaseConnection();
   await runDatabaseMigrations();
 
-  await kurkiUpdater.updateCourseUnitsByCodes(['TKT21007']);
+  await kurkiUpdater.updateCourseUnitsByCodes(['TKT10004']);
+  await kurkiUpdater.updateEnrolmentsByCode('TKT10004');
 };
 
 main().catch((error) => logger.error(error));

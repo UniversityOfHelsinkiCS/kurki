@@ -2,7 +2,15 @@ import BaseModel from './baseModel';
 
 class Osallistuminen extends BaseModel {
   static get idColumn() {
-    return 'hetu';
+    return [
+      'kurssikoodi',
+      'lukukausi',
+      'lukuvuosi',
+      'tyyppi',
+      'kurssiNro',
+      'ryhmaNro',
+      'hetu',
+    ];
   }
 
   static get tableName() {

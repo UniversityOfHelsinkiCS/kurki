@@ -1,22 +1,20 @@
 import models from '../../models';
 import getOpiskelijaByPerson from './getOpiskelijaByPerson';
-import getOpiskelijaByStudyRights from './getOpiskelijaByStudyRights';
 
 class OpiskelijaUpdater {
   constructor({ person }) {
     this.person = person;
   }
 
-  update() {
-    const opiskelijaPayload = {
-      ...getOpiskelijaByPerson(this.person),
-      ...getOpiskelijaByStudyRights(this.person.studyrights)
-    };
+  async update() {
+    const opiskelijaPayload = getOpiskelijaByPerson(this.person);
 
     const { hetu } = opiskelijaPayload;
 
     if (!hetu) {
-      throw new Error(`Student ${this.person.id} does not have a student number`);
+      throw new Error(
+        `Student ${this.person.id} does not have a student number`,
+      );
     }
 
     await models.Opiskelija.query().patchOrInsertById(hetu, opiskelijaPayload);
