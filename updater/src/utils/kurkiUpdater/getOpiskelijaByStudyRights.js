@@ -26,7 +26,7 @@ const getStartingYear = (studyRights) => {
 const getPaaAineByStudyRight = (studyRight) => {
   const { organization } = studyRight;
 
-  if (!get(organizaton, 'code')) {
+  if (!get(organization, 'code')) {
     return '?';
   }
 

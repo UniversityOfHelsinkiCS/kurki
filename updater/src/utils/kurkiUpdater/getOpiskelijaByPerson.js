@@ -17,7 +17,7 @@ const getOpiskelijaByPerson = (person) => {
 
   const etunimi = getEtunimiByFirstNames(firstNames);
   const sukunimi = lastName ? lastName.slice(0, 40) : null;
-  const personid = '';
+  const personid = studentNumber;
 
   return {
     etunimi,
@@ -25,7 +25,7 @@ const getOpiskelijaByPerson = (person) => {
     personid,
     opnro: studentNumber,
     hetu: studentNumber,
-    email: primaryEmail,
+    sahkopostiosoite: primaryEmail,
     sisId: id,
   };
 };
