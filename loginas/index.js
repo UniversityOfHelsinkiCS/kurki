@@ -2,7 +2,7 @@ const proxy = require('express-http-proxy');
 const app = require('express')();
 
 const PROXY_ADDR = 'kurki:8080'
-let uid = 'mluukkai'
+let uid = process.env.UID
 
 app.get('/uid/:uid', (req, res) => {
   const params = req.params
@@ -20,5 +20,7 @@ app.use('/', proxy(PROXY_ADDR, {
     return proxyReqOpts
   }
 }));
+
+console.log(`login as ${uid}`)
 
 app.listen(3000, () => console.log(`Proxy running in port 3000, proxying to ${PROXY_ADDR}`))

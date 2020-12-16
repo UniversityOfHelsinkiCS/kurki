@@ -22,6 +22,8 @@ services:
   loginas:
     build:
       context: ./loginas
+    environment:
+      UID: kerola
     ports:
       - "3003:3000"
     volumes:
