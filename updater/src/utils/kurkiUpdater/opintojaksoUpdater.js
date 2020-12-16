@@ -35,7 +35,10 @@ class OpintojaksoUpdater {
       { activityPeriodEndDateAfter: subMonths(new Date(), 12) },
     );
 
+
+    console.log("  updateKurssit, realisations:")
     for (let realisation of courseUnitRealisations) {
+      console.log(`    ${realisation.id} ${realisation.assessmentItemIds} ${JSON.stringify(realisation.activityPeriod)}`)
       await this.updateKurssi(realisation).catch((error) => {
         logger.error('Failed to update course unit realisation', {
           courseUnit: this.courseUnit,

@@ -24,6 +24,8 @@ class KurssiUpdater {
 
     const owner = getKurssiOmistajaByResponsibilityInfos(responsibilityInfos);
 
+    console.log(`      owner: ${owner.firstNames} ${owner.lastName} ${owner.employeeNumber}`)
+
     const ownerHenkilo = owner
       ? await models.Henkilo.query().patchOrInsertAndFetchByPerson(owner)
       : undefined;
@@ -113,6 +115,9 @@ class KurssiUpdater {
   async updateOpetukset() {
     const opetukset = await this.getOpetukset();
 
+    console.log("        opetukset:")
+    console.log(JSON.stringify(opetukset, null , 2))
+    
     for (let opetus of opetukset) {
       const { teacher, ...restOpetus } = opetus;
 

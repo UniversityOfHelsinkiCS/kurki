@@ -1,4 +1,5 @@
 import { flatMap } from 'lodash';
+import { CS_BACHELOR_PROGRAMME_CODE } from '../../config';
 
 import getIlmoJnroByStudyGroup from './getIlmoJnroByStudyGroup';
 
@@ -6,8 +7,9 @@ const getStudyGroupTeacher = (group) =>
   group.teachers ? group.teachers[0] : undefined;
 
 const getOpetusByStudyGroupSets = (groupSets, kurssi) => {
-  const { sisId } = kurssi;
-  const groups = flatMap(groupSets, ({ studySubGroups }) => studySubGroups);
+  const { sisId } = kurssi;  
+  const groups =  groupSets.find(set => set.name.fi === "Harjoitusryhmä" || set.name.en === "Exercise Group").studySubGroups 
+                  //flatMap(groupSets, ({ studySubGroups }) => studySubGroups);
 
   const group99 = groups.find((group) => getIlmoJnroByStudyGroup(group) === 99);
 
