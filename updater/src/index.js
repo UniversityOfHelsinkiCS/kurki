@@ -9,8 +9,9 @@ const main = async () => {
   console.log(data)
   await runDatabaseMigrations();
 
-  //await kurkiUpdater.updateCourseUnitsByCodes(['TKT21007']);
-  //await kurkiUpdater.updateEnrolmentsByCode('TKT21007');
+  // acual shit happens with:
+  // npm run courses
+  // npm run enrolments
 };
 
 main().catch((error) => logger.error(error));
