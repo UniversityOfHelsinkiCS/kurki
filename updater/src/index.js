@@ -4,11 +4,13 @@ import waitForDatabaseConnection from './utils/waitForDatabaseConnection';
 import runDatabaseMigrations from './utils/runDatabaseMigrations';
 
 const main = async () => {
-  await waitForDatabaseConnection();
+  const data = await waitForDatabaseConnection();
+  console.log("Connected to DB")
+  console.log(data)
   await runDatabaseMigrations();
 
-  await kurkiUpdater.updateCourseUnitsByCodes(['TKT10004']);
-  await kurkiUpdater.updateEnrolmentsByCode('TKT10004');
+  //await kurkiUpdater.updateCourseUnitsByCodes(['TKT21007']);
+  //await kurkiUpdater.updateEnrolmentsByCode('TKT21007');
 };
 
 main().catch((error) => logger.error(error));

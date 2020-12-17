@@ -23,7 +23,7 @@ services:
     build:
       context: ./loginas
     environment:
-      UID: jakousa
+      UID: floreen
     ports:
       - "3003:3000"
     volumes:
@@ -40,7 +40,6 @@ services:
       KURKI_DB_CONNECTION_STRING: kurki-db:1521/opetest2
       KURKI_FALLBACK_KURSSI_OMISTAJA: SIVEN_R
       SIS_IMPORTER_API_URL: https://importer.cs.helsinki.fi
-      #SIS_IMPORTER_API_URL: http://sis-importer-db-api:3000 #https://importer.cs.helsinki.fi
     volumes:
       - ./updater:/usr/src/app
       - updater-nodemod:/usr/src/app/node_modules/

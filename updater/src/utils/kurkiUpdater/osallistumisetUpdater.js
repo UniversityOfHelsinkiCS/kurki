@@ -35,6 +35,9 @@ class OsallistumisetUpdater {
     const opetukset = await this.getOpetukset();
     const enrolments = await this.getEnrolments();
 
+    console.log(opetukset)
+    console.log(enrolments)
+
     for (let enrolment of enrolments) {
       await this.updateOsallistuminen(enrolment, opetukset).catch((error) => {
         logger.error('Failed to update enrolment', {
@@ -72,6 +75,10 @@ class OsallistumisetUpdater {
       osallistuminenPayload.ryhmaNro,
       opiskelija.hetu,
     ];
+
+    console.log("***")
+    console.log(id)
+    console.log(osallistuminenPayload)
 
     await models.Osallistuminen.query().patchOrInsertById(id, {
       ...osallistuminenPayload,

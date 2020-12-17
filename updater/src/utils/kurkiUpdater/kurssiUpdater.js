@@ -24,7 +24,7 @@ class KurssiUpdater {
 
     const owner = getKurssiOmistajaByResponsibilityInfos(responsibilityInfos);
 
-    console.log(`      owner: ${owner.firstNames} ${owner.lastName} ${owner.employeeNumber}`)
+    console.log(`      owner: ${owner.firstNames} ${owner.lastName} ${owner.employeeNumber} ${owner.eduPersonPrincipalName}`)
 
     const ownerHenkilo = owner
       ? await models.Henkilo.query().patchOrInsertAndFetchByPerson(owner)

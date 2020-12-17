@@ -11,7 +11,10 @@
     "tunnel": "docker exec -it kurki-updater bash /usr/src/app/scripts/tunnel.sh",
     "migrate:make": "knex migrate:make",
     "migrate:latest": "node -r esm ./src/migrateDatabase.js",
-    "migrate:rollback": "knex migrate:rollback"
+    "migrate:rollback": "knex migrate:rollback",
+    "enrolments": "node -r esm ./src/scripts/updateEnrolments.js",
+    "courses": "node -r esm ./src/scripts/updateCourses.js",
+    "ping": "node -r esm ./src/scripts/ping.js"
   },
   "jest": {
     "transform": {

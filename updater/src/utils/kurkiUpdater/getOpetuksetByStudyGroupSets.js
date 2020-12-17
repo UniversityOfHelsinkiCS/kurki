@@ -8,9 +8,15 @@ const getStudyGroupTeacher = (group) =>
 
 const getOpetusByStudyGroupSets = (groupSets, kurssi) => {
   const { sisId } = kurssi;  
-  const groups =  groupSets.find(set => set.name.fi === "Harjoitusryhmä" || set.name.en === "Exercise Group").studySubGroups 
-                  //flatMap(groupSets, ({ studySubGroups }) => studySubGroups);
-
+  
+  const groupSet =  groupSets.find(set => set.name.fi === "Harjoitusryhmä" || set.name.en === "Exercise Group")
+  
+  // laskareita ei vielä määritelty
+  if (!groupSet) {
+      return [{ ryhmaNro: 0, ilmoJnro: null, sisId }]
+  }
+  
+  const groups = groupSet.studySubGroups 
   const group99 = groups.find((group) => getIlmoJnroByStudyGroup(group) === 99);
 
   const validGroups = groups.filter((group) => {
