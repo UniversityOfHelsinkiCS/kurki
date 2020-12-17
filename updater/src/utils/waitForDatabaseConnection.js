@@ -11,7 +11,7 @@ const waitForDatabaseConnection = async () => {
     await db.table('opintojakso').select('*').limit(1);
   } catch (error) {
     await wait(5000);
-
+    console.log(error)
     logger.info('No database connection, retrying...');
     await waitForDatabaseConnection();
   }
