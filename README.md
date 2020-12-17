@@ -56,13 +56,11 @@ See guide here [https://github.com/UniversityOfHelsinkiCS/kurki/blob/master/docs
 
 Login as another user:
 
-1. https://kurki.cs.helsinki.fi/loginas/servlet/index
-2. https://kurki.cs.helsinki.fi/loginas/uid/jakousa
+1.go to  https://kurki.cs.helsinki.fi/loginas/servlet/index
+2. then https://kurki.cs.helsinki.fi/loginas/uid/jakousa where jakousa is the uid of the user you want to log in as 
 
-where jakousa is the uid of the user you want to log in as 
-
-3. https://kurki.cs.helsinki.fi/loginas/servlet/index and log out
-4. https://kurki.cs.helsinki.fi/loginas/servlet/index
+3. go back to https://kurki.cs.helsinki.fi/loginas/servlet/index and log out
+4. go again to https://kurki.cs.helsinki.fi/loginas/servlet/index
 
 # Old development guide below, might still contain useful info / Vanhat development ohjeet alla, saattaa sisältää vieläkin jotain hyödyllistä #
 
