@@ -9,7 +9,7 @@ const {
 } = process.env;
 
 module.exports = {
-  debug: true,
+  debug: process.env.DEBUG,
   client: 'oracledb',
   connection: {
     user: KURKI_DB_USER,

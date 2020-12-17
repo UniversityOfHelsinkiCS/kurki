@@ -23,7 +23,7 @@ services:
     build:
       context: ./loginas
     environment:
-      UID: floreen
+      UID: ahslaaks
     ports:
       - "3003:3000"
     volumes:
