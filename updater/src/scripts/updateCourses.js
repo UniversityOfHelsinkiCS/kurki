@@ -1,8 +1,16 @@
 import kurkiUpdater from '../utils/kurkiUpdater';
 import logger from '../utils/logger';
+import db from '../db';
+import closeDatabaseConnection from '../utils/closeDatabaseConnection';
+
+const wait = (time) =>
+  new Promise((resolve) => {
+    setTimeout(() => resolve(), time);
+  });
 
 const main = async (codes) => {
   await kurkiUpdater.updateCourseUnitsByCodes(codes);
+  await closeDatabaseConnection();
 };
 
 const courses = process.argv.slice(2, process.argv.length)

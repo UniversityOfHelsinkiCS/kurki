@@ -1,8 +1,10 @@
 import kurkiUpdater from '../utils/kurkiUpdater';
 import logger from '../utils/logger';
+import closeDatabaseConnection from '../utils/closeDatabaseConnection';
 
 const main = async (codes) => {
   await kurkiUpdater.updateEnrolmentsByCode(codes);
+  await closeDatabaseConnection();
 };
 
 
