@@ -56,7 +56,7 @@ See guide here [https://github.com/UniversityOfHelsinkiCS/kurki/blob/master/docs
 
 Login as another user:
 
-1.go to  https://kurki.cs.helsinki.fi/loginas/servlet/index
+1. go to  https://kurki.cs.helsinki.fi/loginas/servlet/index
 2. then https://kurki.cs.helsinki.fi/loginas/uid/jakousa where jakousa is the uid of the user you want to log in as 
 
 3. go back to https://kurki.cs.helsinki.fi/loginas/servlet/index and log out

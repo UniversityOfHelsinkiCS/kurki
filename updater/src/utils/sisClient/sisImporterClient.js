@@ -16,6 +16,9 @@ class SisImporterClient {
   }
 
   get(url, options) {
+    console.log("====================")
+    console.log(url, this.getAuthorizedRequestOptions(options))
+    console.log("====================")
     return this.httpClient.get(url, this.getAuthorizedRequestOptions(options));
   }
 }
