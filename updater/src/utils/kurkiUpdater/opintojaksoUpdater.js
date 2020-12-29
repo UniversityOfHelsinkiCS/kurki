@@ -33,11 +33,13 @@ class OpintojaksoUpdater {
     const courseUnitRealisations = await sisClient.getCourseUnitRealisationsByCode(
       kurssikoodi,
       { activityPeriodEndDateAfter: subMonths(new Date(), 12) },
-    );
+    )
 
-
+    const validRealisations = courseUnitRealisations
+      .filter(c => c.activityPeriod.endDate && new Date(c.activityPeriod.endDate).getFullYear()>2020)
+    
     console.log("  updateKurssit, realisations:")
-    for (let realisation of courseUnitRealisations) {
+    for (let realisation of validRealisations) {
       console.log(`    ${realisation.id} ${realisation.assessmentItemIds} ${JSON.stringify(realisation.activityPeriod)}`)
       await this.updateKurssi(realisation).catch((error) => {
         logger.error('Failed to update course unit realisation', {

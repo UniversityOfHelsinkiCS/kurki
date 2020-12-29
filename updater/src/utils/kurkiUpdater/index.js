@@ -49,12 +49,12 @@ export class KurkiUpdater {
     const updater = new OpintojaksoUpdater({
       courseUnit,
     });
-    console.log(`updating updateOpintojakso ${courseUnit.code} ${courseUnit.name.fi} ${courseUnit.id}` )
+    console.log(`updating ${courseUnit.code} ${courseUnit.name.fi} ${courseUnit.id} ${courseUnit.activityPeriod}` )
     await updater.update();
   }
 
   async updateEnrolmentsByCodes(codes) {
-    for (let code of codes) { 
+    for (let code of codes) {
       await this.updateEnrolmentsByCode(code);
     }
   }
@@ -65,7 +65,7 @@ export class KurkiUpdater {
     );
 
     const validCourses = kurssit.filter(k => process.env.ENROLL_ALL || k.lukuvuosi > 2020)
-
+    
     await this.updateOsallistumisetForKurssit(validCourses);
   }
 
