@@ -3,7 +3,7 @@ import db from '../db';
 import closeDatabaseConnection from '../utils/closeDatabaseConnection';
 
 const main = async () => {
-  console.log("acual ping")
+  console.log("ping!")
   const data = await db.table('opintojakso').select('*').limit(1);
   console.log(data)
   await closeDatabaseConnection();

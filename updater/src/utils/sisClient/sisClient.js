@@ -95,6 +95,7 @@ class SisClient {
 
     return data;
   }
+
 }
 
 export default SisClient;

@@ -53,12 +53,20 @@ export class KurkiUpdater {
     await updater.update();
   }
 
+  async updateEnrolmentsByCodes(codes) {
+    for (let code of codes) { 
+      await this.updateEnrolmentsByCode(code);
+    }
+  }
+
   async updateEnrolmentsByCode(code) {
     const kurssit = await createActiveKurssitQueryBuilder(
       models.Kurssi.query().where({ kurssikoodi: code }),
     );
 
-    await this.updateOsallistumisetForKurssit(kurssit);
+    const validCourses = kurssit.filter(k => process.env.ENROLL_ALL || k.lukuvuosi > 2020)
+
+    await this.updateOsallistumisetForKurssit(validCourses);
   }
 
   async updateOsallistumisetForKurssit(kurssit) {

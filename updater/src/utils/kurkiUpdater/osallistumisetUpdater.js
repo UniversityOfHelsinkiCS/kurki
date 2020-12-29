@@ -35,7 +35,7 @@ class OsallistumisetUpdater {
     const opetukset = await this.getOpetukset();
     const enrolments = await this.getEnrolments();
 
-    console.log(opetukset[0].kurssikoodi)
+    console.log(`${this.kurssi.kurssikoodi} ${this.kurssi.nimi} ${this.kurssi.lukuvuosi} ${this.kurssi.lukukausi}`)
 
     for (let enrolment of enrolments) {
       await this.updateOsallistuminen(enrolment, opetukset).catch((error) => {
