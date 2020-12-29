@@ -116,7 +116,7 @@ class KurssiUpdater {
     const opetukset = await this.getOpetukset();
 
     console.log("        opetukset:")
-    console.log(JSON.stringify(opetukset, null , 2))
+    //console.log(JSON.stringify(opetukset, null , 2))
     
     for (let opetus of opetukset) {
       const { teacher, ...restOpetus } = opetus;
@@ -151,6 +151,8 @@ class KurssiUpdater {
     ];
 
     await models.Opetus.query().patchOrInsertById(opetusId, opetus);
+    
+    console.log(`          ryhma: ${opetus.ryhmaNro} ilmo: ${String(opetus.ilmoJnro).padEnd(4,' ')} ${opetus.sisId}`)
 
     await this.updateOpetustehtavanHoitoForPerson(teacher, ryhmaNro, 'HT');
   }
