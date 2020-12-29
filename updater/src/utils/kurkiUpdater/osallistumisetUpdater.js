@@ -51,6 +51,10 @@ class OsallistumisetUpdater {
   async updateOsallistuminen(enrolment, opetukset) {
     const { student } = enrolment;
 
+    if (enrolment.state==="NOT_ENROLLED") {
+      return
+    }
+
     if (!student) {
       throw new Error(
         `Enrolment ${enrolment.id} does not contain student information`,
