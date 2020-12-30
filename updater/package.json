@@ -14,6 +14,7 @@
     "migrate:rollback": "knex migrate:rollback",
     "enrolments": "node -r esm ./src/scripts/updateEnrolments.js",
     "courses": "node -r esm ./src/scripts/updateCourses.js",
+    "programme": "node -r esm ./src/scripts/updateProgramme.js",
     "ping": "node -r esm ./src/scripts/ping.js",
     "codes": "node -r esm ./src/scripts/codes.js"
   },

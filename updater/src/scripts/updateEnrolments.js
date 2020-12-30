@@ -12,5 +12,5 @@ const courses = process.argv.slice(2, process.argv.length)
 if (process.argv.length > 2) {
   main(courses).catch((error) => logger.error(error));
 } else {
-  console.log("give course code as parameter")
+  logger.info("give course code as parameter")
 }

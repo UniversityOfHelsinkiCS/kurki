@@ -1,5 +1,7 @@
 import logger from '../utils/logger';
 import sisClient from '../utils/sisClient'
+import kurkiUpdater from '../utils/kurkiUpdater';
+import closeDatabaseConnection from '../utils/closeDatabaseConnection';
 
 const wait = (time) =>
   new Promise((resolve) => {
@@ -13,12 +15,11 @@ const valid = (course) => {
 const main = async (code) => {
   const courses = await sisClient.getCourseUnitsByProgramme(code)
   const validCourses = courses.filter(valid)
-  validCourses.forEach(course => {
-    console.log(`${course.code} ${course.name.fi}`)
-  });
+  const codes = validCourses.map(c => c.code); 
 
-  const str = validCourses.reduce((str, c) => str.concat(" "+c.code), "")
-  console.log(str)
+  await kurkiUpdater.updateCourseUnitsByCodes(codes);
+  await kurkiUpdater.updateEnrolmentsByCodes(codes);
+  await closeDatabaseConnection();
 };
 
 if (process.argv.length > 1 && ["500-K005", "500-M009","500-M010"].includes(process.argv[2]) ) {

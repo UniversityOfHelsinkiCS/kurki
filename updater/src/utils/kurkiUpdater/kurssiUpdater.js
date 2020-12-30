@@ -25,9 +25,9 @@ class KurssiUpdater {
     const owner = getKurssiOmistajaByResponsibilityInfos(responsibilityInfos);
 
     if (owner) {
-      console.log(`      owner: ${owner.firstNames} ${owner.lastName} ${owner.employeeNumber} ${owner.eduPersonPrincipalName}`)
+      logger.info(`      owner: ${owner.firstNames} ${owner.lastName} ${owner.employeeNumber} ${owner.eduPersonPrincipalName}`)
     } else {
-      console.log(`      owner unknown ${responsibilityInfos}`)
+      logger.info(`      owner unknown ${responsibilityInfos}`)
     }
 
     const ownerHenkilo = owner
@@ -119,8 +119,7 @@ class KurssiUpdater {
   async updateOpetukset() {
     const opetukset = await this.getOpetukset();
 
-    console.log("        opetukset:")
-    //console.log(JSON.stringify(opetukset, null , 2))
+    logger.info("        opetukset:")
     
     for (let opetus of opetukset) {
       const { teacher, ...restOpetus } = opetus;
@@ -156,7 +155,7 @@ class KurssiUpdater {
 
     await models.Opetus.query().patchOrInsertById(opetusId, opetus);
     
-    console.log(`          ryhma: ${opetus.ryhmaNro} ilmo: ${String(opetus.ilmoJnro).padEnd(4,' ')} ${opetus.sisId}`)
+    logger.info(`          ryhma: ${opetus.ryhmaNro} ilmo: ${String(opetus.ilmoJnro).padEnd(4,' ')} ${opetus.sisId}`)
 
     await this.updateOpetustehtavanHoitoForPerson(teacher, ryhmaNro, 'HT');
   }

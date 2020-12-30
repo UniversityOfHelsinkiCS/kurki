@@ -49,7 +49,7 @@ export class KurkiUpdater {
     const updater = new OpintojaksoUpdater({
       courseUnit,
     });
-    console.log(`updating ${courseUnit.code} ${courseUnit.name.fi} ${courseUnit.id} ${courseUnit.activityPeriod}` )
+    logger.info(`updating ${courseUnit.code} ${courseUnit.name.fi} ${courseUnit.id} ${courseUnit.activityPeriod}` )
     await updater.update();
   }
 

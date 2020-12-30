@@ -5,7 +5,7 @@ import runDatabaseMigrations from './utils/runDatabaseMigrations';
 
 const main = async () => {
   const data = await waitForDatabaseConnection();
-  console.log("Connected to DB")
+  logger.info("Connected to DB");
   await runDatabaseMigrations();
 
   // acual shit happens with:
