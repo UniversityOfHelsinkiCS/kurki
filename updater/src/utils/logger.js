@@ -6,11 +6,11 @@ const transports = [new winston.transports.Console()]
 transports.push(
   new Log2gelf({
     hostname: 'kurki-updater',
-    host: 'graylog-ingest.toska.cs.helsinki.fi',
-    port: 9502,
+    host: process.env.LOG_HOST || 'localhost',
+    port: process.env.LOG_PORT || 9502,
     protocol: 'https',
     protocolOptions: {
-      path:'/160543fe-1cc1-48df-affa-a30fb094823c/gelf'
+      path: process.env.LOG_PATH || '/gelf'
     }
   })
 )
