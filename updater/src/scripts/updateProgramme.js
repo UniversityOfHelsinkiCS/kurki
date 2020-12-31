@@ -3,11 +3,6 @@ import sisClient from '../utils/sisClient'
 import kurkiUpdater from '../utils/kurkiUpdater';
 import closeDatabaseConnection from '../utils/closeDatabaseConnection';
 
-const wait = (time) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(), time);
-  });
-
 const valid = (course) => {
   return course.validityPeriod.endDate === '2021-08-01' || !course.validityPeriod.endDate
 } 

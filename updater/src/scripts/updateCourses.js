@@ -2,11 +2,6 @@ import kurkiUpdater from '../utils/kurkiUpdater';
 import logger from '../utils/logger';
 import closeDatabaseConnection from '../utils/closeDatabaseConnection';
 
-const wait = (time) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(), time);
-  });
-
 const main = async (codes) => {
   await kurkiUpdater.updateCourseUnitsByCodes(codes);
   await closeDatabaseConnection();

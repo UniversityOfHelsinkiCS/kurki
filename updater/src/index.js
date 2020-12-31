@@ -1,10 +1,9 @@
-import kurkiUpdater from './utils/kurkiUpdater';
 import logger from './utils/logger';
 import waitForDatabaseConnection from './utils/waitForDatabaseConnection';
 import runDatabaseMigrations from './utils/runDatabaseMigrations';
 
 const main = async () => {
-  const data = await waitForDatabaseConnection();
+  await waitForDatabaseConnection();
   logger.info("Connected to DB");
   await runDatabaseMigrations();
 

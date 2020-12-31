@@ -1,3 +1,5 @@
+import logger from '../logger'
+
 const getEnrolmentOpetus = (enrolment, opetukset) => {
   const group99 = opetukset.find(({ ilmoJnro }) => ilmoJnro === 99);
 
@@ -16,6 +18,7 @@ const getOsallistuminenByEnrolment = (enrolment, opetukset) => {
   const opetus = getEnrolmentOpetus(enrolment, opetukset);
 
   if (!opetus) {
+    logger.error(`Could not resolve a study group for enrolment ${enrolment.id}`);
     throw new Error(
       `Could not resolve a study group for enrolment ${enrolment.id}`,
     );

@@ -7,7 +7,7 @@ const runDatabaseMigrations = async () => {
   try {
     await db.raw('DELETE FROM "knex_migrations_lock" WHERE "is_locked" = 1');
   } catch (err) {
-    logger.info('Could not delete migrations lock');
+    logger.error('Could not delete migrations lock');
   }
 
   await db.migrate.latest({

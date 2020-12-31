@@ -79,7 +79,7 @@ class OsallistumisetUpdater {
       opiskelija.hetu,
     ];
 
-    logger.info("  "+id)
+    logger.debug("  "+id)
 
     await models.Osallistuminen.query().patchOrInsertById(id, {
       ...osallistuminenPayload,

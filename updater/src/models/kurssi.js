@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { transaction } from 'objection';
+import logger from '../utils/logger';
 
 import BaseModel, { QueryBuilder } from './baseModel';
 
@@ -48,7 +49,7 @@ class EnhancedQueryBuilder extends QueryBuilder {
       );
 
       if (kurssiWithSameAlkamisPvm) {
-        console.log('same alkamis pvm, patching')
+        logger.info('same alkamis pvm, patching')
 
         await Model.query()
           .findById([

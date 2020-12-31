@@ -13,7 +13,7 @@ const closeDatabaseConnection = async () => {
     await db.destroy()
     logger.info('db connection closed');
   } catch (error) { 
-    console.log(error)
+    logger.error(error)
   }
 };
 
