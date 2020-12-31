@@ -4,6 +4,7 @@ import closeDatabaseConnection from '../utils/closeDatabaseConnection';
 
 const main = async () => {
   logger.info("ping!")
+  console.log(JSON.stringify({"message": "ping..."}))
   const data = await db.table('opintojakso').select('*').limit(1);
   logger.info(data)
   await closeDatabaseConnection();
