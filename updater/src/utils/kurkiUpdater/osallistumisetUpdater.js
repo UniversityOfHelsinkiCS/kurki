@@ -46,6 +46,7 @@ class OsallistumisetUpdater {
         logger.error(error);
       });
     }
+    logger.info(`udated ${enrolments.length} enrolments`)
   }
 
   async updateOsallistuminen(enrolment, opetukset) {
