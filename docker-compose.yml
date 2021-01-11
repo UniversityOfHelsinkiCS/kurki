@@ -46,11 +46,25 @@ services:
     container_name: kurki-updater
     depends_on:
       - kurki-db
+  opetushallinto-server:
+    build:
+      context: ./opetushallinto/server
+      dockerfile: config/dev.Dockerfile
+    environment:
+      KURKI_DB_USER: tk_opha
+      KURKI_DB_PASSWORD: salasana
+      KURKI_DB_CONNECTION_STRING: kurki-db:1521/opetest2
+    ports:
+      - 5000:5000
+    volumes:
+      - ./opetushallinto/server:/usr/src/app
+      - opetushallinto-server-nodemod:/usr/src/app/node_modules/
 
 volumes:
   oracle_data:
   updater-nodemod:
   loginas-nodemod:
+  opetushallinto-server-nodemod:
 
 #networks:
 #  default:
