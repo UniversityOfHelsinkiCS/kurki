@@ -1,4 +1,4 @@
-import adminUsers from '../adminUsers.json';
+import adminUsers from '../../adminUsers.json';
 
 const isAdminUser = id => {
   return adminUsers.includes(id);

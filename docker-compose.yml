@@ -25,7 +25,7 @@ services:
     environment:
       UID: ahslaaks
     ports:
-      - "3003:3000"
+      - '3003:3000'
     volumes:
       - ./loginas:/usr/src/app
       - loginas-nodemod:/usr/src/app/node_modules
@@ -58,16 +58,26 @@ services:
       - 5000:5000
     volumes:
       - ./opetushallinto/server:/usr/src/app
-      - opetushallinto-server-nodemod:/usr/src/app/node_modules/
+      - opetushallinto-server-nodemod:/usr/src/app/node_modules
     container_name: opetushallinto-server
+    depends_on:
+      - kurki-db
+  opetushallinto-client:
+    build:
+      context: ./opetushallinto/client
+      dockerfile: config/dev.Dockerfile
+    ports:
+      - 5001:3000
+    volumes:
+      - ./opetushallinto/client:/usr/src/app
+      - opetushallinto-client-nodemod:/usr/src/app/node_modules
+    container_name: opetushallinto-client
+    depends_on:
+      - opetushallinto-server
 
 volumes:
   oracle_data:
   updater-nodemod:
   loginas-nodemod:
   opetushallinto-server-nodemod:
-
-#networks:
-#  default:
-#    external:
-#      name: sis-importer_default
+  opetushallinto-client-nodemod:

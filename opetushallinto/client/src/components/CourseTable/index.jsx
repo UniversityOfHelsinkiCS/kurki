@@ -20,8 +20,9 @@ const ActionsMenu = ({ onAddTeacher }) => {
   const toggleMenuOpen = () =>
     setMenuOpen((previousMenuOpen) => !previousMenuOpen);
 
-  const itemProps = {
-    onClick: toggleMenuOpen,
+  const handleAddTeacher = () => {
+    onAddTeacher();
+    toggleMenuOpen();
   };
 
   return (
@@ -34,24 +35,14 @@ const ActionsMenu = ({ onAddTeacher }) => {
         open={menuOpen}
         onClose={toggleMenuOpen}
       >
-        <MenuItem
-          onClick={() => {
-            onAddTeacher();
-            itemProps.onClick();
-          }}
-        >
-          Lisää opettaja
-        </MenuItem>
+        <MenuItem onClick={handleAddTeacher}>Lisää opettaja</MenuItem>
       </Menu>
     </>
   );
 };
 
 const CourseTable = ({ courseUnitRealisations }) => {
-  const [
-    addTeacherDialogOpen,
-    setAddTeacherDialogOpen,
-  ] = useState(false);
+  const [addTeacherDialogOpen, setAddTeacherDialogOpen] = useState(false);
 
   const [
     currentCourseUnitRealisationId,
@@ -60,6 +51,11 @@ const CourseTable = ({ courseUnitRealisations }) => {
 
   const onToggleAddTeacherDialog = () => {
     setAddTeacherDialogOpen((previousOpen) => !previousOpen);
+  };
+
+  const makeOnAddTeacher = (courseUnitRealisationId) => () => {
+    setCurrentCourseUnitRealisationId(courseUnitRealisationId);
+    onToggleAddTeacherDialog();
   };
 
   return (
@@ -89,15 +85,7 @@ const CourseTable = ({ courseUnitRealisations }) => {
                   </TableCell>
                   <TableCell align="right">{getTranslation(name)}</TableCell>
                   <TableCell align="right">
-                    <ActionsMenu
-                      onAddTeacher={() => {
-                        setCurrentCourseUnitRealisationId(
-                          courseUnitRealisation.id,
-                        );
-
-                        onToggleAddTeacherDialog();
-                      }}
-                    />
+                    <ActionsMenu onAddTeacher={makeOnAddTeacher(id)} />
                   </TableCell>
                 </TableRow>
               );

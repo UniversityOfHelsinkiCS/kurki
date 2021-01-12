@@ -12,11 +12,6 @@ COPY package*.json ./
 
 RUN npm ci
 
-COPY client/package*.json ./client
-RUN cd client && npm ci
-RUN cd client && npm run build
-COPY client/build ./build
-
 EXPOSE 5000
 
 COPY . .

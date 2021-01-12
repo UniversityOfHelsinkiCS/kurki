@@ -25,12 +25,3 @@ export const KURKI_KNEX_CONFIG = {
   },
   ...knexSnakeCaseMappers({ upperCase: true }),
 };
-
-export const CLIENT_BUILD_PATH = path.join(__dirname, '..', 'build');
-
-export const CLIENT_BUILD_INDEX_PATH = path.join(
-  __dirname,
-  '..',
-  'build',
-  'index.html',
-);
