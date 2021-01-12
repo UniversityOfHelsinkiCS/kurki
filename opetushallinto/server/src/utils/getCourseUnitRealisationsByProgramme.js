@@ -3,6 +3,7 @@ import { subMonths, startOfDay } from 'date-fns';
 import { sortBy } from 'lodash';
 
 import importerClient from './importerClient';
+import callWithCache from './callWithCache';
 
 const cache = new LRU({
   max: 10,
@@ -26,20 +27,14 @@ const getCourseUnitRealisationsByProgramme = async (
 
   const cacheKey = getCacheKey({ programmeCode, activityPeriodEndDateAfter });
 
-  let promise;
+  console.log(`/kurki/course_unit_realisations/programme/${programmeCode}`);
 
-  if (cache.get(cacheKey)) {
-    promise = cache.get(cacheKey);
-  } else {
-    promise = importerClient.get(
+  const { data } = await callWithCache(cache, cacheKey, () => {
+    return importerClient.get(
       `/kurki/course_unit_realisations/programme/${programmeCode}`,
       { params },
     );
-
-    cache.set(cacheKey, promise);
-  }
-
-  const { data } = await promise;
+  });
 
   const sortedData = sortBy(data, (c) => -new Date(c.activityPeriod.endDate));
 

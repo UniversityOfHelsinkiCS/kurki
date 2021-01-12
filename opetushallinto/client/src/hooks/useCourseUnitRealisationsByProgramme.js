@@ -20,7 +20,7 @@ const useCourseUnitRealisationsByProgramme = (programmeCode) => {
     getCourseUnitRealisationsByProgrammeFetcher,
   );
 
-  return { courseUnitRealisation: data, ...rest };
+  return { courseUnitRealisations: data, ...rest };
 };
 
 export default useCourseUnitRealisationsByProgramme;

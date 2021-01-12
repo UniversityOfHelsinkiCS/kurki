@@ -59,6 +59,7 @@ services:
     volumes:
       - ./opetushallinto/server:/usr/src/app
       - opetushallinto-server-nodemod:/usr/src/app/node_modules/
+    container_name: opetushallinto-server
 
 volumes:
   oracle_data:
