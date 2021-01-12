@@ -1,7 +1,7 @@
 import express from 'express';
 
 import getCourseUnitRealisationsByProgramme from '../../utils/getCourseUnitRealisationsByProgramme';
-import addResponsiblePersonForCourseUnitRealisation from '../../utils/addResponsiblePersonForCourseUnitRealisation';
+import addTeacherForCourseUnitRealisation from '../../utils/addTeacherForCourseUnitRealisation';
 import getCourseUnitRealisationById from '../../utils/getCourseUnitRealisationById';
 
 const router = express.Router();
@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
   res.send(courseUnitRealisation);
 });
 
-router.post('/:id/responsible-persons', async (req, res) => {
+router.post('/:id/teachers', async (req, res) => {
   const {
     params: { id },
     body,
@@ -36,7 +36,7 @@ router.post('/:id/responsible-persons', async (req, res) => {
     personId,
   };
 
-  await addResponsiblePersonForCourseUnitRealisation(payload);
+  await addTeacherForCourseUnitRealisation(payload);
 
   res.send(payload);
 });

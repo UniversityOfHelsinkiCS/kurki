@@ -3,7 +3,7 @@ import Henkilo from '../models/Henkilo';
 import OpetustehtavanHoito from '../models/OpetustehtavanHoito';
 import { NotFoundError } from '../errors';
 
-const addResponsiblePersonForCourseUnitRealisation = async ({
+const addTeacherForCourseUnitRealisation = async ({
   courseUnitRealisationId,
   personId,
 }) => {
@@ -42,4 +42,4 @@ const addResponsiblePersonForCourseUnitRealisation = async ({
   return opetustehtavanHoito;
 };
 
-export default addResponsiblePersonForCourseUnitRealisation;
+export default addTeacherForCourseUnitRealisation;

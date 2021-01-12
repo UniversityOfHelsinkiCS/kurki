@@ -23,7 +23,7 @@ const withKurkiData = async (courseUnitRealisation) => {
       ? getPersonByHenkilo(kurssi.omistajaHenkilo)
       : null;
 
-  const kurkiResponsiblePersons =
+  const kurkiTeachers =
     kurssi && kurssi.opetustehtavanHoidot
       ? kurssi.opetustehtavanHoidot.map(({ henkilo }) =>
           getPersonByHenkilo(henkilo),
@@ -34,7 +34,7 @@ const withKurkiData = async (courseUnitRealisation) => {
     ...courseUnitRealisation,
     inKurki: Boolean(kurssi),
     kurkiOwner,
-    kurkiResponsiblePersons: uniqBy(kurkiResponsiblePersons, ({ id }) => id),
+    kurkiTeachers: uniqBy(kurkiTeachers, ({ id }) => id),
   };
 };
 

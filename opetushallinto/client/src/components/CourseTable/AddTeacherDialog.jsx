@@ -5,10 +5,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
-import AddResponsiblePersonForm from './AddResponsiblePersonForm';
+import AddTeacherForm from './AddTeacherForm';
 import useCourseUnitRealisation from '../../hooks/useCourseUnitRealisation';
 import Alert from '../Alert';
-import addResponsiblePersonForCourseUnitRealisation from '../../utils/addResponsiblePersonForCourseUnitRealisation';
+import addTeacherForCourseUnitRealisation from '../../utils/addTeacherForCourseUnitRealisation';
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -25,8 +25,8 @@ const getDisplayName = (person) => {
 const Content = ({ courseUnitRealisation, onSubmit }) => {
   const classes = useStyles();
 
-  const responsiblePersons = courseUnitRealisation
-    ? courseUnitRealisation.kurkiResponsiblePersons || []
+  const teachers = courseUnitRealisation
+    ? courseUnitRealisation.kurkiTeachers || []
     : [];
   const isInKurki = courseUnitRealisation && courseUnitRealisation.inKurki;
 
@@ -37,42 +37,38 @@ const Content = ({ courseUnitRealisation, onSubmit }) => {
   if (!isInKurki) {
     return (
       <Alert severity="warning">
-        Kurssi tulee tuoda Kurkeen ennen kuin vastuuhenkilöitä voi lisätä
+        Kurssi tulee tuoda Kurkeen ennen kuin opettajia voi lisätä
       </Alert>
     );
   }
 
-  const currentResponsiblePersonsAlert =
-    responsiblePersons.length > 0 ? (
+  const currentTeachersAlert =
+    teachers.length > 0 ? (
       <Alert severity="info" className={classes.alert}>
-        Kurssilla on jo seuraavat vastuuhenkilöt:{' '}
-        {responsiblePersons.map(getDisplayName).join(', ')}
+        Kurssilla on jo seuraavat opettajat:{' '}
+        {teachers.map(getDisplayName).join(', ')}
       </Alert>
     ) : null;
 
   return (
     <>
-      {currentResponsiblePersonsAlert}
-      <AddResponsiblePersonForm onSubmit={onSubmit} />
+      {currentTeachersAlert}
+      <AddTeacherForm onSubmit={onSubmit} />
     </>
   );
 };
 
-const AddResponsiblePersonDialog = ({
-  open,
-  onClose,
-  courseUnitRealisationId,
-}) => {
+const AddTeacherDialog = ({ open, onClose, courseUnitRealisationId }) => {
   const { courseUnitRealisation, revalidate } = useCourseUnitRealisation(
     courseUnitRealisationId,
   );
 
   const handleSubmit = async ({ personId }) => {
     try {
-      await addResponsiblePersonForCourseUnitRealisation(
+      await addTeacherForCourseUnitRealisation({
         courseUnitRealisationId,
         personId,
-      );
+      });
 
       revalidate();
     } catch (err) {
@@ -82,7 +78,7 @@ const AddResponsiblePersonDialog = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle id="alert-dialog-title">Lisää vastuuhenkilö</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Lisää opettaja</DialogTitle>
       <DialogContent>
         <Content
           courseUnitRealisation={courseUnitRealisation}
@@ -98,4 +94,4 @@ const AddResponsiblePersonDialog = ({
   );
 };
 
-export default AddResponsiblePersonDialog;
+export default AddTeacherDialog;

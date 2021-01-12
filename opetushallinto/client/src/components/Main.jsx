@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 
 import AppBar from './AppBar';
-import Home from './Home';
+import Status from './Status';
 import Courses from './Courses';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +22,7 @@ const Main = () => {
       <Container className={classes.container}>
         <Switch>
           <Route path="/" exact>
-            <Home />
+            <Status />
           </Route>
           <Route path="/courses/:programmeCode">
             <Courses />

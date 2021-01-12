@@ -18,10 +18,10 @@ const getLabel = (person) => {
     : person.id;
 };
 
-const AddResponsiblePersonForm = ({ onSubmit }) => {
+const AddTeacherForm = ({ onSubmit }) => {
   const classes = useStyles();
   const { persons } = usePersons();
-  const [person, setPerson] = useState(null);
+  const [teacher, setTeacher] = useState(null);
 
   const options = useMemo(() => {
     return persons
@@ -35,12 +35,12 @@ const AddResponsiblePersonForm = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!person) {
+    if (!teacher) {
       return;
     }
 
-    onSubmit({ personId: person.value });
-    setPerson(null);
+    onSubmit({ personId: teacher.value });
+    setTeacher(null);
   };
 
   return (
@@ -49,20 +49,23 @@ const AddResponsiblePersonForm = ({ onSubmit }) => {
         className={classes.autocomplete}
         options={options}
         getOptionLabel={({ label }) => label}
-        value={person}
+        value={teacher}
         onChange={(event, value) => {
-          setPerson(value);
+          setTeacher(value);
         }}
-        renderInput={(params) => (
-          <TextField {...params} label="Vastuuhenkilö" />
-        )}
+        renderInput={(params) => <TextField {...params} label="Opettaja" />}
       />
 
-      <Button disabled={!person} variant="contained" color="primary" type="submit">
-        Lisää vastuuhenkilö
+      <Button
+        disabled={!teacher}
+        variant="contained"
+        color="primary"
+        type="submit"
+      >
+        Lisää opettaja
       </Button>
     </form>
   );
 };
 
-export default AddResponsiblePersonForm;
+export default AddTeacherForm;

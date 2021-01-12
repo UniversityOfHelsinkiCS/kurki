@@ -11,9 +11,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import getTranslation from '../../utils/getTranslation';
-import AddResponsiblePersonDialog from './AddResponsiblePersonDialog';
+import AddTeacherDialog from './AddTeacherDialog';
 
-const ActionsMenu = ({ onAddResponsiblePerson }) => {
+const ActionsMenu = ({ onAddTeacher }) => {
   const buttonRef = useRef();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -36,13 +36,12 @@ const ActionsMenu = ({ onAddResponsiblePerson }) => {
       >
         <MenuItem
           onClick={() => {
-            onAddResponsiblePerson();
+            onAddTeacher();
             itemProps.onClick();
           }}
         >
-          Lisää vastuuhenkilö
+          Lisää opettaja
         </MenuItem>
-        <MenuItem {...itemProps}>Käynnistä tuonti Kurkeen</MenuItem>
       </Menu>
     </>
   );
@@ -50,8 +49,8 @@ const ActionsMenu = ({ onAddResponsiblePerson }) => {
 
 const CourseTable = ({ courseUnitRealisations }) => {
   const [
-    addResponsiblePersonDialogOpen,
-    setAddResponsiblePersonDialogOpen,
+    addTeacherDialogOpen,
+    setAddTeacherDialogOpen,
   ] = useState(false);
 
   const [
@@ -59,15 +58,15 @@ const CourseTable = ({ courseUnitRealisations }) => {
     setCurrentCourseUnitRealisationId,
   ] = useState();
 
-  const onToggleAddResponsiblePersonDialog = () => {
-    setAddResponsiblePersonDialogOpen((previousOpen) => !previousOpen);
+  const onToggleAddTeacherDialog = () => {
+    setAddTeacherDialogOpen((previousOpen) => !previousOpen);
   };
 
   return (
     <>
-      <AddResponsiblePersonDialog
-        open={addResponsiblePersonDialogOpen}
-        onClose={onToggleAddResponsiblePersonDialog}
+      <AddTeacherDialog
+        open={addTeacherDialogOpen}
+        onClose={onToggleAddTeacherDialog}
         courseUnitRealisationId={currentCourseUnitRealisationId}
       />
       <TableContainer>
@@ -75,7 +74,7 @@ const CourseTable = ({ courseUnitRealisations }) => {
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="right">Name</TableCell>
+              <TableCell align="right">Nimi</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -91,12 +90,12 @@ const CourseTable = ({ courseUnitRealisations }) => {
                   <TableCell align="right">{getTranslation(name)}</TableCell>
                   <TableCell align="right">
                     <ActionsMenu
-                      onAddResponsiblePerson={() => {
+                      onAddTeacher={() => {
                         setCurrentCourseUnitRealisationId(
                           courseUnitRealisation.id,
                         );
 
-                        onToggleAddResponsiblePersonDialog();
+                        onToggleAddTeacherDialog();
                       }}
                     />
                   </TableCell>
