@@ -4,6 +4,7 @@ import { sortBy } from 'lodash';
 
 import importerClient from './importerClient';
 import callWithCache from './callWithCache';
+import Kurssi from '../models/Kurssi';
 
 const cache = new LRU({
   max: 10,
@@ -12,6 +13,16 @@ const cache = new LRU({
 
 const getCacheKey = ({ programmeCode, activityPeriodEndDateAfter }) => {
   return JSON.stringify([programmeCode, activityPeriodEndDateAfter]);
+};
+
+const withKurkiData = async (courseUnitRealisations) => {
+  const ids = courseUnitRealisations.map(({ id }) => id);
+  const kurssit = await Kurssi.query().whereIn('sisId', ids);
+
+  return courseUnitRealisations.map((c) => ({
+    ...c,
+    inKurki: Boolean(kurssit.find((k) => k.sisId === c.id)),
+  }));
 };
 
 const getCourseUnitRealisationsByProgramme = async (
@@ -27,18 +38,27 @@ const getCourseUnitRealisationsByProgramme = async (
 
   const cacheKey = getCacheKey({ programmeCode, activityPeriodEndDateAfter });
 
-  console.log(`/kurki/course_unit_realisations/programme/${programmeCode}`);
+  const { data: courseUnitRealisations } = await callWithCache(
+    cache,
+    cacheKey,
+    () => {
+      return importerClient.get(
+        `/kurki/course_unit_realisations/programme/${programmeCode}`,
+        { params },
+      );
+    },
+  );
 
-  const { data } = await callWithCache(cache, cacheKey, () => {
-    return importerClient.get(
-      `/kurki/course_unit_realisations/programme/${programmeCode}`,
-      { params },
-    );
-  });
+  const courseUnitRealisationsWithKurkiData = await withKurkiData(
+    courseUnitRealisations,
+  );
 
-  const sortedData = sortBy(data, (c) => -new Date(c.activityPeriod.endDate));
+  const sortedCourseUnitRealisations = sortBy(
+    courseUnitRealisationsWithKurkiData,
+    (c) => -new Date(c.activityPeriod.endDate),
+  );
 
-  return sortedData;
+  return sortedCourseUnitRealisations;
 };
 
 export default getCourseUnitRealisationsByProgramme;

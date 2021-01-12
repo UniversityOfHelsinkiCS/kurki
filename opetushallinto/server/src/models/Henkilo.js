@@ -1,7 +1,7 @@
 import BaseModel from './BaseModel';
 import knex from '../utils/knex';
 
-class Henkilo extends BaseModel {
+export class Henkilo extends BaseModel {
   static get idColumn() {
     return 'htunnus';
   }

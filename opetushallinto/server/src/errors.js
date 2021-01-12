@@ -21,3 +21,9 @@ export class ForbiddenError extends ApplicationError {
     super(message, properties, 403);
   }
 }
+
+export class NotFoundError extends ApplicationError {
+  constructor(message, properties) {
+    super(message, properties, 404);
+  }
+}
