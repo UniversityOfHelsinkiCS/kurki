@@ -25,16 +25,13 @@ const getDisplayName = (person) => {
 const Content = ({ courseUnitRealisation, onSubmit }) => {
   const classes = useStyles();
 
-  const teachers = courseUnitRealisation
-    ? courseUnitRealisation.kurkiTeachers || []
-    : [];
-  const isInKurki = courseUnitRealisation && courseUnitRealisation.inKurki;
-
   if (!courseUnitRealisation) {
     return null;
   }
 
-  if (!isInKurki) {
+  const teachers = courseUnitRealisation.kurkiTeachers || [];
+
+  if (!courseUnitRealisation.inKurki) {
     return (
       <Alert severity="warning">
         Kurssi tulee tuoda Kurkeen ennen kuin opettajia voi lisätä

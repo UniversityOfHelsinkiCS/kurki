@@ -70,20 +70,24 @@ const CourseTable = ({ courseUnitRealisations }) => {
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="right">Nimi</TableCell>
+              <TableCell align="left">Nimi</TableCell>
+              <TableCell align="left">Kurjessa</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {courseUnitRealisations.map((courseUnitRealisation) => {
-              const { id, name } = courseUnitRealisation;
+              const { id, name, inKurki } = courseUnitRealisation;
 
               return (
                 <TableRow key={id}>
                   <TableCell component="th" scope="row">
                     {id}
                   </TableCell>
-                  <TableCell align="right">{getTranslation(name)}</TableCell>
+                  <TableCell align="left">{getTranslation(name)}</TableCell>
+                  <TableCell align="left">
+                    {inKurki ? 'Kyllä' : 'Ei'}
+                  </TableCell>
                   <TableCell align="right">
                     <ActionsMenu onAddTeacher={makeOnAddTeacher(id)} />
                   </TableCell>
