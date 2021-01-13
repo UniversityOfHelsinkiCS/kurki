@@ -4,7 +4,6 @@ import { sortBy } from 'lodash';
 
 import importerClient from './importerClient';
 import callWithCache from './callWithCache';
-import Kurssi from '../models/Kurssi';
 
 const cache = new LRU({
   max: 10,
@@ -13,16 +12,6 @@ const cache = new LRU({
 
 const getCacheKey = ({ programmeCode, activityPeriodEndDateAfter }) => {
   return JSON.stringify([programmeCode, activityPeriodEndDateAfter]);
-};
-
-const withKurkiData = async (courseUnitRealisations) => {
-  const ids = courseUnitRealisations.map(({ id }) => id);
-  const kurssit = await Kurssi.query().whereIn('sisId', ids);
-
-  return courseUnitRealisations.map((c) => ({
-    ...c,
-    inKurki: Boolean(kurssit.find((k) => k.sisId === c.id)),
-  }));
 };
 
 const getCourseUnitRealisationsByProgramme = async (
@@ -49,12 +38,8 @@ const getCourseUnitRealisationsByProgramme = async (
     },
   );
 
-  const courseUnitRealisationsWithKurkiData = await withKurkiData(
-    courseUnitRealisations,
-  );
-
   const sortedCourseUnitRealisations = sortBy(
-    courseUnitRealisationsWithKurkiData,
+    courseUnitRealisations,
     (c) => -new Date(c.activityPeriod.endDate),
   );
 
