@@ -49,7 +49,7 @@ services:
   opetushallinto-server:
     build:
       context: ./opetushallinto/server
-      dockerfile: config/dev.Dockerfile
+      dockerfile: dev.Dockerfile
     environment:
       KURKI_DB_USER: tk_opha
       KURKI_DB_PASSWORD: salasana
@@ -65,7 +65,7 @@ services:
   opetushallinto-client:
     build:
       context: ./opetushallinto/client
-      dockerfile: config/dev.Dockerfile
+      dockerfile: dev.Dockerfile
     ports:
       - 5001:3000
     volumes:
