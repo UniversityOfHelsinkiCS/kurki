@@ -1,33 +1,20 @@
 import express from 'express';
 
-import Kurssi from '../models/Kurssi';
+import getFrozenCourses from '../utils/getFrozenCourses';
+import getFrozenParticipantsByCourseId from '../utils/getFrozenParticipantsByCourseId';
 
 const router = express.Router();
 
-const getCourseByKurssi = (kurssi) => ({
-  name: kurssi.nimi,
-  code: kurssi.koodi,
-  year: kurssi.lukuvuosi,
-  term: kurssi.lukukausi,
-  type: kurssi.tyyppi,
-  number: kurssi.kurssiNro,
-  startDate: kurssi.alkamisPvm,
-  endDate: kurssi.paattymisPvm,
-  finishDate: kurssi.suoritusPvm,
-  ownerId: kurssi.omistaja,
-});
-
 router.get('/frozen', async (req, res) => {
-  const kurssit = await Kurssi.query()
-    .where({
-      siirto: 'T',
-      tila: 'J',
-    })
-    .orderBy('suoritusPvm');
-
-  const courses = kurssit.map(getCourseByKurssi);
+  const courses = await getFrozenCourses();
 
   res.send(courses);
+});
+
+router.get('/:id/frozen-participants', async (req, res) => {
+  const participants = await getFrozenParticipantsByCourseId(req.params.id);
+
+  res.send(participants);
 });
 
 export default router;

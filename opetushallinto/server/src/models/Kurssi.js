@@ -2,6 +2,7 @@ import BaseModel from './BaseModel';
 import knex from '../utils/knex';
 import { Henkilo } from './Henkilo';
 import { OpetustehtavanHoito } from './OpetustehtavanHoito';
+import { Osallistuminen } from './Osallistuminen';
 
 export class Kurssi extends BaseModel {
   static get idColumn() {
@@ -20,6 +21,26 @@ export class Kurssi extends BaseModel {
         join: {
           from: 'kurssi.omistaja',
           to: 'henkilo.htunnus',
+        },
+      },
+      osallistumiset: {
+        relation: BaseModel.HasManyRelation,
+        modelClass: Osallistuminen,
+        join: {
+          from: [
+            'kurssi.kurssikoodi',
+            'kurssi.lukukausi',
+            'kurssi.lukuvuosi',
+            'kurssi.tyyppi',
+            'kurssi.kurssiNro',
+          ],
+          to: [
+            'osallistuminen.kurssikoodi',
+            'osallistuminen.lukukausi',
+            'osallistuminen.lukuvuosi',
+            'osallistuminen.tyyppi',
+            'osallistuminen.kurssiNro',
+          ],
         },
       },
       opetustehtavanHoidot: {

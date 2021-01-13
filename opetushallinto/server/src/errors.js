@@ -27,3 +27,9 @@ export class NotFoundError extends ApplicationError {
     super(message, properties, 404);
   }
 }
+
+export class UserInputError extends ApplicationError {
+  constructor(message, properties) {
+    super(message, properties, 400);
+  }
+}
