@@ -32,8 +32,6 @@ const getLogMessagesInStatusReport = (statusReport, logMessages) => {
 
     const timestampDate = new Date(timestamp);
 
-    console.log(timestampDate);
-
     const isInRange =
       timestampDate >= new Date(startDate) &&
       timestampDate <= new Date(endDate);
