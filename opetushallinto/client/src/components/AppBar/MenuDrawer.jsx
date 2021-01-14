@@ -37,7 +37,7 @@ const MenuDrawer = ({ open = false, onClose }) => {
     >
       <List>
         <ListItem {...itemProps} to="/">
-          <ListItemText primary="Status" />
+          <ListItemText primary="Siirron tila" />
         </ListItem>
       </List>
       <Divider />

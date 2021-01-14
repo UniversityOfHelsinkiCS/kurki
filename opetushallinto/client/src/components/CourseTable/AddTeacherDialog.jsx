@@ -34,7 +34,7 @@ const Content = ({ courseUnitRealisation, onSubmit }) => {
   if (!courseUnitRealisation.inKurki) {
     return (
       <Alert severity="warning">
-        Kurssi tulee tuoda Kurkeen ennen kuin opettajia voi lisätä
+        Kurssi tulee siirtää Kurkeen ennen kuin opettajia voi lisätä
       </Alert>
     );
   }
