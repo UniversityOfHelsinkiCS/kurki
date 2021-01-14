@@ -23,6 +23,7 @@
     "knex": "^0.21.15",
     "lodash": "^4.17.20",
     "lru-cache": "^6.0.0",
+    "nanoid": "^3.1.20",
     "objection": "^2.2.6",
     "oracledb": "^5.1.0",
     "winston": "^3.3.3"

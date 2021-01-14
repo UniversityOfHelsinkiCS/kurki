@@ -6,6 +6,15 @@ import getDistinctCourseUnits from './getDistinctCourseUnits';
 import OpintojaksoUpdater from './opintojaksoUpdater';
 import models from '../../models';
 import OsallistumisetUpdater from './osallistumisetUpdater';
+import createStatusReport from '../createStatusReport';
+
+const tryCreateStatusReport = async (payload) => {
+  try {
+    return createStatusReport(payload);
+  } catch (e) {
+    logger.error(e);
+  }
+};
 
 const createActiveKurssitQueryBuilder = (builder) => {
   return builder.where('paattymisPvm', '>', subMonths(new Date(), 3));
@@ -28,6 +37,8 @@ export class KurkiUpdater {
   }
 
   async updateOpintojaksot(courseUnits) {
+    const startDate = new Date();
+
     logger.info(`Starting to update ${courseUnits.length} courses`);
 
     for (let courseUnit of courseUnits) {
@@ -43,13 +54,24 @@ export class KurkiUpdater {
     logger.info(
       `Finished updating ${courseUnits.length} courses. Check logs for possible errors`,
     );
+
+    const endDate = new Date();
+
+    await tryCreateStatusReport({
+      startDate,
+      endDate,
+    });
   }
 
   async updateOpintojakso(courseUnit) {
     const updater = new OpintojaksoUpdater({
       courseUnit,
     });
-    logger.info(`updating ${courseUnit.code} ${courseUnit.name.fi} ${courseUnit.id} ${courseUnit.activityPeriod}` )
+
+    logger.info(
+      `updating ${courseUnit.code} ${courseUnit.name.fi} ${courseUnit.id} ${courseUnit.activityPeriod}`,
+    );
+
     await updater.update();
   }
 
@@ -64,8 +86,10 @@ export class KurkiUpdater {
       models.Kurssi.query().where({ kurssikoodi: code }),
     );
 
-    const validCourses = kurssit.filter(k => process.env.ENROLL_ALL || k.lukuvuosi > 2020)
-    
+    const validCourses = kurssit.filter(
+      (k) => process.env.ENROLL_ALL || k.lukuvuosi > 2020,
+    );
+
     await this.updateOsallistumisetForKurssit(validCourses);
   }
 

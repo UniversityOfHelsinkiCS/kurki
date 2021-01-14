@@ -1,4 +1,5 @@
 import { isString } from 'lodash';
+import { nanoid } from 'nanoid';
 
 import { UPDATER_LOGS_KEY, UPDATER_LOGS_MAX_SIZE } from '../../config';
 import { UserInputError } from '../../errors';
@@ -14,6 +15,7 @@ const createLogMessage = async ({ level, message, meta, timestamp }) => {
   }
 
   const payload = {
+    id: nanoid(),
     timestamp: timestamp || new Date(),
     level,
     message,

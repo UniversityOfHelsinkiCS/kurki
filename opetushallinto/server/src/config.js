@@ -31,3 +31,7 @@ export const REDIS_URI = env.REDIS_URI;
 export const UPDATER_LOGS_KEY = 'updater_logs';
 
 export const UPDATER_LOGS_MAX_SIZE = 100;
+
+export const UPDATER_STATUS_REPORTS_KEY = 'updater_status_reports';
+
+export const UPDATER_STATUS_REPORTS_MAX_SIZE = 10;
