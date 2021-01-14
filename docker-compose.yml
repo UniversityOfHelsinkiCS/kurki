@@ -40,6 +40,7 @@ services:
       KURKI_DB_CONNECTION_STRING: kurki-db:1521/opetest2
       KURKI_FALLBACK_KURSSI_OMISTAJA: SIVEN_R
       SIS_IMPORTER_API_URL: https://importer.cs.helsinki.fi
+      OPETUSHALLINTO_URL: http://opetushallinto-server:5000
     volumes:
       - ./updater:/usr/src/app
       - updater-nodemod:/usr/src/app/node_modules/

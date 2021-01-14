@@ -4,7 +4,7 @@ import { UPDATER_LOGS_KEY, UPDATER_LOGS_MAX_SIZE } from '../../config';
 import { UserInputError } from '../../errors';
 import redis from '../redis';
 
-const createLogMessage = async ({ level, message, meta }) => {
+const createLogMessage = async ({ level, message, meta, timestamp }) => {
   if (!isString(level)) {
     throw new UserInputError('Level is required');
   }
@@ -13,10 +13,8 @@ const createLogMessage = async ({ level, message, meta }) => {
     throw new UserInputError('Message is required');
   }
 
-  const date = new Date();
-
   const payload = {
-    date,
+    timestamp: timestamp || new Date(),
     level,
     message,
     meta: meta || null,

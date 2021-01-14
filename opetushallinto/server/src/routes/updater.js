@@ -15,12 +15,13 @@ router.get('/logs', async (req, res) => {
 });
 
 router.post('/logs', async (req, res) => {
-  const { level, message, meta } = req.body;
+  const { level, message, meta, timestamp } = req.body;
 
   const logMessage = await createLogMessage({
     level,
     message,
     meta,
+    timestamp,
   });
 
   res.send(logMessage);

@@ -45,7 +45,8 @@
     "oracledb": "^4.2.0",
     "p-map": "^4.0.0",
     "winston": "^3.2.1",
-    "winston-log2gelf": "^2.4.0"
+    "winston-log2gelf": "^2.4.0",
+    "winston-transport": "^4.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
