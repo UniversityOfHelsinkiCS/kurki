@@ -54,6 +54,7 @@ services:
       KURKI_DB_USER: tk_opha
       KURKI_DB_PASSWORD: salasana
       KURKI_DB_CONNECTION_STRING: kurki-db:1521/opetest2
+      REDIS_URI: redis://opetushallinto-redis:6379
     ports:
       - 5000:5000
     volumes:
@@ -62,6 +63,7 @@ services:
     container_name: opetushallinto-server
     depends_on:
       - kurki-db
+      - opetushallinto-redis
   opetushallinto-client:
     build:
       context: ./opetushallinto/client
@@ -74,6 +76,11 @@ services:
     container_name: opetushallinto-client
     depends_on:
       - opetushallinto-server
+  opetushallinto-redis:
+    container_name: opetushallinto-redis
+    image: redis:6.0.10
+    volumes:
+      - opetushallinto-redis:/data
 
 volumes:
   oracle_data:
@@ -81,3 +88,4 @@ volumes:
   loginas-nodemod:
   opetushallinto-server-nodemod:
   opetushallinto-client-nodemod:
+  opetushallinto-redis:

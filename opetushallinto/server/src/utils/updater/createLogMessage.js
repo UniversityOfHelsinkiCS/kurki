@@ -1,0 +1,34 @@
+import { isString } from 'lodash';
+
+import { UPDATER_LOGS_KEY, UPDATER_LOGS_MAX_SIZE } from '../../config';
+import { UserInputError } from '../../errors';
+import redis from '../redis';
+
+const createLogMessage = async ({ level, message, meta }) => {
+  if (!isString(level)) {
+    throw new UserInputError('Level is required');
+  }
+
+  if (!isString(message)) {
+    throw new UserInputError('Message is required');
+  }
+
+  const date = new Date();
+
+  const payload = {
+    date,
+    level,
+    message,
+    meta: meta || null,
+  };
+
+  await redis
+    .multi()
+    .lpush(UPDATER_LOGS_KEY, JSON.stringify(payload))
+    .ltrim(UPDATER_LOGS_KEY, 0, UPDATER_LOGS_MAX_SIZE - 1)
+    .exec();
+
+  return payload;
+};
+
+export default createLogMessage;

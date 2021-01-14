@@ -25,3 +25,9 @@ export const KURKI_KNEX_CONFIG = {
   },
   ...knexSnakeCaseMappers({ upperCase: true }),
 };
+
+export const REDIS_URI = env.REDIS_URI;
+
+export const UPDATER_LOGS_KEY = 'updater_logs';
+
+export const UPDATER_LOGS_MAX_SIZE = 100;
