@@ -22,3 +22,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           tags: latest
           path: opetushallinto/client/
+          build_args: BASE_PATH=/kurki
