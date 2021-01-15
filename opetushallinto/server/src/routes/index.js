@@ -1,14 +1,17 @@
 import express from 'express';
 
-import courseUnitRealisations from './courseUnitRealisations';
-import persons from './persons';
+import verifyAdmin from '../middlewares/verifyAdmin';
+import verifyApiKey from '../middlewares/verifyApiKey';
+import client from './client';
 import courses from './courses';
 import updater from './updater';
 
 const router = express.Router();
 
-router.use('/course-unit-realisations', courseUnitRealisations);
-router.use('/persons', persons);
+router.use('/client', verifyAdmin, client);
+
+router.use(verifyApiKey);
+
 router.use('/courses', courses);
 router.use('/updater', updater);
 

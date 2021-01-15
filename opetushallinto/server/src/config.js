@@ -35,3 +35,5 @@ export const UPDATER_LOGS_MAX_SIZE = 100;
 export const UPDATER_STATUS_REPORTS_KEY = 'updater_status_reports';
 
 export const UPDATER_STATUS_REPORTS_MAX_SIZE = 10;
+
+export const API_KEY = env.API_KEY;

@@ -1,7 +1,5 @@
 const currentUser = (req, res, next) => {
-  // TODO: Shibbo
-  // req.userId = req.headers.uid;
-  req.userId = 'kalleilv';
+  req.userId = req.headers.uid;
 
   next();
 };

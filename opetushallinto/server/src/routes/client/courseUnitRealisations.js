@@ -1,10 +1,10 @@
 import express from 'express';
 
-import getCourseUnitRealisationsByProgramme from '../utils/getCourseUnitRealisationsByProgramme';
-import addTeacherForCourseUnitRealisation from '../utils/addTeacherForCourseUnitRealisation';
-import getCourseUnitRealisationById from '../utils/getCourseUnitRealisationById';
-import courseUnitRealisationWithKurkiFields from '../utils/courseUnitRealisationWithKurkiFields';
-import courseUnitRealisationArrayWithKurkiFields from '../utils/courseUnitRealisationArrayWithKurkiFields';
+import getCourseUnitRealisationsByProgramme from '../../utils/getCourseUnitRealisationsByProgramme';
+import addTeacherForCourseUnitRealisation from '../../utils/addTeacherForCourseUnitRealisation';
+import getCourseUnitRealisationById from '../../utils/getCourseUnitRealisationById';
+import courseUnitRealisationWithKurkiFields from '../../utils/courseUnitRealisationWithKurkiFields';
+import courseUnitRealisationArrayWithKurkiFields from '../../utils/courseUnitRealisationArrayWithKurkiFields';
 
 const router = express.Router();
 

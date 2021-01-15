@@ -33,3 +33,9 @@ export class UserInputError extends ApplicationError {
     super(message, properties, 400);
   }
 }
+
+export class AuthorizationError extends ApplicationError {
+  constructor(message, properties) {
+    super(message, properties, 401);
+  }
+}
