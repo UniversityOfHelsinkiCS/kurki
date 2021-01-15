@@ -6,11 +6,15 @@ import currentUser from './middlewares/currentUser';
 import parseApiKey from './middlewares/parseApiKey';
 import errorHandler from './middlewares/errorHandler';
 import routes from './routes';
+import { IS_DEVELOPMENT } from './config';
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+if (IS_DEVELOPMENT) {
+  app.use(cors());
+}
 
 app.use(currentUser);
 app.use(parseApiKey);

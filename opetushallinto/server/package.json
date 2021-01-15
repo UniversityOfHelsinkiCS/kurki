@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -r esm src/index.js",
-    "start:prod": "node -r esm src/index.js"
+    "start": "NODE_ENV=development nodemon -r esm src/index.js",
+    "start:prod": "NODE_ENV=production node -r esm src/index.js"
   },
   "author": "",
   "license": "ISC",

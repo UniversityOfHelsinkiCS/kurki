@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-import { API_URL, IS_DEVELOPMENT } from '../config';
+import { API_URL } from '../config';
 
-const headers = IS_DEVELOPMENT ? { uid: 'mluukkai' } : undefined;
+const headers =
+  process.env.NODE_ENV === 'development' ? { uid: 'mluukkai' } : undefined;
 
 const apiClient = axios.create({
   baseURL: API_URL,
