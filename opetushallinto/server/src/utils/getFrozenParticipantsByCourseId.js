@@ -1,6 +1,6 @@
 import Kurssi from '../models/Kurssi';
-import serializeCourseId from '../utils/serializeCourseId';
-import parseCourseId from '../utils/parseCourseId';
+import serializeCourseId from './serializeCourseId';
+import parseCourseId from './parseCourseId';
 
 const getParticipantByOsallistuminen = (osallistuminen, kurssi) => {
   const { opiskelija, kieli } = osallistuminen;
