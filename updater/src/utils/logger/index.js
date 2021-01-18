@@ -2,6 +2,7 @@ import winston from 'winston';
 import Log2gelf from 'winston-log2gelf';
 
 import opetushallintoTransport from './opetushallintoTransport';
+import { SEND_REPORTS } from '../../config';
 
 const log2gelfTransport = new Log2gelf({
   hostname: 'kurki-updater',
@@ -16,8 +17,8 @@ const log2gelfTransport = new Log2gelf({
 const transports = [
   new winston.transports.Console(),
   log2gelfTransport,
-  opetushallintoTransport,
-];
+  SEND_REPORTS && opetushallintoTransport,
+].filter(Boolean);
 
 const logger = winston.createLogger({
   level: 'info',

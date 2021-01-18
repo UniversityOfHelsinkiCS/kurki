@@ -14,11 +14,13 @@ export class OpetushallintoTransport extends Transport {
 
     opetushallintoClient
       .post('/updater/logs', body)
-      .then(({ data }) => {
-        callback(null, data);
+      .then(() => {
+        callback();
       })
       .catch((error) => {
-        callback(error);
+        console.error('Failed to transport logs to opetushallinto server');
+        console.error(error);
+        callback();
       });
   }
 }

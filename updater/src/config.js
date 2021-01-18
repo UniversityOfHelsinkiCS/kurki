@@ -17,5 +17,6 @@ export const CS_BACHELOR_PROGRAMME_CODE = '500-K005';
 
 export const COURSES_UPDATE_CRON = '0 */3 * * *';
 
-// TODO: api key for opetushallinto
-export const OPETUSHALLINTO_API_KEY = 'fake_api_key';
+export const OPETUSHALLINTO_API_KEY = process.env.OPETUSHALLINTO_API_KEY;
+
+export const SEND_REPORTS = process.env.SEND_REPORTS === 'false' ? false : true;

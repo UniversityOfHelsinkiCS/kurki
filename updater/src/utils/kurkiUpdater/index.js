@@ -6,15 +6,7 @@ import getDistinctCourseUnits from './getDistinctCourseUnits';
 import OpintojaksoUpdater from './opintojaksoUpdater';
 import models from '../../models';
 import OsallistumisetUpdater from './osallistumisetUpdater';
-import createStatusReport from '../createStatusReport';
-
-const tryCreateStatusReport = async (payload) => {
-  try {
-    return createStatusReport(payload);
-  } catch (e) {
-    logger.error(e);
-  }
-};
+import tryCreateStatusReport from '../tryCreateStatusReport';
 
 const createActiveKurssitQueryBuilder = (builder) => {
   return builder.where('paattymisPvm', '>', subMonths(new Date(), 3));
