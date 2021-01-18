@@ -25,5 +25,5 @@ Run `./run.sh updater up --build` to rebuild updater.
 Updater tries to send reports (logs and status reports) to the `opetushallinto-server` container. Failure to send reports will cause error messages in the logs. Reports are disabled by default in the `docker-compose.yml` file, but you can enable them by passing a `SEND_REPORTS=true` environment variable. For example:
 
 ```bash
-docker-compose exec --env SEND_REPORTS=true kurki-updater npm run courses TKT20010
+docker-compose run -e SEND_REPORTS=true kurki-updater npm run courses TKT20010
 ```
