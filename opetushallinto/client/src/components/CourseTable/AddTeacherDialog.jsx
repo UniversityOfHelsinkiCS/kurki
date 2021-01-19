@@ -56,7 +56,7 @@ const Content = ({ courseUnitRealisation, onSubmit }) => {
 };
 
 const AddTeacherDialog = ({ open, onClose, courseUnitRealisationId }) => {
-  const { courseUnitRealisation, revalidate } = useCourseUnitRealisation(
+  const { courseUnitRealisation, mutate } = useCourseUnitRealisation(
     courseUnitRealisationId,
   );
 
@@ -67,7 +67,7 @@ const AddTeacherDialog = ({ open, onClose, courseUnitRealisationId }) => {
         personId,
       });
 
-      revalidate();
+      mutate();
     } catch (err) {
       console.error(err);
     }
