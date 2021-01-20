@@ -8,13 +8,11 @@ const parseCourseId = (id) => {
   }
 
   const parts = id.split('.');
-  const hasMissingPart = parts.some((p) => !p);
+  const [code, term, year, type, number] = parts;
 
-  if (hasMissingPart) {
+  if (!code || !term || !year || !type || !number) {
     throw new UserInputError('Invalid course id');
   }
-
-  const [code, term, year, type, number] = parts;
 
   const parsedYear = parseInt(year);
   const parsedNumber = parseInt(number);
