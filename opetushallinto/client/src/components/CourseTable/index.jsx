@@ -9,9 +9,25 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { format } from 'date-fns';
 
 import getTranslation from '../../utils/getTranslation';
 import AddTeacherDialog from './AddTeacherDialog';
+
+const formatActivityPeriod = (activityPeriod) => {
+  const { startDate, endDate } = activityPeriod ?? {};
+
+  if (!startDate || !endDate) {
+    return '-';
+  }
+
+  const dateFormat = 'dd.MM.yyyy';
+
+  const formattedStartDate = format(new Date(startDate), dateFormat);
+  const formattedEndDate = format(new Date(endDate), dateFormat);
+
+  return `${formattedStartDate} - ${formattedEndDate}`;
+};
 
 const ActionsMenu = ({ onAddTeacher }) => {
   const buttonRef = useRef();
@@ -71,13 +87,19 @@ const CourseTable = ({ courseUnitRealisations }) => {
             <TableRow>
               <TableCell>Id</TableCell>
               <TableCell align="left">Nimi</TableCell>
+              <TableCell align="left">Aktiivisuusjakso</TableCell>
               <TableCell align="left">Kurjessa</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {courseUnitRealisations.map((courseUnitRealisation) => {
-              const { id, name, inKurki } = courseUnitRealisation;
+              const {
+                id,
+                name,
+                inKurki,
+                activityPeriod,
+              } = courseUnitRealisation;
 
               return (
                 <TableRow key={id}>
@@ -86,8 +108,9 @@ const CourseTable = ({ courseUnitRealisations }) => {
                   </TableCell>
                   <TableCell align="left">{getTranslation(name)}</TableCell>
                   <TableCell align="left">
-                    {inKurki ? 'Kyllä' : 'Ei'}
+                    {formatActivityPeriod(activityPeriod)}
                   </TableCell>
+                  <TableCell align="left">{inKurki ? 'Kyllä' : 'Ei'}</TableCell>
                   <TableCell align="right">
                     <ActionsMenu onAddTeacher={makeOnAddTeacher(id)} />
                   </TableCell>
