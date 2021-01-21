@@ -1,5 +1,5 @@
-import Kurssi from '../models/Kurssi';
-import serializeCourseId from './serializeCourseId';
+import Kurssi from '../../models/Kurssi';
+import serializeCourseId from '../serializeCourseId';
 
 const getCourseByKurssi = (kurssi) => ({
   id: serializeCourseId(kurssi),

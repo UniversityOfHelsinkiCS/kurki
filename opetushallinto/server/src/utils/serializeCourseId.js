@@ -1,8 +1,8 @@
 const serializeCourseId = (kurssi) => {
   return [
     kurssi.kurssikoodi,
-    kurssi.lukukausi,
     kurssi.lukuvuosi,
+    kurssi.lukukausi,
     kurssi.tyyppi,
     kurssi.kurssiNro,
   ].join('.');

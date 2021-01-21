@@ -1,25 +1,25 @@
 import express from 'express';
 
-import getFrozenCourses from '../utils/getFrozenCourses';
-import getFrozenParticipantsByCourseId from '../utils/getFrozenParticipantsByCourseId';
+import getFrozenCourses from '../utils/suotar/getFrozenCourses';
+import getFrozenParticipantsByCourseId from '../utils/suotar/getFrozenParticipantsByCourseId';
 import Osallistuminen from '../models/Osallistuminen';
 import parseCourseId from '../utils/parseCourseId';
 
 const router = express.Router();
 
-router.get('/frozen', async (req, res) => {
+router.get('/courses/frozen', async (req, res) => {
   const courses = await getFrozenCourses();
 
   res.send(courses);
 });
 
-router.get('/:id/frozen-participants', async (req, res) => {
+router.get('/courses/:id/frozen-participants', async (req, res) => {
   const participants = await getFrozenParticipantsByCourseId(req.params.id);
 
   res.send(participants);
 });
 
-router.post('/:id/students-transferred', async (req, res) => {
+router.post('/courses/:id/students-transferred', async (req, res) => {
   const courseId = req.params.id;
   const { code, term, year, type, number } = parseCourseId(courseId);
 

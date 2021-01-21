@@ -8,7 +8,7 @@ const parseCourseId = (id) => {
   }
 
   const parts = id.split('.');
-  const [code, term, year, type, number] = parts;
+  const [code, year, term, type, number] = parts;
 
   if (!code || !term || !year || !type || !number) {
     throw new UserInputError('Invalid course id');
