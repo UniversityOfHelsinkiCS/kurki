@@ -25,6 +25,8 @@ const getLogMessagesInStatusReport = (statusReport, logMessages) => {
 
   const { startDate, endDate } = statusReport;
 
+  const errorThreshold = 1000 * 30;
+
   return logMessages.filter(({ timestamp, level }) => {
     if (!timestamp) {
       return false;
@@ -32,9 +34,17 @@ const getLogMessagesInStatusReport = (statusReport, logMessages) => {
 
     const timestampDate = new Date(timestamp);
 
+    const normalizedStartDate = new Date(
+      new Date(startDate).getTime() - errorThreshold,
+    );
+
+    const normalizedEndDate = new Date(
+      new Date(endDate).getTime() + errorThreshold,
+    );
+
     const isInRange =
-      timestampDate >= new Date(startDate) &&
-      timestampDate <= new Date(endDate);
+      timestampDate >= normalizedStartDate &&
+      timestampDate <= normalizedEndDate;
 
     const hasCorrectLevel = ['warning', 'error'].includes(level);
 
