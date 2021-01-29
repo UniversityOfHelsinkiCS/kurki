@@ -7,9 +7,9 @@ const IGNORED_CODES = ['TKT20007'];
 
 const valid = (course) => {
   return (
-    course.validityPeriod.endDate === '2021-08-01' ||
-    !course.validityPeriod.endDate ||
-    !IGNORED_CODES.includes(course.code)
+    !IGNORED_CODES.includes(course.code) &&
+    (course.validityPeriod.endDate === '2021-08-01' ||
+      !course.validityPeriod.endDate)
   );
 };
 
