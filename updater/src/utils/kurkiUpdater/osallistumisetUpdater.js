@@ -51,6 +51,7 @@ class OsallistumisetUpdater {
         logger.error(error);
       });
     }
+
     logger.info(`udated ${enrolments.length} enrolments`);
   }
 

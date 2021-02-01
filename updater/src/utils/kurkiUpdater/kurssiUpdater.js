@@ -25,9 +25,11 @@ class KurssiUpdater {
     const owner = getKurssiOmistajaByResponsibilityInfos(responsibilityInfos);
 
     if (owner) {
-      logger.info(`      owner: ${owner.firstNames} ${owner.lastName} ${owner.employeeNumber} ${owner.eduPersonPrincipalName}`)
+      logger.info(
+        `      owner: ${owner.firstNames} ${owner.lastName} ${owner.employeeNumber} ${owner.eduPersonPrincipalName}`,
+      );
     } else {
-      logger.info(`      owner unknown ${responsibilityInfos}`)
+      logger.info(`      owner unknown ${responsibilityInfos}`);
     }
 
     const ownerHenkilo = owner
@@ -119,13 +121,13 @@ class KurssiUpdater {
   async updateOpetukset() {
     const opetukset = await this.getOpetukset();
 
-    logger.info("        opetukset:")
-    
+    logger.info('        opetukset:');
+
     for (let opetus of opetukset) {
       const { teacher, ...restOpetus } = opetus;
 
       await this.updateOpetus(restOpetus, teacher).catch((error) => {
-        logger.error('Failed to update study group', {
+        logger.error(`Failed to update study group ${opetus.sisId}`, {
           studyGroup: opetus,
         });
 
@@ -154,8 +156,12 @@ class KurssiUpdater {
     ];
 
     await models.Opetus.query().patchOrInsertById(opetusId, opetus);
-    
-    logger.info(`          ryhma: ${opetus.ryhmaNro} ilmo: ${String(opetus.ilmoJnro).padEnd(4,' ')} ${opetus.sisId}`)
+
+    logger.info(
+      `          ryhma: ${opetus.ryhmaNro} ilmo: ${String(
+        opetus.ilmoJnro,
+      ).padEnd(4, ' ')} ${opetus.sisId}`,
+    );
 
     await this.updateOpetustehtavanHoitoForPerson(teacher, ryhmaNro, 'HT');
   }

@@ -32,7 +32,7 @@ export class KurkiUpdater {
 
     for (let courseUnit of courseUnits) {
       await this.updateOpintojakso(courseUnit).catch((error) => {
-        logger.error('Failed to update course unit', {
+        logger.error(`Failed to update course unit ${courseUnit.id}`, {
           courseUnit,
         });
 
@@ -80,9 +80,12 @@ export class KurkiUpdater {
 
     for (let kurssi of kurssit) {
       await this.updateOsallistumiset(kurssi).catch((error) => {
-        logger.error('Failed to update enrolments', {
-          kurssi,
-        });
+        logger.error(
+          `Failed to update enrolments for course ${kurssi.kurssikoodi}`,
+          {
+            kurssi,
+          },
+        );
 
         logger.error(error);
       });
