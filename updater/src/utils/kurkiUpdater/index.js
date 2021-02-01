@@ -6,7 +6,6 @@ import getDistinctCourseUnits from './getDistinctCourseUnits';
 import OpintojaksoUpdater from './opintojaksoUpdater';
 import models from '../../models';
 import OsallistumisetUpdater from './osallistumisetUpdater';
-import tryCreateStatusReport from '../tryCreateStatusReport';
 
 const createActiveKurssitQueryBuilder = (builder) => {
   return builder.where('paattymisPvm', '>', subMonths(new Date(), 3));
@@ -29,8 +28,6 @@ export class KurkiUpdater {
   }
 
   async updateOpintojaksot(courseUnits) {
-    const startDate = new Date();
-
     logger.info(`Starting to update ${courseUnits.length} courses`);
 
     for (let courseUnit of courseUnits) {
@@ -46,13 +43,6 @@ export class KurkiUpdater {
     logger.info(
       `Finished updating ${courseUnits.length} courses. Check logs for possible errors`,
     );
-
-    const endDate = new Date();
-
-    await tryCreateStatusReport({
-      startDate,
-      endDate,
-    });
   }
 
   async updateOpintojakso(courseUnit) {

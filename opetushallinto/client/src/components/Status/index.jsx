@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const formatDate = (maybeDate) => {
-  return maybeDate ? format(new Date(maybeDate), 'dd.MM.yyyy HH:mm') : null;
+  return maybeDate ? format(new Date(maybeDate), 'dd.MM. HH:mm:ss') : null;
 };
 
 const getLogMessagesInStatusReport = (statusReport, logMessages) => {
@@ -25,7 +25,7 @@ const getLogMessagesInStatusReport = (statusReport, logMessages) => {
 
   const { startDate, endDate } = statusReport;
 
-  const errorThreshold = 1000 * 30;
+  const errorThreshold = 1000 * 10;
 
   return logMessages.filter(({ timestamp, level }) => {
     if (!timestamp) {

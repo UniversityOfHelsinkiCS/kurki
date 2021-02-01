@@ -7,7 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { format } from 'date-fns';
 
 const formatDate = (maybeDate) => {
-  return maybeDate ? format(new Date(maybeDate), 'dd.MM.yyyy HH:mm') : null;
+  return maybeDate ? format(new Date(maybeDate), 'dd.MM. HH:mm:ss') : null;
 };
 
 const LogTable = ({ logMessages }) => {

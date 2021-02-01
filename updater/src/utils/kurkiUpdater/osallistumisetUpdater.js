@@ -35,25 +35,30 @@ class OsallistumisetUpdater {
     const opetukset = await this.getOpetukset();
     const enrolments = await this.getEnrolments();
 
-    logger.info(`${this.kurssi.kurssikoodi} ${this.kurssi.nimi} ${this.kurssi.lukuvuosi} ${this.kurssi.lukukausi}`)
+    logger.info(
+      `${this.kurssi.kurssikoodi} ${this.kurssi.nimi} ${this.kurssi.lukuvuosi} ${this.kurssi.lukukausi}`,
+    );
 
     for (let enrolment of enrolments) {
       await this.updateOsallistuminen(enrolment, opetukset).catch((error) => {
-        logger.error('Failed to update enrolment', {
-          enrolment,
-        });
+        logger.error(
+          `Failed to update enrolment for course ${this.kurssi.kurssikoodi}`,
+          {
+            enrolment,
+          },
+        );
 
         logger.error(error);
       });
     }
-    logger.info(`udated ${enrolments.length} enrolments`)
+    logger.info(`udated ${enrolments.length} enrolments`);
   }
 
   async updateOsallistuminen(enrolment, opetukset) {
     const { student } = enrolment;
 
-    if (enrolment.state==="NOT_ENROLLED") {
-      return
+    if (enrolment.state === 'NOT_ENROLLED') {
+      return;
     }
 
     if (!student) {
@@ -80,7 +85,7 @@ class OsallistumisetUpdater {
       opiskelija.hetu,
     ];
 
-    logger.debug("  "+id)
+    logger.debug('  ' + id);
 
     await models.Osallistuminen.query().patchOrInsertById(id, {
       ...osallistuminenPayload,
