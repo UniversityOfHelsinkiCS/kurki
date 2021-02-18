@@ -33,7 +33,7 @@ const getParticipantByOsallistuminen = (osallistuminen, kurssi) => {
     courseType: kurssi.tyyppi,
     courseSemester: kurssi.lukukausi,
     grade: osallistuminen.arvosana,
-    graderId: kurssi.omistajaHenkilo.hetu,
+    graderId: kurssi.omistajaHenkilo.ktunnus,
   };
 };
 

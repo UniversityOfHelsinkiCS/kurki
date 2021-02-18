@@ -14,7 +14,7 @@ const getCourseByKurssi = (kurssi) => {
     startDate: kurssi.alkamisPvm,
     endDate: kurssi.paattymisPvm,
     finishDate: kurssi.suoritusPvm,
-    ownerId: kurssi.omistajaHenkilo.hetu,
+    ownerId: kurssi.omistajaHenkilo.ktunnus,
   }
 }
 
