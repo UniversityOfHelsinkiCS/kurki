@@ -3,6 +3,8 @@ import knex from '../utils/knex';
 import { Henkilo } from './Henkilo';
 import { OpetustehtavanHoito } from './OpetustehtavanHoito';
 import { Osallistuminen } from './Osallistuminen';
+import { Opintojakso } from './Opintojakso';
+import { Kielikoodi } from './Kielikoodi';
 
 export class Kurssi extends BaseModel {
   static get idColumn() {
@@ -61,6 +63,22 @@ export class Kurssi extends BaseModel {
             'opetustehtavan_hoito.tyyppi',
             'opetustehtavan_hoito.kurssiNro',
           ],
+        },
+      },
+      opintojakso: {
+        relation: BaseModel.BelongsToOneRelation,
+        modelClass: Opintojakso,
+        join: {
+          from: 'kurssi.kurssikoodi',
+          to: 'opintojakso.kurssikoodi',
+        },
+      },
+      kieli: {
+        relation: BaseModel.BelongsToOneRelation,
+        modelClass: Kielikoodi,
+        join: {
+          from: 'kurssi.kielikoodi',
+          to: 'kielikoodi.kielikoodi',
         },
       },
     };

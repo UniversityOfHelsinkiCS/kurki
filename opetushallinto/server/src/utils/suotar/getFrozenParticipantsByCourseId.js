@@ -2,19 +2,12 @@ import Kurssi from '../../models/Kurssi';
 import serializeCourseId from '../serializeCourseId';
 import parseCourseId from '../parseCourseId';
 
-const langugageByKielikoodi = {
-  S: 'fi',
-  R: 'sv',
-  E: 'en',
-};
-
 const getParticipantByOsallistuminen = (osallistuminen, kurssi) => {
   const { opiskelija, kieli } = osallistuminen;
-  const kielikoodi = kieli ? kieli.kielikoodi : null;
 
-  const language = kielikoodi
-    ? langugageByKielikoodi[kielikoodi] || null
-    : null;
+  const language = kieli ? kieli.getLanguageCode() : null;
+
+  const { opintojakso } = kurssi;
 
   return {
     studentNumber: osallistuminen.hetu,
@@ -25,7 +18,10 @@ const getParticipantByOsallistuminen = (osallistuminen, kurssi) => {
     courseSisId: kurssi.sisId,
     courseCode: kurssi.kurssikoodi,
     courseYear: kurssi.year,
-    courseName: kurssi.nimi,
+    courseName:
+      opintojakso.nimiSuomi ||
+      opintojakso.nimiEnglanti ||
+      opintojakso.nimiRuotsi,
     courseFinishDate: kurssi.suoritusPvm,
     courseWeeks: kurssi.opintoviikot,
     courseCredits: kurssi.laajuusOp,
@@ -49,7 +45,7 @@ const getFrozenParticipantsByCourseId = async (courseId) => {
       kurssiNro: number,
     })
     .withGraphFetched(
-      '[osallistumiset(frozen).[opiskelija,kieli],omistajaHenkilo]',
+      '[osallistumiset(frozen).[opiskelija,kieli],omistajaHenkilo,opintojakso]',
     );
 
   const osallistumiset = kurssi ? kurssi.osallistumiset || [] : [];
