@@ -24,7 +24,7 @@ const getParticipantByOsallistuminen = (osallistuminen, kurssi) => {
       opintojakso.nimiRuotsi,
     courseFinishDate: kurssi.suoritusPvm,
     courseWeeks: kurssi.opintoviikot,
-    courseCredits: kurssi.laajuusOp,
+    courseCredits: kurssi.opintopisteet,
     courseNumber: kurssi.kurssiNro,
     courseType: kurssi.tyyppi,
     courseSemester: kurssi.lukukausi,

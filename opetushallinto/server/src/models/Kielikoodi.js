@@ -17,7 +17,7 @@ export class Kielikoodi extends BaseModel {
   }
 
   getLanguageCode() {
-    return languageCodeByKielikoodi[this.kielikoodi] || null
+    return languageCodeByKielikoodi[this.kielikoodi] || null;
   }
 }
 

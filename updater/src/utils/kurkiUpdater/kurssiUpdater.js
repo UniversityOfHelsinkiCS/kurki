@@ -39,6 +39,8 @@ class KurssiUpdater {
     const kurssiPayload = {
       ...getKurssiByCourseUnitRealisation(this.courseUnitRealisation),
       kurssikoodi: this.opintojakso.kurssikoodi,
+      opintopisteet: this.opintojakso.opintopisteet,
+      opintopisteetYlaraja: this.opintojakso.opintopisteetYlaraja,
       omistaja: ownerHenkilo
         ? ownerHenkilo.htunnus
         : KURKI_FALLBACK_KURSSI_OMISTAJA,
