@@ -12,6 +12,7 @@ const courseUnitRealisationArrayWithKurkiFields = async (
     return {
       ...c,
       inKurki: Boolean(kurssi),
+      kurkiData: kurssi,
     };
   });
 };
