@@ -28,6 +28,10 @@ const getCourseByKurssi = (kurssi) => {
 };
 
 const getFrozenCourses = async () => {
+  const test = await Kurssi.query().findOne({ sisId: 'hy-opt-cur-2021-96f538f3-de9b-4656-894a-f15ee4321b6e' });
+
+  console.log(test);
+
   const kurssit = await Kurssi.query()
     .where({
       siirto: 'T',
