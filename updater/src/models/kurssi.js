@@ -49,7 +49,7 @@ class EnhancedQueryBuilder extends QueryBuilder {
       );
 
       if (kurssiWithSameAlkamisPvm) {
-        logger.info('same alkamis pvm, patching')
+        logger.info('same alkamis pvm, patching');
 
         await Model.query()
           .findById([
@@ -70,7 +70,7 @@ class EnhancedQueryBuilder extends QueryBuilder {
           : Math.max(...simultaneousKurssit.map(({ kurssiNro }) => kurssiNro)) +
             1;
 
-      await Model.query().insert({ ...kurssi, kurssiNro });
+      await Model.query().insert({ ...kurssi, kurssiNro, tila: 'P' });
 
       return false;
     });
