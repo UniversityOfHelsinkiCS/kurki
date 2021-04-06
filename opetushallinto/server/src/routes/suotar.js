@@ -4,6 +4,7 @@ import getFrozenCourses from '../utils/suotar/getFrozenCourses';
 import getFrozenParticipantsByCourseId from '../utils/suotar/getFrozenParticipantsByCourseId';
 import Osallistuminen from '../models/Osallistuminen';
 import parseCourseId from '../utils/parseCourseId';
+import OpetustehtavanHoito from '../models/OpetustehtavanHoito';
 
 const router = express.Router();
 
@@ -36,6 +37,29 @@ router.post('/courses/:id/students-transferred', async (req, res) => {
     });
 
   res.send({ courseId });
+});
+
+router.get('/teachers', async (req, res) => {
+  const responsibilities = await OpetustehtavanHoito.query()
+    .distinct('htunnus')
+    .withGraphFetched('henkilo')
+    .modifyGraph('henkilo', (builder) => {
+      return builder
+        .whereNotNull('ktunnus')
+        .select('sahkopostiosoite', 'ktunnus', 'etunimet', 'sukunimi');
+    });
+
+  const teachers = responsibilities
+    .map(({ henkilo }) => henkilo)
+    .filter(Boolean)
+    .map(({ sahkopostiosoite, ktunnus, etunimet, sukunimi }) => ({
+      email: sahkopostiosoite,
+      username: ktunnus,
+      firstName: etunimet,
+      lastName: sukunimi,
+    }));
+
+  res.send(teachers);
 });
 
 export default router;
