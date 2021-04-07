@@ -4,7 +4,7 @@ import getFrozenCourses from '../utils/suotar/getFrozenCourses';
 import getFrozenParticipantsByCourseId from '../utils/suotar/getFrozenParticipantsByCourseId';
 import Osallistuminen from '../models/Osallistuminen';
 import parseCourseId from '../utils/parseCourseId';
-import OpetustehtavanHoito from '../models/OpetustehtavanHoito';
+import Kurssi from '../models/Kurssi';
 
 const router = express.Router();
 
@@ -40,17 +40,17 @@ router.post('/courses/:id/students-transferred', async (req, res) => {
 });
 
 router.get('/teachers', async (req, res) => {
-  const responsibilities = await OpetustehtavanHoito.query()
-    .distinct('htunnus')
-    .withGraphFetched('henkilo')
-    .modifyGraph('henkilo', (builder) => {
+  const courses = await Kurssi.query()
+    .distinct('omistaja')
+    .withGraphFetched('omistajaHenkilo')
+    .modifyGraph('omistajaHenkilo', (builder) => {
       return builder
         .whereNotNull('ktunnus')
         .select('sahkopostiosoite', 'ktunnus', 'etunimet', 'sukunimi');
     });
 
-  const teachers = responsibilities
-    .map(({ henkilo }) => henkilo)
+  const teachers = courses
+    .map(({ omistajaHenkilo }) => omistajaHenkilo)
     .filter(Boolean)
     .map(({ sahkopostiosoite, ktunnus, etunimet, sukunimi }) => ({
       email: sahkopostiosoite,

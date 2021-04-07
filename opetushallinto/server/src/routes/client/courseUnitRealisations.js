@@ -5,6 +5,7 @@ import addTeacherForCourseUnitRealisation from '../../utils/addTeacherForCourseU
 import getCourseUnitRealisationById from '../../utils/getCourseUnitRealisationById';
 import courseUnitRealisationWithKurkiFields from '../../utils/courseUnitRealisationWithKurkiFields';
 import courseUnitRealisationArrayWithKurkiFields from '../../utils/courseUnitRealisationArrayWithKurkiFields';
+import Kurssi from '../../models/Kurssi';
 
 const router = express.Router();
 
@@ -32,6 +33,20 @@ router.get('/:id', async (req, res) => {
   );
 
   res.send(withKurkiFields);
+});
+
+router.post('/:id/freeze', async (req, res) => {
+  const { id } = req.params;
+
+  await Kurssi.query()
+    .findOne({
+      sisId: id,
+    })
+    .patch({
+      tila: 'J',
+    });
+
+  res.send({ id });
 });
 
 router.post('/:id/teachers', async (req, res) => {
