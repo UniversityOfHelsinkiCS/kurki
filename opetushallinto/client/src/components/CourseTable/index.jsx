@@ -10,6 +10,9 @@ import MoreIcon from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Link from '@material-ui/core/Link';
+import Button  from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 import { format } from 'date-fns';
 
 import getTranslation from '../../utils/getTranslation';
@@ -42,7 +45,7 @@ const CourseLink = ({ code }) => {
   );
 };
 
-const ActionsMenu = ({ onAddTeacher, onFreeze, onShowKurkiPayload }) => {
+const ActionsMenu = ({ onAddTeacher, onFreeze, onShowKurkiPayload, freezable }) => {
   const buttonRef = useRef();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -84,7 +87,7 @@ const ActionsMenu = ({ onAddTeacher, onFreeze, onShowKurkiPayload }) => {
           Näytä tiedot Kurjessa
         </MenuItem>
         <MenuItem onClick={handleAddTeacher}>Lisää opettaja</MenuItem>
-        <MenuItem onClick={handleFreeze}>Jäädytä</MenuItem>
+        {freezable&&<MenuItem onClick={handleFreeze}>Jäädytä</MenuItem>}
       </Menu>
     </>
   );
@@ -93,6 +96,7 @@ const ActionsMenu = ({ onAddTeacher, onFreeze, onShowKurkiPayload }) => {
 const CourseTable = ({ courseUnitRealisations }) => {
   const [addTeacherDialogOpen, setAddTeacherDialogOpen] = useState(false);
   const [kurkiPayloadDialogOpen, setKurkiPayloadDialogOpen] = useState(false);
+  const [year, setYear] = useState(new Date().getFullYear());
 
   const [
     currentCourseUnitRealisationId,
@@ -123,6 +127,19 @@ const CourseTable = ({ courseUnitRealisations }) => {
     );
   };
 
+  console.log(courseUnitRealisations)
+
+  const byNameAndDate = (c1, c2) => {
+    if (c1.courseUnitCode < c2.courseUnitCode) return -1
+    if (c1.courseUnitCode > c2.courseUnitCode) return 1
+
+    return c1.activityPeriod.startDate > c2.activityPeriod.startDate
+  }
+
+  const byYear = (course) => Number(course.activityPeriod.startDate.slice(0, 4)) === year
+
+  const years = [...new Set(courseUnitRealisations.map(c => Number(c.activityPeriod.startDate.slice(0, 4))))].sort()
+
   return (
     <>
       <AddTeacherDialog
@@ -130,11 +147,19 @@ const CourseTable = ({ courseUnitRealisations }) => {
         onClose={onToggleAddTeacherDialog}
         courseUnitRealisationId={currentCourseUnitRealisationId}
       />
+
       <KurkiPayloadDialog
         open={kurkiPayloadDialogOpen}
         onClose={onToggleKurkiPayloadDialog}
         courseUnitRealisationId={currentCourseUnitRealisationId}
       />
+
+      <ButtonGroup aria-label="outlined primary button group">
+        {years.map(y => 
+          <Button key={y} variant="contained" color={y===year?"primary":""} onClick={() => setYear(y)}>{y}</Button>
+        )}
+      </ButtonGroup>
+
       <TableContainer>
         <Table>
           <TableHead>
@@ -148,13 +173,14 @@ const CourseTable = ({ courseUnitRealisations }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {courseUnitRealisations.map((courseUnitRealisation) => {
+            {courseUnitRealisations.filter(byYear).sort(byNameAndDate).map((courseUnitRealisation) => {
               const {
                 id,
                 name,
                 inKurki,
                 activityPeriod,
                 courseUnitCode,
+                kurkiData
               } = courseUnitRealisation;
 
               return (
@@ -173,12 +199,13 @@ const CourseTable = ({ courseUnitRealisations }) => {
                   <TableCell align="left">
                     {formatActivityPeriod(activityPeriod)}
                   </TableCell>
-                  <TableCell align="left">{inKurki ? 'Kyllä' : 'Ei'}</TableCell>
+                  <TableCell align="left">{inKurki ? (kurkiData.tila === 'J' ? 'Jäädytetty' : 'Jäädyttämätön' ): 'Ei'}</TableCell>
                   <TableCell align="right">
                     <ActionsMenu
                       onAddTeacher={makeOnAddTeacher(id)}
                       onFreeze={makeOnFreeze(id)}
                       onShowKurkiPayload={makeOnShowKurkiPayload(id)}
+                      freezable={inKurki&&kurkiData.tila !== 'J'}
                     />
                   </TableCell>
                 </TableRow>
