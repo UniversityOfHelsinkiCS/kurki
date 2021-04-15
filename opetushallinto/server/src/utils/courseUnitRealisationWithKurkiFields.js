@@ -34,6 +34,7 @@ const courseUnitRealisationWithKurkiFields = async (courseUnitRealisation) => {
     inKurki: Boolean(kurssi),
     kurkiOwner,
     kurkiTeachers: uniqBy(kurkiTeachers, ({ id }) => id),
+    kurkiData: kurssi,
   };
 };
 

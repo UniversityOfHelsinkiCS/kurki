@@ -14,6 +14,8 @@ import { format } from 'date-fns';
 
 import getTranslation from '../../utils/getTranslation';
 import AddTeacherDialog from './AddTeacherDialog';
+import freezeCourseUnitRealisation from '../../utils/freezeCourseUnitRealisation';
+import KurkiPayloadDialog from './KurkiPayloadDialog';
 
 const formatActivityPeriod = (activityPeriod) => {
   const { startDate, endDate } = activityPeriod ?? {};
@@ -33,10 +35,14 @@ const formatActivityPeriod = (activityPeriod) => {
 const CourseLink = ({ code }) => {
   const href = `https://courses.helsinki.fi/fi/${code}`;
 
-  return <Link href={href} target="_blank">{code}</Link>;
+  return (
+    <Link href={href} target="_blank">
+      {code}
+    </Link>
+  );
 };
 
-const ActionsMenu = ({ onAddTeacher }) => {
+const ActionsMenu = ({ onAddTeacher, onFreeze, onShowKurkiPayload }) => {
   const buttonRef = useRef();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -46,6 +52,22 @@ const ActionsMenu = ({ onAddTeacher }) => {
   const handleAddTeacher = () => {
     onAddTeacher();
     toggleMenuOpen();
+  };
+
+  const handleShowKurkiPayload = () => {
+    onShowKurkiPayload();
+    toggleMenuOpen();
+  };
+
+  const handleFreeze = () => {
+    const hasConfirmed = window.confirm(
+      'Oletko varma, että haluat jäädyttää kurssin?',
+    );
+
+    if (hasConfirmed) {
+      onFreeze();
+      toggleMenuOpen();
+    }
   };
 
   return (
@@ -58,7 +80,11 @@ const ActionsMenu = ({ onAddTeacher }) => {
         open={menuOpen}
         onClose={toggleMenuOpen}
       >
+        <MenuItem onClick={handleShowKurkiPayload}>
+          Näytä tiedot Kurjessa
+        </MenuItem>
         <MenuItem onClick={handleAddTeacher}>Lisää opettaja</MenuItem>
+        <MenuItem onClick={handleFreeze}>Jäädytä</MenuItem>
       </Menu>
     </>
   );
@@ -66,6 +92,7 @@ const ActionsMenu = ({ onAddTeacher }) => {
 
 const CourseTable = ({ courseUnitRealisations }) => {
   const [addTeacherDialogOpen, setAddTeacherDialogOpen] = useState(false);
+  const [kurkiPayloadDialogOpen, setKurkiPayloadDialogOpen] = useState(false);
 
   const [
     currentCourseUnitRealisationId,
@@ -76,9 +103,24 @@ const CourseTable = ({ courseUnitRealisations }) => {
     setAddTeacherDialogOpen((previousOpen) => !previousOpen);
   };
 
+  const onToggleKurkiPayloadDialog = () => {
+    setKurkiPayloadDialogOpen((previousOpen) => !previousOpen);
+  };
+
   const makeOnAddTeacher = (courseUnitRealisationId) => () => {
     setCurrentCourseUnitRealisationId(courseUnitRealisationId);
     onToggleAddTeacherDialog();
+  };
+
+  const makeOnShowKurkiPayload = (courseUnitRealisationId) => () => {
+    setCurrentCourseUnitRealisationId(courseUnitRealisationId);
+    onToggleKurkiPayloadDialog();
+  };
+
+  const makeOnFreeze = (courseUnitRealisationId) => () => {
+    freezeCourseUnitRealisation(courseUnitRealisationId).catch((error) =>
+      console.error(error),
+    );
   };
 
   return (
@@ -86,6 +128,11 @@ const CourseTable = ({ courseUnitRealisations }) => {
       <AddTeacherDialog
         open={addTeacherDialogOpen}
         onClose={onToggleAddTeacherDialog}
+        courseUnitRealisationId={currentCourseUnitRealisationId}
+      />
+      <KurkiPayloadDialog
+        open={kurkiPayloadDialogOpen}
+        onClose={onToggleKurkiPayloadDialog}
         courseUnitRealisationId={currentCourseUnitRealisationId}
       />
       <TableContainer>
@@ -128,7 +175,11 @@ const CourseTable = ({ courseUnitRealisations }) => {
                   </TableCell>
                   <TableCell align="left">{inKurki ? 'Kyllä' : 'Ei'}</TableCell>
                   <TableCell align="right">
-                    <ActionsMenu onAddTeacher={makeOnAddTeacher(id)} />
+                    <ActionsMenu
+                      onAddTeacher={makeOnAddTeacher(id)}
+                      onFreeze={makeOnFreeze(id)}
+                      onShowKurkiPayload={makeOnShowKurkiPayload(id)}
+                    />
                   </TableCell>
                 </TableRow>
               );
