@@ -9,7 +9,7 @@ const getDistinctCourseUnits = (courseUnits) => {
       maxBy(courseUnitsByCode, ({ validityPeriod }) =>
         validityPeriod && validityPeriod.endDate
           ? new Date(validityPeriod.endDate)
-          : undefined,
+          : new Date(0),
       ),
   );
 
