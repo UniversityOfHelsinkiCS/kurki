@@ -40,6 +40,14 @@ Follow the **README.md** in updater!
 
 Use `./run.sh updater up` or `./run.sh both up` to run the updater either with our without kurki. If you need to rebuild use `--build`, e.g. `./run.sh updater up --build` The database is started regardless.
 
+# Connecting to dev database #
+
+```
+docker exec -it kurki-db sqlplus "tk_opha@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=localhost)(Port=1521))(CONNECT_DATA=(SID=opetest2)))"
+```
+
+password is `salasana`
+
 # Connecting to production database #
 
 The local database can not be connected to production database. But you can use sqlplus to manipulate production.
