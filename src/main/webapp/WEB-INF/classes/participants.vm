@@ -26,7 +26,6 @@
                         onChange="checkAndSubmitStudentFind(document.ophaku);">
 		      <option>-- $bundle.getString("valitsetoiminto") --</option>
 		      <option value="0">$bundle.getString("tiedot")</option>
-		      <option value="1">$bundle.getString("haelisatop")</option>
 		      <option value="2">$bundle.getString("haepalop")</option>
  		    </select>
 
