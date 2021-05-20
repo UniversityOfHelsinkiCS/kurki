@@ -56,9 +56,53 @@ class KurssiUpdater {
 
     if (!this.kurssi.isExam()) {
       await this.updateLecturers(responsibilityInfos);
+    } else {
+      await this.updateExam(ownerHenkilo);
     }
 
     return this.kurssi;
+  }
+
+  async updateExam(ownerHenkilo) {
+    const {
+      kurssikoodi,
+      lukukausi,
+      lukuvuosi,
+      tyyppi,
+      kurssiNro,
+    } = this.kurssi;
+
+    const koeNro = 1;
+
+    const koeId = [
+      kurssikoodi,
+      lukukausi,
+      lukuvuosi,
+      tyyppi,
+      kurssiNro,
+      koeNro
+    ];
+
+    const { koetilaisuusNro } = await models.Koetilaisuus.query().findForTerm(lukuvuosi, lukukausi);
+
+    const koe = {
+      kurssikoodi,
+      lukukausi,
+      lukuvuosi,
+      tyyppi,
+      kurssiNro,
+      koeNro,
+      koetilaisuusNro,
+      koeTyyppi: 'L',
+      htunnus: ownerHenkilo
+      ? ownerHenkilo.htunnus
+      : KURKI_FALLBACK_KURSSI_OMISTAJA
+    }
+
+    await models.Koe.query().patchOrInsertById(
+      koeId,
+      koe,
+    );
   }
 
   async updateLecturers(responsibilityInfos) {

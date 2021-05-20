@@ -1,6 +1,8 @@
 import db from '../db';
 import Kurssi from './kurssi';
 import Opintojakso from './opintojakso';
+import Koe from './koe';
+import Koetilaisuus from './koetilaisuus';
 import Henkilo from './henkilo';
 import Kielikoodi from './kielikoodi';
 import KurssinTila from './kurssinTila';
@@ -15,6 +17,8 @@ export const bindModels = (knex) => {
   return {
     Kurssi: Kurssi.bindKnex(knex),
     Opintojakso: Opintojakso.bindKnex(knex),
+    Koe: Koe.bindKnex(knex),
+    Koetilaisuus: Koetilaisuus.bindKnex(knex),
     Henkilo: Henkilo.bindKnex(knex),
     Kielikoodi: Kielikoodi.bindKnex(knex),
     KurssinTila: KurssinTila.bindKnex(knex),

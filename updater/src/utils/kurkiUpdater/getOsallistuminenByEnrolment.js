@@ -1,6 +1,11 @@
 import logger from '../logger'
 
 const getEnrolmentOpetus = (enrolment, opetukset) => {
+  // this is erilliskoe
+  if (opetukset.length === 1 && opetukset[0].tyyppi === 'L' ) {
+    return opetukset[0]
+  }
+
   const group99 = opetukset.find(({ ilmoJnro }) => ilmoJnro === 99);
 
   const studySubGroupIds = (enrolment.study_sub_groups || []).map(
