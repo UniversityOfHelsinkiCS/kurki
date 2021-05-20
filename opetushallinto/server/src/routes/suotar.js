@@ -24,17 +24,21 @@ router.post('/courses/:id/students-transferred', async (req, res) => {
   const courseId = req.params.id;
   const { code, term, year, type, number } = parseCourseId(courseId);
 
-  await Osallistuminen.query()
-    .where({
-      kurssikoodi: code,
-      lukuvuosi: year,
-      lukukausi: term,
-      tyyppi: type,
-      kurssiNro: number,
-    })
-    .patch({
-      siirto: 'F',
-    });
+  const kurssiFields = {
+    kurssikoodi: code,
+    lukuvuosi: year,
+    lukukausi: term,
+    tyyppi: type,
+    kurssiNro: number,
+  };
+
+  await Kurssi.query().where(kurssiFields).patch({
+    siirto: 'F',
+  });
+
+  await Osallistuminen.query().where(kurssiFields).patch({
+    siirto: 'F',
+  });
 
   res.send({ courseId });
 });
