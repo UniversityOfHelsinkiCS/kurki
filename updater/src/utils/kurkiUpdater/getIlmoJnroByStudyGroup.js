@@ -1,6 +1,6 @@
 import { get, isNumber } from 'lodash';
 
-const group99RegExp = /(Group 99|Jono|Ryhmä 99)/i;
+const group99RegExp = /(Group 99|Jono|Queue|Ryhmä 99)/i;
 
 const getIlmoJnroByStudyGroup = (group) => {
   const name = get(group, 'name.fi');
