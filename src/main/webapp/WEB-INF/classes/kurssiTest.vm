@@ -122,7 +122,7 @@
 
 	      <table>
 	        <tr>
-		  <td><b><b></td>
+		  <td><b>$bundle.getString("maksimipistem")<b></td>
 		  <td>
 		    <input type="text" name="maxscore" class="form-control input-sm" style="width:50px"
                         tabindex="32500" size="2" maxlength="2" onBlur="rangecheck(this, 0, 99)"> 
