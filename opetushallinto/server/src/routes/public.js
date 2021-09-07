@@ -40,7 +40,7 @@ router.get('/labtool/courses/:id', async (req, res) => {
     .withGraphFetched('[opetustehtavanHoidot.henkilo]');
 
   const teachers = kurssi.opetustehtavanHoidot
-    .map((oh) => oh.henkilo?.ktunnus)
+    .map((oh) => oh.henkilo.ktunnus)
     .filter(Boolean);
 
   res.send({
