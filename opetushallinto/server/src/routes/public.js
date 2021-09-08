@@ -3,7 +3,7 @@ import express from 'express';
 import getLabtoolCourses from '../utils/labtool/getLabtoolCourses';
 import parseCourseId from '../utils/parseCourseId';
 import Kurssi from '../models/Kurssi';
-import { UserInputError } from '../errors';
+import { UserInputError, NotFoundError } from '../errors';
 
 const router = express.Router();
 
@@ -38,6 +38,10 @@ router.get('/labtool/courses/:id', async (req, res) => {
       kurssiNro: number,
     })
     .withGraphFetched('[opetustehtavanHoidot.henkilo]');
+
+  if (!kurssi) {
+    throw new NotFoundError(`Course ${id} is not found`);
+  }
 
   const teachers = kurssi.opetustehtavanHoidot
     .map((oh) => oh.henkilo.ktunnus)
