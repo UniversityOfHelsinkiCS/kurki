@@ -30,7 +30,7 @@ class EnhancedQueryBuilder extends QueryBuilder {
       });
 
       const kurssiWithSameAlkamisPvm = simultaneousKurssit.find(
-        ({ alkamisPvm }) => {
+        ({ alkamisPvm, name }) => {
           const normalizedAlkamisPvm = alkamisPvm
             ? alkamisPvm instanceof Date
               ? alkamisPvm
@@ -43,7 +43,7 @@ class EnhancedQueryBuilder extends QueryBuilder {
 
           return (
             format(normalizedAlkamisPvm, 'yyyy-MM-dd') ===
-            format(kurssi.alkamisPvm, 'yyyy-MM-dd')
+            format(kurssi.alkamisPvm, 'yyyy-MM-dd') && name === kurssi.name
           );
         },
       );
