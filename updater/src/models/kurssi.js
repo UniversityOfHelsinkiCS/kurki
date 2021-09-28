@@ -30,7 +30,7 @@ class EnhancedQueryBuilder extends QueryBuilder {
       });
 
       const kurssiWithSameAlkamisPvm = simultaneousKurssit.find(
-        ({ alkamisPvm, name }) => {
+        ({ alkamisPvm, sisId }) => {
           const normalizedAlkamisPvm = alkamisPvm
             ? alkamisPvm instanceof Date
               ? alkamisPvm
@@ -41,15 +41,19 @@ class EnhancedQueryBuilder extends QueryBuilder {
             return false;
           }
 
+          console.log(sisId, kurssi.sisId)
+
           return (
             format(normalizedAlkamisPvm, 'yyyy-MM-dd') ===
-            format(kurssi.alkamisPvm, 'yyyy-MM-dd') && name === kurssi.name
+            format(kurssi.alkamisPvm, 'yyyy-MM-dd') && (sisId === kurssi.sisId)
           );
         },
       );
 
+      console.log("******")
+
       if (kurssiWithSameAlkamisPvm) {
-        logger.info('same alkamis pvm, patching');
+        logger.info('same faking alkamis pvm, patching');
 
         await Model.query()
           .findById([
