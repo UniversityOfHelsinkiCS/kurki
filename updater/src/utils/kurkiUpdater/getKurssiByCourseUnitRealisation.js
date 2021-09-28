@@ -67,7 +67,7 @@ const getLukukausi = (dateLike) => {
 
 const getKielikoodiByTeachingLanguageUrn = (teachingLanguageUrn) => {
   if (!teachingLanguageUrn) {
-    return undefined;
+    return 'E';
   }
 
   const language = getLastUrnPart(teachingLanguageUrn);

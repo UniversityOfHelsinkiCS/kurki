@@ -8,7 +8,7 @@ const getEnrolmentOpetus = (enrolment, opetukset) => {
 
   const group99 = opetukset.find(({ ilmoJnro }) => ilmoJnro === 99);
 
-  const studySubGroupIds = (enrolment.study_sub_groups || []).map(
+  let studySubGroupIds = (enrolment.study_sub_groups || enrolment.studySubGroups  || []).map(
     ({ studySubGroupId }) => studySubGroupId,
   );
 
